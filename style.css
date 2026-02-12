@@ -1,0 +1,38 @@
+body {
+    background-color: #1b2025;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+#P1 {
+    color: aqua;
+    text-align: center;
+    background-color: #3f4b55;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+        background-color: #3f4b55;
+}
+
+.texte {
+    width: 60%;
+}
+
+.image {
+    width: 35%;
+    text-align: right;
+}
+
+.title1 {
+    color: aqua;
+    font-size: 28px;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    margin: 0 0 10px 0;
+}
