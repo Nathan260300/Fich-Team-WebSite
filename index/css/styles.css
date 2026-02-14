@@ -132,6 +132,7 @@ nav{display:flex;align-items:center;gap:12px}
 .card:nth-of-type(4){animation-delay:.32s}
 .card:nth-of-type(5){animation-delay:.40s}
 .card:nth-of-type(6){animation-delay:.48s}
+.card:nth-of-type(7){animation-delay:.56s}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
