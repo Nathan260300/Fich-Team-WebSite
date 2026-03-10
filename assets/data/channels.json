@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Le Rat Solitaire",
+    "description": "La FICH Team soutient ce créateur de contenu YouTube.",
+    "url": "https://www.youtube.com/@leratsolitaire",
+    "avatar": "assets/img/leratsolitaire.png"
+  },
+  {
+    "name": "Le_Builder",
+    "description": "La FICH Team soutient ce créateur de contenu YouTube.",
+    "url": "https://www.youtube.com/@LeBuilderOff",
+    "avatar": "assets/img/lebuilderoff.png"
+  },
+  {
+    "name": "king_capybara",
+    "description": "La FICH Team soutient ce créateur de contenu YouTube.",
+    "url": "https://www.youtube.com/@king_capybara_officiel",
+    "avatar": "assets/img/king_capybara_officiel.png"
+  }
+]
