@@ -1,47 +1,92 @@
 {
   "images": [
-    {
-      "src": "assets/data/data-img/projects/img0.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img1.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img2.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img3.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img4.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img5.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img6.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img7.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img8.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img10.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img11.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img12.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img13.png"
-    },
-    {
-      "src": "assets/data/data-img/projects/img14.jpg"
-    }
+    { "src": "assets/data/data-img/projects/img0.webp" },
+    { "src": "assets/data/data-img/projects/img1.webp" },
+    { "src": "assets/data/data-img/projects/img2.webp" },
+    { "src": "assets/data/data-img/projects/img3.webp" },
+    { "src": "assets/data/data-img/projects/img4.webp" },
+    { "src": "assets/data/data-img/projects/img5.webp" },
+    { "src": "assets/data/data-img/projects/img6.webp" },
+    { "src": "assets/data/data-img/projects/img7.webp" },
+    { "src": "assets/data/data-img/projects/img8.webp" },
+    { "src": "assets/data/data-img/projects/img10.webp" },
+    { "src": "assets/data/data-img/projects/img11.webp" },
+    { "src": "assets/data/data-img/projects/img12.webp" },
+    { "src": "assets/data/data-img/projects/img13.webp" },
+    { "src": "assets/data/data-img/projects/img14.webp" },
+    { "src": "assets/data/data-img/projects/img14.webp" },
+    { "src": "assets/data/data-img/projects/img15.webp" },
+    { "src": "assets/data/data-img/projects/img16.webp" },
+    { "src": "assets/data/data-img/projects/img17.webp" },
+    { "src": "assets/data/data-img/projects/img18.webp" },
+    { "src": "assets/data/data-img/projects/img19.webp" },
+    { "src": "assets/data/data-img/projects/img20.webp" },
+    { "src": "assets/data/data-img/projects/img21.webp" },
+    { "src": "assets/data/data-img/projects/img22.webp" },
+    { "src": "assets/data/data-img/projects/img23.webp" },
+    { "src": "assets/data/data-img/projects/img24.webp" },
+    { "src": "assets/data/data-img/projects/img25.webp" },
+    { "src": "assets/data/data-img/projects/img26.webp" },
+    { "src": "assets/data/data-img/projects/img27.webp" },
+    { "src": "assets/data/data-img/projects/img28.webp" },
+    { "src": "assets/data/data-img/projects/img29.webp" },
+    { "src": "assets/data/data-img/projects/img30.webp" },
+    { "src": "assets/data/data-img/projects/img31.webp" },
+    { "src": "assets/data/data-img/projects/img32.webp" },
+    { "src": "assets/data/data-img/projects/img33.webp" },
+    { "src": "assets/data/data-img/projects/img34.webp" },
+    { "src": "assets/data/data-img/projects/img35.webp" },
+    { "src": "assets/data/data-img/projects/img36.webp" },
+    { "src": "assets/data/data-img/projects/img37.webp" },
+    { "src": "assets/data/data-img/projects/img38.webp" },
+    { "src": "assets/data/data-img/projects/img39.webp" },
+    { "src": "assets/data/data-img/projects/img40.webp" },
+    { "src": "assets/data/data-img/projects/img41.webp" },
+    { "src": "assets/data/data-img/projects/img42.webp" },
+    { "src": "assets/data/data-img/projects/img43.webp" },
+    { "src": "assets/data/data-img/projects/img44.webp" },
+    { "src": "assets/data/data-img/projects/img45.webp" },
+    { "src": "assets/data/data-img/projects/img46.webp" },
+    { "src": "assets/data/data-img/projects/img47.webp" },
+    { "src": "assets/data/data-img/projects/img48.webp" },
+    { "src": "assets/data/data-img/projects/img49.webp" },
+    { "src": "assets/data/data-img/projects/img50.webp" },
+    { "src": "assets/data/data-img/projects/img51.webp" },
+    { "src": "assets/data/data-img/projects/img52.webp" },
+    { "src": "assets/data/data-img/projects/img53.webp" },
+    { "src": "assets/data/data-img/projects/img54.webp" },
+    { "src": "assets/data/data-img/projects/img55.webp" },
+    { "src": "assets/data/data-img/projects/img56.webp" },
+    { "src": "assets/data/data-img/projects/img57.webp" },
+    { "src": "assets/data/data-img/projects/img58.webp" },
+    { "src": "assets/data/data-img/projects/img59.webp" },
+    { "src": "assets/data/data-img/projects/img60.webp" },
+    { "src": "assets/data/data-img/projects/img61.webp" },
+    { "src": "assets/data/data-img/projects/img62.webp" },
+    { "src": "assets/data/data-img/projects/img63.webp" },
+    { "src": "assets/data/data-img/projects/img64.webp" },
+    { "src": "assets/data/data-img/projects/img65.webp" },
+    { "src": "assets/data/data-img/projects/img66.webp" },
+    { "src": "assets/data/data-img/projects/img67.webp" },
+    { "src": "assets/data/data-img/projects/img68.webp" },
+    { "src": "assets/data/data-img/projects/img69.webp" },
+    { "src": "assets/data/data-img/projects/img70.webp" },
+    { "src": "assets/data/data-img/projects/img71.webp" },
+    { "src": "assets/data/data-img/projects/img72.webp" },
+    { "src": "assets/data/data-img/projects/img73.webp" },
+    { "src": "assets/data/data-img/projects/img74.webp" },
+    { "src": "assets/data/data-img/projects/img75.webp" },
+    { "src": "assets/data/data-img/projects/img76.webp" },
+    { "src": "assets/data/data-img/projects/img77.webp" },
+    { "src": "assets/data/data-img/projects/img78.webp" },
+    { "src": "assets/data/data-img/projects/img79.webp" },
+    { "src": "assets/data/data-img/projects/img80.webp" },
+    { "src": "assets/data/data-img/projects/img81.webp" },
+    { "src": "assets/data/data-img/projects/img82.webp" },
+    { "src": "assets/data/data-img/projects/img83.webp" },
+    { "src": "assets/data/data-img/projects/img84.webp" },
+    { "src": "assets/data/data-img/projects/img85.webp" },
+    { "src": "assets/data/data-img/projects/img86.webp" }
   ],
   "videos": [
     {
