@@ -24,6 +24,7 @@ const PAGES = {
           <div class="hero-actions">
             <a href="?p=join" data-page="join" class="btn btn-primary">Nous rejoindre →</a>
             <a href="?p=partners" data-page="partners" class="btn btn-ghost">Nos partenaires</a>
+            <a href="?p=projects" data-page="projects" class="btn btn-ghost">Nos projets</a>
           </div>
         </div>
         <div class="cards-section">
@@ -63,17 +64,6 @@ const PAGES = {
             <article class="card fade-in" style="--delay:.24s">
               <div class="card-accent-bar"></div>
               <div class="card-inner card-inner--col">
-                <span class="card-emoji">🎮</span>
-                <div>
-                  <h3 class="card-title">Qui ?</h3>
-                  <p class="card-text">Joueurs passionnés :</p>
-                  <ul class="card-tags"><li>Builders</li><li>Redstoners</li><li>RPistes</li></ul>
-                </div>
-              </div>
-            </article>
-            <article class="card fade-in" style="--delay:.32s">
-              <div class="card-accent-bar"></div>
-              <div class="card-inner card-inner--col">
                 <span class="card-emoji">⚡</span>
                 <div>
                   <h3 class="card-title">Pourquoi ?</h3>
@@ -91,6 +81,16 @@ const PAGES = {
                 </div>
               </div>
             </article>
+          </div>
+        </div>
+        <div class="members-section">
+          <div class="section-label">QUI ?</div>
+          <div class="members-grid" id="members-grid">
+            <div class="channels-loading">
+              <span class="channels-loading-dot"></span>
+              <span class="channels-loading-dot"></span>
+              <span class="channels-loading-dot"></span>
+            </div>
           </div>
         </div>
       </section>`
@@ -181,7 +181,7 @@ const PAGES = {
                 <div class="discord-badge">${DISCORD_ICON}Serveur Discord communautaire</div>
                 <p class="join-desc">La <strong>FICH Family</strong> est notre serveur Discord ouvert à tous. C'est le point d'entrée de l'univers FICH — un espace pour échanger, jouer et faire partie de la communauté avant tout engagement.</p>
                 <p class="join-desc">Ce serveur sert aussi de pont vers nos futurs projets. Rejoindre la FICH Family, c'est la première étape pour intégrer un jour la FICH Team.</p>
-                <a href="#" class="btn btn-primary">Rejoindre la FICH Family →</a>
+                <a href="https://discord.gg/ACRZ4zK2uD" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Rejoindre la FICH Family →</a>
               </div>
             </article>
             <article class="join-section fade-in" style="--delay:.12s">
@@ -205,7 +205,7 @@ const PAGES = {
                   <div class="join-req"><span class="join-req-dot"></span><span>Être passionné de gaming et de création</span></div>
                 </div>
                 <div class="join-info-box"><strong>Comment postuler ?</strong> Un salon dédié aux candidatures est disponible sur le serveur de la FICH Family. Tu peux t'y présenter de manière originale — montre qui tu es vraiment. Nous lisons chaque candidature avec attention.</div>
-                <a href="#" class="btn btn-primary">Rejoindre la FICH Family d'abord →</a>
+                <a href="https://discord.gg/ACRZ4zK2uD" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Rejoindre la FICH Family d'abord →</a>
               </div>
             </article>
           </div>
@@ -254,6 +254,7 @@ let transitionTimer = null;
 let channelsLoaded  = false;
 let projectsLoaded  = false;
 let activeModal     = null;
+let membersLoaded   = false;
 let _rawBadParam    = '';
 
 function qp() { return new URLSearchParams(window.location.search); }
@@ -294,6 +295,7 @@ function showPage(pageKey, pushState = false) {
   currentPageKey = pageKey;
   channelsLoaded = false;
   projectsLoaded = false;
+  membersLoaded = false;
 
   const current = app.firstElementChild;
   if (current) current.classList.remove('page-exit', 'page-enter');
@@ -309,6 +311,7 @@ function showPage(pageKey, pushState = false) {
     const target = app.firstElementChild;
     target.classList.add('page-enter');
 
+    if (pageKey === 'home') loadMembers();
     if (pageKey === 'partners') loadChannels();
     if (pageKey === 'projects') loadProjects();
     if (pageKey === '404') {
@@ -350,11 +353,15 @@ window.addEventListener('popstate', e => {
   closeModal(true);
   showPage(pageKey, false);
 
+  const profileIdx = p.get('profile');
   if (pageKey === 'projects' && (videoId || photoIdx !== null)) {
     waitForProjects().then(() => {
       if (videoId) _openVideoModal(videoId, false);
       else if (photoIdx !== null) _openPhotoModal(parseInt(photoIdx), false);
     });
+  }
+  if (pageKey === 'home' && profileIdx !== null) {
+    waitForMembers().then(() => openMemberModal(parseInt(profileIdx), false));
   }
 });
 
@@ -378,13 +385,16 @@ document.addEventListener('click', e => {
   if (photoItem) {
     const idx = [...document.querySelectorAll('.photo-item[data-img-src]')].indexOf(photoItem);
     _openPhotoModal(idx);
+    return;
   }
+  const memberCard = e.target.closest('.member-card[data-member-idx]');
+  if (memberCard) { openMemberModal(parseInt(memberCard.dataset.memberIdx), true); }
 });
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
   if (e.key !== 'Enter' && e.key !== ' ') return;
-  const card = e.target.closest('.video-card[data-vid-id], .photo-item[data-img-src]');
+  const card = e.target.closest('.video-card[data-vid-id], .photo-item[data-img-src], .member-card[data-member-idx]');
   if (card) { e.preventDefault(); card.click(); }
 });
 
@@ -482,6 +492,16 @@ async function loadProjects() {
   }
 }
 
+function waitForMembers() {
+  return new Promise(resolve => {
+    if (membersLoaded) { resolve(); return; }
+    let tries = 0;
+    const t = setInterval(() => {
+      if (membersLoaded || ++tries > 160) { clearInterval(t); resolve(); }
+    }, 50);
+  });
+}
+
 function waitForProjects() {
   return new Promise(resolve => {
     if (projectsLoaded) { resolve(); return; }
@@ -490,6 +510,54 @@ function waitForProjects() {
       if (projectsLoaded || ++tries > 160) { clearInterval(t); resolve(); }
     }, 50);
   });
+}
+
+function buildMemberCard(m, i) {
+  return `
+    <div class="member-card fade-in" style="--delay:${i * .07}s"
+         data-member-idx="${i}"
+         role="button" tabindex="0" aria-label="Voir le profil de ${m.pseudo}">
+      <div class="member-avatar-wrap">
+        <img src="${m.avatar}" alt="${m.pseudo}" loading="lazy" class="member-avatar">
+      </div>
+      <span class="member-pseudo">${m.pseudo}</span>
+    </div>`;
+}
+
+async function loadMembers() {
+  const grid = document.getElementById('members-grid');
+  if (!grid) return;
+  if (membersLoaded) return;
+  try {
+    const res  = await fetch('assets/data/members.json');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    if (!data.length) { grid.innerHTML = ''; return; }
+    grid.innerHTML = data.map(buildMemberCard).join('');
+    membersLoaded = true;
+    grid.dataset.members = JSON.stringify(data);
+  } catch {
+    grid.innerHTML = '';
+  }
+}
+
+function openMemberModal(idx, push = true) {
+  const grid = document.getElementById('members-grid');
+  if (!grid) return;
+  const data = JSON.parse(grid.dataset.members || '[]');
+  const m = data[idx];
+  if (!m) return;
+  _openModal(`
+    <div class="member-modal-banner">
+      <img src="${m.banner}" alt="Bannière ${m.pseudo}">
+    </div>
+    <div class="member-modal-body">
+      <div class="member-modal-avatar-wrap">
+        <img src="${m.avatar}" alt="${m.pseudo}" class="member-modal-avatar">
+      </div>
+      <h2 class="member-modal-name">${m.pseudo}</h2>
+      ${m.description ? `<p class="member-modal-desc">${m.description.replace(/\n/g, '<br>')}</p>` : ''}
+    </div>`, push ? ['profile', idx] : null);
 }
 
 function _openModal(html, pushParam = null) {
@@ -522,7 +590,7 @@ function closeModal(instant = false) {
   document.body.style.overflow = '';
   el.querySelectorAll('iframe').forEach(f => { f.src = ''; });
   const p = qp();
-  if (!instant && (p.has('video') || p.has('photo'))) history.back();
+  if (!instant && (p.has('video') || p.has('photo') || p.has('profile'))) history.back();
   if (instant) { el.remove(); return; }
   el.classList.add('closing');
   setTimeout(() => el.remove(), 200);
@@ -558,10 +626,11 @@ function _openPhotoModal(idx, push = true) {
 }
 
 (function init() {
-  const rawP     = qp().get('p');
-  const videoId  = qp().get('video');
-  const photoIdx = qp().get('photo');
-  const pageKey  = getPageKey();
+  const rawP      = qp().get('p');
+  const videoId   = qp().get('video');
+  const photoIdx  = qp().get('photo');
+  const profileIdx = qp().get('profile');
+  const pageKey   = getPageKey();
 
   if (rawP && !PAGES[rawP]) _rawBadParam = rawP;
 
@@ -573,6 +642,7 @@ function _openPhotoModal(idx, push = true) {
     const extra = {};
     if (videoId) extra.video = videoId;
     else if (photoIdx !== null) extra.photo = photoIdx;
+    else if (profileIdx !== null) extra.profile = profileIdx;
     history.replaceState({ p: pageKey }, PAGES[pageKey].title, buildUrl(pageKey, extra));
   }
 
@@ -584,5 +654,8 @@ function _openPhotoModal(idx, push = true) {
       if (videoId) _openVideoModal(videoId, false);
       else if (photoIdx !== null) _openPhotoModal(parseInt(photoIdx), false);
     });
+  }
+  if (pageKey === 'home' && profileIdx !== null) {
+    waitForMembers().then(() => openMemberModal(parseInt(profileIdx), false));
   }
 })();

@@ -1,40 +1,46 @@
 {
   "images": [
     {
-      "src": "assets/data/data-img/img0.png"
+      "src": "assets/data/data-img/projects/img0.png"
     },
     {
-      "src": "assets/data/data-img/img1.png"
+      "src": "assets/data/data-img/projects/img1.png"
     },
     {
-      "src": "assets/data/data-img/img2.png"
+      "src": "assets/data/data-img/projects/img2.png"
     },
     {
-      "src": "assets/data/data-img/img3.png"
+      "src": "assets/data/data-img/projects/img3.png"
     },
     {
-      "src": "assets/data/data-img/img4.png"
+      "src": "assets/data/data-img/projects/img4.png"
     },
     {
-      "src": "assets/data/data-img/img5.png"
+      "src": "assets/data/data-img/projects/img5.png"
     },
     {
-      "src": "assets/data/data-img/img6.png"
+      "src": "assets/data/data-img/projects/img6.png"
     },
     {
-      "src": "assets/data/data-img/img7.png"
+      "src": "assets/data/data-img/projects/img7.png"
     },
     {
-      "src": "assets/data/data-img/img8.png"
+      "src": "assets/data/data-img/projects/img8.png"
     },
     {
-      "src": "assets/data/data-img/img10.png"
+      "src": "assets/data/data-img/projects/img10.png"
     },
     {
-      "src": "assets/data/data-img/img11.png"
+      "src": "assets/data/data-img/projects/img11.png"
     },
     {
-      "src": "assets/data/data-img/img12.png"
+      "src": "assets/data/data-img/projects/img12.png"
+    },
+    {
+      "src": "assets/data/data-img/projects/img13.png"
+    },
+    {
+      "src": "assets/data/data-img/projects/img14.jpg"
     }
   ],
   "videos": [
