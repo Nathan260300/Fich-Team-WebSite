@@ -189,7 +189,7 @@ a:hover { color: #fff; }
   white-space: nowrap;
 }
 .nav-cta:hover {
-  filter: brightness(1.1); transform: translateY(-1px);
+  background: #62b8ff; transform: translateY(-1px);
   box-shadow: 0 4px 28px var(--c-accent-glow); color: var(--c-bg) !important;
 }
 .nav-cta.active { background: var(--c-accent-dim); }
