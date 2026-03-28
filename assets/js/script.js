@@ -567,7 +567,7 @@ function _openModal(html, pushParam = null) {
   overlay.innerHTML = `
     <div class="modal-box" role="dialog" aria-modal="true">
       <button class="modal-close" aria-label="Fermer">✕</button>
-      ${html}
+      <div class="modal-box-scroll">${html}</div>
     </div>`;
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';

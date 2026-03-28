@@ -597,6 +597,17 @@ a:hover { color: #fff; }
   box-shadow: 0 32px 80px rgba(0,0,0,.7);
   transform: scale(.94); animation: modalBoxIn .28s var(--ease-spring) forwards;
 }
+.modal-box-scroll {
+  max-height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-dim) transparent;
+  border-radius: var(--r-lg);
+}
+.modal-box-scroll::-webkit-scrollbar { width: 5px; }
+.modal-box-scroll::-webkit-scrollbar-track { background: transparent; }
+.modal-box-scroll::-webkit-scrollbar-thumb { background: var(--c-dim); border-radius: 99px; }
 @keyframes modalBoxIn {
   from { transform: scale(.94); }
   to   { transform: scale(1); }
@@ -964,12 +975,12 @@ a:hover { color: #fff; }
 }
 
 .member-modal-avatar-wrap {
-  width: 72px;
-  height: 72px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--c-surface);
-  margin-top: -36px;
+  margin-top: -55px;
   box-shadow: 0 4px 14px rgba(0,0,0,.5);
   flex-shrink: 0;
   background: var(--c-surface-2);
@@ -992,5 +1003,6 @@ a:hover { color: #fff; }
   font-size: .88rem;
   color: var(--c-muted);
   line-height: 1.65;
-  max-width: 36ch;
+  width: 100%;
+  text-align: center;
 }
