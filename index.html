@@ -27,7 +27,6 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-
   <div class="bg-layer" aria-hidden="true">
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
@@ -35,12 +34,11 @@
     <div class="bg-grid"></div>
     <div class="bg-noise"></div>
   </div>
-
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <a class="brand" href="?page=home" data-page="home" aria-label="Retour accueil FICH Team">
+      <a class="brand" href="?p=home" data-page="home" aria-label="Retour accueil FICH Team">
         <div class="logo-wrap">
-          <img src="assets/img/logo.png" alt="Logo FICH Team" class="logo" width="44" height="44">
+          <img src="assets/img/logo.png" alt="Logo FICH Team" class="logo" width="42" height="42">
           <div class="logo-glow" aria-hidden="true"></div>
         </div>
         <div class="brand-text">
@@ -48,304 +46,29 @@
           <span class="brand-tagline">Force · Intelligence · Charisme · Honneur</span>
         </div>
       </a>
-
       <input id="nav-toggle" class="nav-toggle" type="checkbox" aria-hidden="true">
       <label for="nav-toggle" class="burger" aria-label="Ouvrir le menu" aria-controls="main-nav">
         <span></span><span></span><span></span>
       </label>
-
       <nav id="main-nav" class="nav-menu" role="navigation" aria-label="Menu principal">
-        <a href="?page=home"     data-page="home"     class="nav-link" data-label="01">Accueil</a>
-        <a href="?page=channels" data-page="channels" class="nav-link" data-label="02">Chaînes</a>
-        <a href="?page=projects" data-page="projects" class="nav-link" data-label="03">Projets</a>
-        <a href="?page=join"     data-page="join"     class="nav-link nav-cta">Rejoindre</a>
+        <a href="?p=home"     data-page="home"     class="nav-link" data-label="01">Accueil</a>
+        <a href="?p=partners" data-page="partners" class="nav-link" data-label="02">Partenaires</a>
+        <a href="?p=projects" data-page="projects" class="nav-link" data-label="03">Projets</a>
+        <a href="?p=join"     data-page="join"     class="nav-link nav-cta">Rejoindre</a>
       </nav>
     </div>
   </header>
-
-  <main id="app" class="app-main" role="main">
-    <section id="page-home" class="page" aria-label="Accueil">
-
-      <div class="hero-section">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          Communauté active
-        </div>
-        <h1 class="hero-title">
-          <span class="title-line" data-text="FICH">FICH</span>
-          <span class="title-line accent" data-text="TEAM">TEAM</span>
-        </h1>
-        <p class="hero-sub">Force · Intelligence · Charisme · Honneur</p>
-        <p class="hero-desc">Communauté de joueurs passionnés, matures et créatifs.<br>Build, redstone, RP et minijeux.</p>
-        <div class="hero-actions">
-          <a href="?page=join" data-page="join" class="btn btn-primary">Nous rejoindre →</a>
-          <a href="?page=channels" data-page="channels" class="btn btn-ghost">Chaînes soutenues</a>
-        </div>
-      </div>
-
-      <div class="cards-section">
-        <div class="section-label">À PROPOS</div>
-
-        <div class="cards-grid">
-          <article class="card card--wide fade-in">
-            <div class="card-accent-bar"></div>
-            <div class="card-inner">
-              <div class="card-icon-wrap">
-                <img src="assets/img/logo.png" alt="FICH Team" width="72" height="72" class="card-img">
-              </div>
-              <div>
-                <h2 class="card-title">C'est quoi la FICH TEAM ?</h2>
-                <p class="card-text">La FICH TEAM est une équipe de joueurs unis par des valeurs de respect, d'entraide et de créativité. Une communauté soudée autour du jeu bien fait.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="card fade-in" style="--delay:.1s">
-            <div class="card-accent-bar"></div>
-            <div class="card-inner card-inner--col">
-              <div class="card-icon-wrap">
-                <span class="card-emoji">📜</span>
-              </div>
-              <div>
-                <h3 class="card-title">Les origines</h3>
-                <p class="card-text">Histoire et création de la FICH Team, ses fondateurs et ses premières activités.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="card fich-card fade-in" style="--delay:.2s">
-            <div class="card-accent-bar"></div>
-            <div class="card-inner card-inner--col">
-              <div class="fich-letters">
-                <span data-letter="F"><strong>F</strong>orce</span>
-                <span data-letter="I"><strong>I</strong>ntelligence</span>
-                <span data-letter="C"><strong>C</strong>harisme</span>
-                <span data-letter="H"><strong>H</strong>onneur</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="card fade-in" style="--delay:.3s">
-            <div class="card-accent-bar"></div>
-            <div class="card-inner card-inner--col">
-              <div class="card-icon-wrap">
-                <span class="card-emoji">🎮</span>
-              </div>
-              <div>
-                <h3 class="card-title">Qui ?</h3>
-                <p class="card-text">Joueurs passionnés :</p>
-                <ul class="card-tags">
-                  <li>Builders</li>
-                  <li>Redstoners</li>
-                  <li>RPistes</li>
-                </ul>
-              </div>
-            </div>
-          </article>
-
-          <article class="card fade-in" style="--delay:.4s">
-            <div class="card-accent-bar"></div>
-            <div class="card-inner card-inner--col">
-              <div class="card-icon-wrap">
-                <span class="card-emoji">⚡</span>
-              </div>
-              <div>
-                <h3 class="card-title">Pourquoi ?</h3>
-                <p class="card-text">Regrouper des personnes matures partageant des valeurs communes et le goût du jeu bien fait.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="card fade-in" style="--delay:.5s">
-            <div class="card-accent-bar"></div>
-            <div class="card-inner card-inner--col">
-              <div class="card-icon-wrap">
-                <span class="card-emoji">🏗️</span>
-              </div>
-              <div>
-                <h3 class="card-title">Activités</h3>
-                <p class="card-text">Build, redstone, RP, minijeux et événements communautaires.</p>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-channels" class="page" aria-label="Chaînes Soutenues" hidden>
-      <div class="page-hero">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          Créateurs soutenus
-        </div>
-        <h1 class="page-title">Chaînes <span class="accent">Soutenues</span></h1>
-        <p class="page-desc">La FICH Team soutient ces créateurs de contenu YouTube passionnés.</p>
-      </div>
-
-      <div class="channels-grid" id="channels-grid">
-        <div class="channels-loading">
-          <span class="channels-loading-dot"></span>
-          <span class="channels-loading-dot"></span>
-          <span class="channels-loading-dot"></span>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-join" class="page" aria-label="Rejoindre" hidden>
-      <div class="page-hero">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          Recrutement ouvert
-        </div>
-        <h1 class="page-title">Nous <span class="accent">Rejoindre</span></h1>
-        <p class="page-desc">Tu partages nos valeurs ? Rejoins la FICH Team !</p>
-      </div>
-
-      <div class="join-content">
-        <div class="join-grid">
-
-          <article class="join-card fade-in">
-            <div class="join-card-num">01</div>
-            <h3 class="join-card-title">Prérequis</h3>
-            <ul class="join-list">
-              <li>Être mature et respectueux</li>
-              <li>Partager nos valeurs FICH</li>
-              <li>Être passionné de gaming</li>
-              <li>Être actif dans la communauté</li>
-            </ul>
-          </article>
-
-          <article class="join-card fade-in" style="--delay:.12s">
-            <div class="join-card-num">02</div>
-            <h3 class="join-card-title">Comment postuler ?</h3>
-            <ul class="join-list">
-              <li>Rejoins notre Discord</li>
-              <li>Présente-toi dans le canal dédié</li>
-              <li>Participe à la vie de la communauté</li>
-              <li>Attends la validation des membres</li>
-            </ul>
-          </article>
-
-          <article class="join-card fade-in" style="--delay:.24s">
-            <div class="join-card-num">03</div>
-            <h3 class="join-card-title">Ce qui t'attend</h3>
-            <ul class="join-list">
-              <li>Des sessions de jeu régulières</li>
-              <li>Une communauté soudée</li>
-              <li>Des projets ambitieux</li>
-              <li>Des événements exclusifs</li>
-            </ul>
-          </article>
-
-        </div>
-
-        <div class="join-cta-box fade-in" style="--delay:.36s">
-          <div class="join-cta-inner">
-            <img src="assets/img/logo.png" alt="FICH Team" width="64" height="64" class="join-logo">
-            <div>
-              <h2 class="join-cta-title">Prêt à rejoindre l'aventure ?</h2>
-              <p class="join-cta-text">Rejoins notre serveur Discord pour commencer.</p>
-            </div>
-            <a href="#" class="btn btn-primary btn-large">Rejoindre le Discord →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======================== PAGE: 404 ======================== -->
-    <section id="page-404" class="page" aria-label="Page introuvable" hidden>
-      <div class="notfound-wrap">
-
-        <div class="notfound-glitch-wrap" aria-hidden="true">
-          <span class="notfound-num" data-text="404">404</span>
-          <span class="notfound-num glitch-1" data-text="404">404</span>
-          <span class="notfound-num glitch-2" data-text="404">404</span>
-        </div>
-
-        <div class="notfound-scanlines" aria-hidden="true"></div>
-
-        <div class="notfound-content">
-          <div class="hero-badge" style="margin:0 auto 24px;">
-            <span class="badge-dot" style="background:#ff4d6d;box-shadow:0 0 8px #ff4d6d"></span>
-            Erreur système
-          </div>
-          <h1 class="notfound-title">Page introuvable</h1>
-          <p class="notfound-code">
-            <span class="notfound-prompt">$</span>
-            <span class="notfound-cmd" id="notfound-cmd">GET /?page=<span id="notfound-param">???</span></span>
-            <span class="notfound-cursor">█</span>
-          </p>
-          <p class="notfound-desc">Cette page n'existe pas ou a été déplacée.<br>Vérifie l'URL ou retourne à l'accueil.</p>
-          <div class="notfound-actions">
-            <a href="?page=home" data-page="home" class="btn btn-primary">← Retour à l'accueil</a>
-            <a href="?page=channels" data-page="channels" class="btn btn-ghost">Chaînes soutenues</a>
-          </div>
-        </div>
-
-        <div class="notfound-grid" aria-hidden="true"></div>
-      </div>
-    </section>
-
-    <section id="page-projects" class="page" aria-label="Projets" hidden>
-      <div class="projects-wrap">
-
-        <div class="projects-soon-visual" aria-hidden="true">
-          <div class="soon-ring soon-ring-1"></div>
-          <div class="soon-ring soon-ring-2"></div>
-          <div class="soon-ring soon-ring-3"></div>
-          <div class="soon-icon">🚀</div>
-        </div>
-
-        <div class="projects-content">
-          <div class="hero-badge" style="margin:0 auto 24px;">
-            <span class="badge-dot" style="background:#f0c040;box-shadow:0 0 8px #f0c04088"></span>
-            En préparation
-          </div>
-          <h1 class="projects-title">Nos <span class="accent">Projets</span></h1>
-          <p class="projects-sub">Quelque chose d'ambitieux se prépare.</p>
-          <p class="projects-desc">
-            L'équipe FICH travaille sur de grands projets.<br>
-            Builds épiques, events communautaires, collaborations…<br>
-            Tout ça arrive bientôt.
-          </p>
-
-          <div class="projects-progress">
-            <div class="progress-label">
-              <span>Progression</span>
-              <span class="progress-pct">??%</span>
-            </div>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="projects-tags">
-            <span>Build</span>
-            <span>Redstone</span>
-            <span>RP</span>
-            <span>Événements</span>
-            <span>Collaborations</span>
-          </div>
-
-          <a href="?page=join" data-page="join" class="btn btn-primary" style="margin-top:32px">Rejoindre pour être au courant →</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
+  <main id="app" class="app-main" role="main"></main>
   <footer class="site-footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-brand">
-        <img src="assets/img/logo.png" alt="FICH Team" width="32" height="32">
+        <img src="assets/img/logo.png" alt="FICH Team" width="26" height="26">
         <span>FICH Team</span>
       </div>
       <p class="footer-copy">&copy;<span id="year"></span> <strong>FICH Team.</strong> Tous droits réservés.</p>
       <p class="footer-credit">Made with 🕑 and 💖 by <a href="https://nathan-the-coder.netlify.app" target="_blank" rel="noopener noreferrer">Nathan The Coder</a></p>
     </div>
   </footer>
-
   <script src="assets/js/script.js"></script>
 </body>
 </html>

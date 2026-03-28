@@ -1,20 +1,14 @@
 [
   {
-    "name": "Le Rat Solitaire",
-    "description": "La FICH Team soutient ce créateur de contenu YouTube.",
-    "url": "https://www.youtube.com/@leratsolitaire",
-    "avatar": "assets/img/leratsolitaire.png"
+    "name": "Ylianyan",
+    "description": "Créateur de contenu passionné, en partenariat avec la FICH Team.",
+    "url": "https://www.youtube.com/@Ylianyan",
+    "avatar": "https://yt3.googleusercontent.com/XmDLEAwqt-T7RhVOsXurSO7mjFCkidOgVAngsLvaKwVzdgjAoKRFHjF3tWMZEJgksY-IDWkz=s160-c-k-c0x00ffffff-no-rj"
   },
   {
-    "name": "Le_Builder",
-    "description": "La FICH Team soutient ce créateur de contenu YouTube.",
-    "url": "https://www.youtube.com/@LeBuilderOff",
-    "avatar": "assets/img/lebuilderoff.png"
-  },
-  {
-    "name": "king_capybara",
-    "description": "La FICH Team soutient ce créateur de contenu YouTube.",
-    "url": "https://www.youtube.com/@king_capybara_officiel",
-    "avatar": "assets/img/king_capybara_officiel.png"
+    "name": "Taupy",
+    "description": "Créateur de contenu passionné, en partenariat avec la FICH Team.",
+    "url": "https://www.youtube.com/@Taupy",
+    "avatar": "https://yt3.googleusercontent.com/HRrQaqwbx2n68xC_TbUVVQ2CaS8Y8OHDymNz4Bm0bobyyy6vvY0vk_zwyK_IFmdHpBlyrQ2t=s160-c-k-c0x00ffffff-no-rj"
   }
 ]
