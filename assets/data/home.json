@@ -1,0 +1,50 @@
+{
+    "cards": [
+      {
+        "id": "fich",
+        "emoji": null,
+        "title": "C'est quoi la FICH TEAM ?",
+        "short": "La FICH TEAM est une équipe de joueurs unis par des valeurs de respect, d'entraide et de créativité. Une communauté soudée autour du jeu bien fait.",
+        "full": null,
+        "wide": true,
+        "logo": true
+      },
+      {
+        "id": "origines",
+        "emoji": "📜",
+        "title": "Les origines",
+        "full": "Histoire et création de la FICH Team, ses fondateurs et ses premières activités.",
+        "short": "Tout a commencé avec <strong>THE_WARBREAKER</strong>. En vocal, il répétait souvent <strong>\"FICH\"</strong>.\nUn jour, <strong>The_CubKing</strong> lui a demandé : pourquoi <em>\"fish\"</em> ?\nLa réponse fut simple : pas <em>\"fish\"</em>, mais <strong>FICH</strong>.\n\nÀ partir de là, une idée est née. Ensemble, ils ont créé un petit serveur Discord dédié aux builds sur Minecraft. Au départ, ce n'était qu'un projet entre amis, sans ambition particulière.\nMais rapidement, <strong>The_CubKing</strong> a décidé d'améliorer le serveur et de lui donner une vraie direction.\n\nPeu à peu, la référence <strong>\"FICH\"</strong>, à l'origine une simple blague, une erreur de frappe volontaire, a commencé à se faire connaître au sein de la <strong>SQUIDUU Family</strong>. Grâce aux différentes améliorations, le projet a évolué pour devenir la toute première version de la <strong>FICH Team</strong>.\nAvec le temps, nous avons continué à progresser dans plusieurs domaines : <strong>build, organisation, et développement de projets</strong>. Le serveur a grandi, tout comme notre communauté.\n\nPar la suite, <strong>The_CubKing</strong> a créé la <strong>FICH Family</strong>, une version accessible à tous, permettant à un public plus large de rejoindre l'aventure.\nAujourd'hui, nous sommes fiers de proposer des projets FICH toujours plus <strong>ambitieux et de qualité</strong>.",
+        "wide": false,
+        "logo": false
+      },
+      {
+        "id": "fich-letters",
+        "emoji": null,
+        "title": null,
+        "short": null,
+        "full": null,
+        "wide": false,
+        "logo": false,
+        "special": "fich-letters"
+      },
+      {
+        "id": "pourquoi",
+        "emoji": "⚡",
+        "title": "Pourquoi ?",
+        "short": "Regrouper des personnes matures partageant des valeurs communes et le goût du jeu bien fait.",
+        "full": null,
+        "wide": false,
+        "logo": false
+      },
+      {
+        "id": "activites",
+        "emoji": "🏗️",
+        "title": "Activités",
+        "short": "Build, redstone, RP, minijeux et événements communautaires.",
+        "full": null,
+        "wide": false,
+        "logo": false
+      }
+    ]
+  }
