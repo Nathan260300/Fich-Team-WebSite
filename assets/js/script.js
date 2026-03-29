@@ -29,58 +29,12 @@ const PAGES = {
         </div>
         <div class="cards-section">
           <div class="section-label">À PROPOS</div>
-          <div class="cards-grid">
-            <article class="card card--wide fade-in">
-              <div class="card-accent-bar"></div>
-              <div class="card-inner">
-                <img src="assets/img/logo.png" alt="FICH Team" width="68" height="68" class="card-img">
-                <div>
-                  <h2 class="card-title">C'est quoi la FICH TEAM ?</h2>
-                  <p class="card-text">La FICH TEAM est une équipe de joueurs unis par des valeurs de respect, d'entraide et de créativité. Une communauté soudée autour du jeu bien fait.</p>
-                </div>
-              </div>
-            </article>
-            <article class="card fade-in" style="--delay:.08s">
-              <div class="card-accent-bar"></div>
-              <div class="card-inner card-inner--col">
-                <span class="card-emoji">📜</span>
-                <div>
-                  <h3 class="card-title">Les origines</h3>
-                  <p class="card-text">Histoire et création de la FICH Team, ses fondateurs et ses premières activités.</p>
-                </div>
-              </div>
-            </article>
-            <article class="card fade-in" style="--delay:.16s">
-              <div class="card-accent-bar"></div>
-              <div class="card-inner card-inner--col">
-                <div class="fich-letters">
-                  <span><strong>F</strong>orce</span>
-                  <span><strong>I</strong>ntelligence</span>
-                  <span><strong>C</strong>harisme</span>
-                  <span><strong>H</strong>onneur</span>
-                </div>
-              </div>
-            </article>
-            <article class="card fade-in" style="--delay:.24s">
-              <div class="card-accent-bar"></div>
-              <div class="card-inner card-inner--col">
-                <span class="card-emoji">⚡</span>
-                <div>
-                  <h3 class="card-title">Pourquoi ?</h3>
-                  <p class="card-text">Regrouper des personnes matures partageant des valeurs communes et le goût du jeu bien fait.</p>
-                </div>
-              </div>
-            </article>
-            <article class="card fade-in" style="--delay:.40s">
-              <div class="card-accent-bar"></div>
-              <div class="card-inner card-inner--col">
-                <span class="card-emoji">🏗️</span>
-                <div>
-                  <h3 class="card-title">Activités</h3>
-                  <p class="card-text">Build, redstone, RP, minijeux et événements communautaires.</p>
-                </div>
-              </div>
-            </article>
+          <div class="cards-grid" id="home-cards-grid">
+            <div class="channels-loading" style="grid-column:1/-1">
+              <span class="channels-loading-dot"></span>
+              <span class="channels-loading-dot"></span>
+              <span class="channels-loading-dot"></span>
+            </div>
           </div>
         </div>
         <div class="members-section">
@@ -252,6 +206,8 @@ const app           = document.getElementById('app');
 let currentPageKey  = null;
 let transitionTimer = null;
 let channelsLoaded  = false;
+let homeLoaded      = false;
+let homeLoaded_data = [];
 let projectsLoaded  = false;
 let activeModal     = null;
 let membersLoaded   = false;
@@ -294,6 +250,7 @@ function showPage(pageKey, pushState = false) {
 
   currentPageKey = pageKey;
   channelsLoaded = false;
+  homeLoaded = false;
   projectsLoaded = false;
   membersLoaded = false;
 
@@ -311,7 +268,7 @@ function showPage(pageKey, pushState = false) {
     const target = app.firstElementChild;
     target.classList.add('page-enter');
 
-    if (pageKey === 'home') loadMembers();
+    if (pageKey === 'home') { loadHome(); loadMembers(); }
     if (pageKey === 'partners') loadChannels();
     if (pageKey === 'projects') loadProjects();
     if (pageKey === '404') {
@@ -363,6 +320,10 @@ window.addEventListener('popstate', e => {
   if (pageKey === 'home' && profileIdx !== null) {
     waitForMembers().then(() => openMemberModal(parseInt(profileIdx), false));
   }
+  const cardId = p.get('card');
+  if (pageKey === 'home' && cardId) {
+    waitForHome().then(() => openCardModal(cardId, false));
+  }
 });
 
 document.addEventListener('click', e => {
@@ -379,6 +340,12 @@ document.addEventListener('click', e => {
 });
 
 document.addEventListener('click', e => {
+  const homeCard = e.target.closest('.card[data-card-id]');
+  if (homeCard) {
+    const card = homeLoaded_data.find(c => c.id === homeCard.dataset.cardId);
+    if (card && card.full) openCardModal(card.id, true);
+    return;
+  }
   const vidCard = e.target.closest('.video-card[data-vid-id]');
   if (vidCard) { _openVideoModal(vidCard.dataset.vidId); return; }
   const photoItem = e.target.closest('.photo-item[data-img-src]');
@@ -397,6 +364,62 @@ document.addEventListener('keydown', e => {
   const card = e.target.closest('.video-card[data-vid-id], .photo-item[data-img-src], .member-card[data-member-idx]');
   if (card) { e.preventDefault(); card.click(); }
 });
+
+function buildHomeCard(card, i) {
+  const delay = (i * .08).toFixed(2);
+  const wideClass = card.wide ? ' card--wide' : '';
+  const clickable = card.full ? ` data-card-id="${card.id}" role="button" tabindex="0" style="cursor:pointer"` : '';
+
+  let inner = '';
+  if (card.special === 'fich-letters') {
+    inner = `<div class="card-inner card-inner--col">
+      <div class="fich-letters">
+        <span><strong>F</strong>orce</span>
+        <span><strong>I</strong>ntelligence</span>
+        <span><strong>C</strong>harisme</span>
+        <span><strong>H</strong>onneur</span>
+      </div>
+    </div>`;
+  } else if (card.wide && card.logo) {
+    inner = `<div class="card-inner">
+      <img src="assets/img/logo.png" alt="FICH Team" width="68" height="68" class="card-img">
+      <div>
+        <h2 class="card-title">${card.title}</h2>
+        <p class="card-text">${card.short}</p>
+      </div>
+    </div>`;
+  } else {
+    inner = `<div class="card-inner card-inner--col">
+      <span class="card-emoji">${card.emoji}</span>
+      <div>
+        <h3 class="card-title">${card.title}</h3>
+        <p class="card-text">${card.short}</p>
+      </div>
+    </div>`;
+  }
+
+  return `<article class="card${wideClass} fade-in" style="--delay:${delay}s"${clickable}>
+    <div class="card-accent-bar"></div>
+    ${inner}
+    ${card.full ? '<div class="card-clickable-hint"><span class="card-read-more">Lire la suite →</span></div>' : ''}
+  </article>`;
+}
+
+async function loadHome() {
+  const grid = document.getElementById('home-cards-grid');
+  if (!grid) return;
+  if (homeLoaded) return;
+  try {
+    const res  = await fetch('assets/data/home.json');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    homeLoaded_data = data.cards;
+    grid.innerHTML = data.cards.map(buildHomeCard).join('');
+    homeLoaded = true;
+  } catch {
+    grid.innerHTML = '';
+  }
+}
 
 function buildChannelCard(ch, i) {
   return `
@@ -490,6 +513,30 @@ async function loadProjects() {
     if (photoGrid) photoGrid.innerHTML = errHtml;
     if (videoGrid) videoGrid.innerHTML = errHtml;
   }
+}
+
+function waitForHome() {
+  return new Promise(resolve => {
+    if (homeLoaded) { resolve(); return; }
+    let tries = 0;
+    const t = setInterval(() => {
+      if (homeLoaded || ++tries > 160) { clearInterval(t); resolve(); }
+    }, 50);
+  });
+}
+
+function openCardModal(id, push = true) {
+  const card = homeLoaded_data.find(c => c.id === id);
+  if (!card || !card.full) return;
+  const html = card.full.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+  _openModal(`
+    <div class="home-card-modal">
+      <div class="home-card-modal-header">
+        ${card.emoji ? `<span class="home-card-modal-emoji">${card.emoji}</span>` : ''}
+        <h2 class="home-card-modal-title">${card.title}</h2>
+      </div>
+      <div class="home-card-modal-body"><p>${html}</p></div>
+    </div>`, push ? ['card', id] : null);
 }
 
 function waitForMembers() {
@@ -590,7 +637,7 @@ function closeModal(instant = false) {
   document.body.style.overflow = '';
   el.querySelectorAll('iframe').forEach(f => { f.src = ''; });
   const p = qp();
-  if (!instant && (p.has('video') || p.has('photo') || p.has('profile'))) history.back();
+  if (!instant && (p.has('video') || p.has('photo') || p.has('profile') || p.has('card'))) history.back();
   if (instant) { el.remove(); return; }
   el.classList.add('closing');
   setTimeout(() => el.remove(), 200);
@@ -643,6 +690,7 @@ function _openPhotoModal(idx, push = true) {
     if (videoId) extra.video = videoId;
     else if (photoIdx !== null) extra.photo = photoIdx;
     else if (profileIdx !== null) extra.profile = profileIdx;
+    else if (qp().get('card')) extra.card = qp().get('card');
     history.replaceState({ p: pageKey }, PAGES[pageKey].title, buildUrl(pageKey, extra));
   }
 
@@ -657,5 +705,9 @@ function _openPhotoModal(idx, push = true) {
   }
   if (pageKey === 'home' && profileIdx !== null) {
     waitForMembers().then(() => openMemberModal(parseInt(profileIdx), false));
+  }
+  const cardId = qp().get('card');
+  if (pageKey === 'home' && cardId) {
+    waitForHome().then(() => openCardModal(cardId, false));
   }
 })();
