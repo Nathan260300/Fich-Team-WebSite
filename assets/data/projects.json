@@ -1,92 +1,440 @@
 {
   "images": [
-    { "src": "assets/data/data-img/projects/img0.webp" },
-    { "src": "assets/data/data-img/projects/img1.webp" },
-    { "src": "assets/data/data-img/projects/img2.webp" },
-    { "src": "assets/data/data-img/projects/img3.webp" },
-    { "src": "assets/data/data-img/projects/img4.webp" },
-    { "src": "assets/data/data-img/projects/img5.webp" },
-    { "src": "assets/data/data-img/projects/img6.webp" },
-    { "src": "assets/data/data-img/projects/img7.webp" },
-    { "src": "assets/data/data-img/projects/img8.webp" },
-    { "src": "assets/data/data-img/projects/img10.webp" },
-    { "src": "assets/data/data-img/projects/img11.webp" },
-    { "src": "assets/data/data-img/projects/img12.webp" },
-    { "src": "assets/data/data-img/projects/img13.webp" },
-    { "src": "assets/data/data-img/projects/img14.webp" },
-    { "src": "assets/data/data-img/projects/img14.webp" },
-    { "src": "assets/data/data-img/projects/img15.webp" },
-    { "src": "assets/data/data-img/projects/img16.webp" },
-    { "src": "assets/data/data-img/projects/img17.webp" },
-    { "src": "assets/data/data-img/projects/img18.webp" },
-    { "src": "assets/data/data-img/projects/img19.webp" },
-    { "src": "assets/data/data-img/projects/img20.webp" },
-    { "src": "assets/data/data-img/projects/img21.webp" },
-    { "src": "assets/data/data-img/projects/img22.webp" },
-    { "src": "assets/data/data-img/projects/img23.webp" },
-    { "src": "assets/data/data-img/projects/img24.webp" },
-    { "src": "assets/data/data-img/projects/img25.webp" },
-    { "src": "assets/data/data-img/projects/img26.webp" },
-    { "src": "assets/data/data-img/projects/img27.webp" },
-    { "src": "assets/data/data-img/projects/img28.webp" },
-    { "src": "assets/data/data-img/projects/img29.webp" },
-    { "src": "assets/data/data-img/projects/img30.webp" },
-    { "src": "assets/data/data-img/projects/img31.webp" },
-    { "src": "assets/data/data-img/projects/img32.webp" },
-    { "src": "assets/data/data-img/projects/img33.webp" },
-    { "src": "assets/data/data-img/projects/img34.webp" },
-    { "src": "assets/data/data-img/projects/img35.webp" },
-    { "src": "assets/data/data-img/projects/img36.webp" },
-    { "src": "assets/data/data-img/projects/img37.webp" },
-    { "src": "assets/data/data-img/projects/img38.webp" },
-    { "src": "assets/data/data-img/projects/img39.webp" },
-    { "src": "assets/data/data-img/projects/img40.webp" },
-    { "src": "assets/data/data-img/projects/img41.webp" },
-    { "src": "assets/data/data-img/projects/img42.webp" },
-    { "src": "assets/data/data-img/projects/img43.webp" },
-    { "src": "assets/data/data-img/projects/img44.webp" },
-    { "src": "assets/data/data-img/projects/img45.webp" },
-    { "src": "assets/data/data-img/projects/img46.webp" },
-    { "src": "assets/data/data-img/projects/img47.webp" },
-    { "src": "assets/data/data-img/projects/img48.webp" },
-    { "src": "assets/data/data-img/projects/img49.webp" },
-    { "src": "assets/data/data-img/projects/img50.webp" },
-    { "src": "assets/data/data-img/projects/img51.webp" },
-    { "src": "assets/data/data-img/projects/img52.webp" },
-    { "src": "assets/data/data-img/projects/img53.webp" },
-    { "src": "assets/data/data-img/projects/img54.webp" },
-    { "src": "assets/data/data-img/projects/img55.webp" },
-    { "src": "assets/data/data-img/projects/img56.webp" },
-    { "src": "assets/data/data-img/projects/img57.webp" },
-    { "src": "assets/data/data-img/projects/img58.webp" },
-    { "src": "assets/data/data-img/projects/img59.webp" },
-    { "src": "assets/data/data-img/projects/img60.webp" },
-    { "src": "assets/data/data-img/projects/img61.webp" },
-    { "src": "assets/data/data-img/projects/img62.webp" },
-    { "src": "assets/data/data-img/projects/img63.webp" },
-    { "src": "assets/data/data-img/projects/img64.webp" },
-    { "src": "assets/data/data-img/projects/img65.webp" },
-    { "src": "assets/data/data-img/projects/img66.webp" },
-    { "src": "assets/data/data-img/projects/img67.webp" },
-    { "src": "assets/data/data-img/projects/img68.webp" },
-    { "src": "assets/data/data-img/projects/img69.webp" },
-    { "src": "assets/data/data-img/projects/img70.webp" },
-    { "src": "assets/data/data-img/projects/img71.webp" },
-    { "src": "assets/data/data-img/projects/img72.webp" },
-    { "src": "assets/data/data-img/projects/img73.webp" },
-    { "src": "assets/data/data-img/projects/img74.webp" },
-    { "src": "assets/data/data-img/projects/img75.webp" },
-    { "src": "assets/data/data-img/projects/img76.webp" },
-    { "src": "assets/data/data-img/projects/img77.webp" },
-    { "src": "assets/data/data-img/projects/img78.webp" },
-    { "src": "assets/data/data-img/projects/img79.webp" },
-    { "src": "assets/data/data-img/projects/img80.webp" },
-    { "src": "assets/data/data-img/projects/img81.webp" },
-    { "src": "assets/data/data-img/projects/img82.webp" },
-    { "src": "assets/data/data-img/projects/img83.webp" },
-    { "src": "assets/data/data-img/projects/img84.webp" },
-    { "src": "assets/data/data-img/projects/img85.webp" },
-    { "src": "assets/data/data-img/projects/img86.webp" }
+    {
+      "src": "assets/data/data-img/projects/fich/img0.webp",
+      "category": "FICH",
+      "category_id": "fich"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img1.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img2.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/fich/img3.webp",
+      "category": "FICH",
+      "category_id": "fich"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img4.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img5.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img6.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/taupy/img7.webp",
+      "category": "Taupy",
+      "category_id": "taupy"
+    },
+    {
+      "src": "assets/data/data-img/projects/taupy/img8.webp",
+      "category": "Taupy",
+      "category_id": "taupy"
+    },
+    {
+      "src": "assets/data/data-img/projects/taupy/img9.webp",
+      "category": "Taupy",
+      "category_id": "taupy"
+    },
+    {
+      "src": "assets/data/data-img/projects/taupy/img10.webp",
+      "category": "Taupy",
+      "category_id": "taupy"
+    },
+    {
+      "src": "assets/data/data-img/projects/taupy/img11.webp",
+      "category": "Taupy",
+      "category_id": "taupy"
+    },
+    {
+      "src": "assets/data/data-img/projects/taupy/img12.webp",
+      "category": "Taupy",
+      "category_id": "taupy"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img13.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/rp/img14.webp",
+      "category": "FICH RP",
+      "category_id": "rp"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img15.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img16.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img17.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img18.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img19.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img20.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img21.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img22.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img23.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img24.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img25.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img26.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img27.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img28.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img29.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img30.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img31.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img32.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img33.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img34.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img35.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img36.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img37.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img38.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img39.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img40.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img41.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img42.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img43.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img44.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img45.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img46.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img47.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img48.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img49.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/fich/img50.webp",
+      "category": "FICH",
+      "category_id": "fich"
+    },
+    {
+      "src": "assets/data/data-img/projects/fich/img51.webp",
+      "category": "FICH",
+      "category_id": "fich"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img52.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img53.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img54.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img55.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img56.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img57.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img58.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img59.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img60.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img61.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img62.webp",
+      "category": "paradoxvideos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img63.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxvideos/img64.webp",
+      "category": "Paradox SMP Vidéos",
+      "category_id": "paradoxvideos"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img65.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img66.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img67.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img68.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img69.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img70.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img71.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img72.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/autres/img73.webp",
+      "category": "Autres",
+      "category_id": "autres"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img74.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img75.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img76.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/fich/img77.webp",
+      "category": "FICH",
+      "category_id": "fich"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img78.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img79.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img80.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img81.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img82.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img83.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img84.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/lerat/img85.webp",
+      "category": "LeRatSolitaire",
+      "category_id": "lerat"
+    },
+    {
+      "src": "assets/data/data-img/projects/paradoxscreens/img86.webp",
+      "category": "Paradox SMP Screens",
+      "category_id": "paradoxscreens"
+    }
   ],
   "videos": [
     {

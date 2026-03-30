@@ -311,10 +311,23 @@ window.addEventListener('popstate', e => {
   showPage(pageKey, false);
 
   const profileIdx = p.get('profile');
+  const folderId   = p.get('id');
+  const imgIdx     = p.get('img');
   if (pageKey === 'projects' && (videoId || photoIdx !== null)) {
     waitForProjects().then(() => {
       if (videoId) _openVideoModal(videoId, false);
       else if (photoIdx !== null) _openPhotoModal(parseInt(photoIdx), false);
+    });
+  }
+  if (pageKey === 'projects' && folderId) {
+    waitForProjects().then(() => {
+      const folder = _getFolderById(folderId);
+      if (!folder) return;
+      if (imgIdx !== null) {
+        openFolderImageModal(folderId, folder.name, folder.srcs, parseInt(imgIdx), false);
+      } else {
+        openFolderModal(folderId, folder.name, folder.srcs, false);
+      }
     });
   }
   if (pageKey === 'home' && profileIdx !== null) {
@@ -348,10 +361,27 @@ document.addEventListener('click', e => {
   }
   const vidCard = e.target.closest('.video-card[data-vid-id]');
   if (vidCard) { _openVideoModal(vidCard.dataset.vidId); return; }
+  const folderCard = e.target.closest('.folder-card[data-folder-id]');
+  if (folderCard) {
+    const id   = folderCard.dataset.folderId;
+    const name = folderCard.dataset.folderName;
+    const srcs = JSON.parse(folderCard.dataset.folderSrcs);
+    openFolderModal(id, name, srcs, true);
+    return;
+  }
   const photoItem = e.target.closest('.photo-item[data-img-src]');
   if (photoItem) {
-    const idx = [...document.querySelectorAll('.photo-item[data-img-src]')].indexOf(photoItem);
-    _openPhotoModal(idx);
+    const folderId = photoItem.dataset.folderId;
+    if (folderId) {
+      const srcs = JSON.parse(photoItem.dataset.folderSrcs || '[]');
+      const idx  = parseInt(photoItem.dataset.imgIdx || '0');
+      const grid = photoItem.closest('.folder-modal');
+      const name = grid ? grid.querySelector('.folder-modal-title')?.textContent || '' : '';
+      openFolderImageModal(folderId, name, srcs, idx, true);
+    } else {
+      const idx = [...document.querySelectorAll('.photo-item[data-img-src]')].indexOf(photoItem);
+      _openPhotoModal(idx);
+    }
     return;
   }
   const memberCard = e.target.closest('.member-card[data-member-idx]');
@@ -458,11 +488,43 @@ async function loadChannels() {
 
 function buildPhotoCard(img, i) {
   return `
-    <div class="photo-item fade-in" style="--delay:${i * .07}s"
+    <div class="photo-item fade-in" style="--delay:${i * .05}s"
          data-img-src="${img.src}"
          role="button" tabindex="0" aria-label="Agrandir la photo">
       <img src="${img.src}" alt="Photo FICH Team" loading="lazy">
     </div>`;
+}
+
+function buildPhotoGallery(images) {
+  const grouped = {};
+  images.forEach(img => {
+    const cat   = img.category    || 'Sans catégorie';
+    const catId = img.category_id || cat.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    if (!grouped[catId]) grouped[catId] = { name: cat, id: catId, imgs: [] };
+    grouped[catId].imgs.push(img);
+  });
+
+  return `<div class="folders-grid">${Object.values(grouped).map(folder => {
+    const cover   = folder.imgs[folder.imgs.length - 1].src;
+    const allSrcs = JSON.stringify(folder.imgs.map(i => i.src));
+    return `
+      <div class="folder-card fade-in"
+           data-folder-id="${folder.id}"
+           data-folder-srcs='${allSrcs}'
+           data-folder-name="${folder.name}"
+           role="button" tabindex="0" aria-label="Ouvrir ${folder.name}">
+        <div class="folder-card-cover">
+          <img src="${cover}" alt="${folder.name}" loading="lazy">
+          <div class="folder-card-overlay">
+            <span class="folder-card-count">${folder.imgs.length} image${folder.imgs.length > 1 ? 's' : ''}</span>
+          </div>
+        </div>
+        <div class="folder-card-info">
+          <span class="folder-card-icon">📁</span>
+          <span class="folder-card-name">${folder.name}</span>
+        </div>
+      </div>`;
+  }).join('')}</div>`;
 }
 
 function buildVideoCard(vid, i) {
@@ -497,9 +559,10 @@ async function loadProjects() {
     const res  = await fetch('assets/data/projects.json');
     if (!res.ok) throw new Error();
     const data = await res.json();
+    if (data.images && data.images.length) _storeFolders(data.images);
     if (photoGrid) {
       photoGrid.innerHTML = data.images && data.images.length
-        ? data.images.map(buildPhotoCard).join('')
+        ? buildPhotoGallery(data.images)
         : `<div class="proj-empty"><div class="proj-empty-icon">🖼️</div><p>Aucune image pour l'instant.</p></div>`;
     }
     if (videoGrid) {
@@ -536,7 +599,7 @@ function openCardModal(id, push = true) {
         <h2 class="home-card-modal-title">${card.title}</h2>
       </div>
       <div class="home-card-modal-body"><p>${html}</p></div>
-    </div>`, push ? ['card', id] : null);
+    </div>`, ...push ? ['card', id] : []);
 }
 
 function waitForMembers() {
@@ -547,6 +610,22 @@ function waitForMembers() {
       if (membersLoaded || ++tries > 160) { clearInterval(t); resolve(); }
     }, 50);
   });
+}
+
+let _photoFolders = {};
+
+function _storeFolders(images) {
+  _photoFolders = {};
+  images.forEach(img => {
+    const catId = img.category_id || (img.category || 'sans-categorie').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const name  = img.category || 'Sans catégorie';
+    if (!_photoFolders[catId]) _photoFolders[catId] = { name, srcs: [] };
+    _photoFolders[catId].srcs.push(img.src);
+  });
+}
+
+function _getFolderById(id) {
+  return _photoFolders[id] || null;
 }
 
 function waitForProjects() {
@@ -604,10 +683,47 @@ function openMemberModal(idx, push = true) {
       </div>
       <h2 class="member-modal-name">${m.pseudo}</h2>
       ${m.description ? `<p class="member-modal-desc">${m.description.replace(/\n/g, '<br>')}</p>` : ''}
-    </div>`, push ? ['profile', idx] : null);
+    </div>`, ...push ? ['profile', idx] : []);
 }
 
-function _openModal(html, pushParam = null) {
+function buildFolderModalHtml(name, srcs, folderId) {
+  const grid = srcs.map((src, i) => `
+    <div class="photo-item fade-in" style="--delay:${(i * .04).toFixed(2)}s"
+         data-img-src="${src}"
+         data-img-idx="${i}"
+         data-folder-id="${folderId}"
+         data-folder-srcs='${JSON.stringify(srcs)}'
+         role="button" tabindex="0" aria-label="Agrandir la photo">
+      <img src="${src}" alt="${name}" loading="lazy">
+    </div>`).join('');
+  return `
+    <div class="folder-modal">
+      <div class="folder-modal-header">
+        <span>📁</span>
+        <h2 class="folder-modal-title">${name}</h2>
+        <span class="photo-folder-count">${srcs.length} image${srcs.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="photo-grid folder-modal-grid" data-folder-srcs='${JSON.stringify(srcs)}'>${grid}</div>
+    </div>`;
+}
+
+function openFolderModal(folderId, name, srcs, push = true) {
+  _openModal(buildFolderModalHtml(name, srcs, folderId), ...push ? ['id', folderId] : []);
+}
+
+function openFolderImageModal(folderId, name, srcs, imgIdx, push = true) {
+  const src = srcs[imgIdx];
+  if (!src) return;
+  _openModal(`
+    <div class="modal-photo-wrap">
+      <img src="${src}" alt="${name}">
+    </div>`, ...push ? ['id', folderId, 'img', imgIdx] : []);
+  activeModal._folderId   = folderId;
+  activeModal._folderName = name;
+  activeModal._folderSrcs = srcs;
+}
+
+function _openModal(html, ...paramPairs) {
   closeModal(true);
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -619,12 +735,11 @@ function _openModal(html, pushParam = null) {
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
   activeModal = overlay;
-  if (pushParam) {
+  if (paramPairs.length) {
     const u = qp();
-    u.delete('video');
-    u.delete('photo');
-    u.set(pushParam[0], pushParam[1]);
-    history.pushState({ p: 'projects', modal: pushParam }, document.title, '?' + u.toString());
+    for (const k of ['video','photo','profile','card','id','img']) u.delete(k);
+    for (let i = 0; i < paramPairs.length; i += 2) u.set(paramPairs[i], paramPairs[i+1]);
+    history.pushState({ p: 'projects', modal: paramPairs }, document.title, '?' + u.toString());
   }
   overlay.querySelector('.modal-close').addEventListener('click', () => closeModal());
   overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
@@ -632,12 +747,23 @@ function _openModal(html, pushParam = null) {
 
 function closeModal(instant = false) {
   if (!activeModal) return;
+  const folderId   = activeModal._folderId;
+  const folderName = activeModal._folderName;
+  const folderSrcs = activeModal._folderSrcs;
   const el = activeModal;
   activeModal = null;
   document.body.style.overflow = '';
   el.querySelectorAll('iframe').forEach(f => { f.src = ''; });
   const p = qp();
-  if (!instant && (p.has('video') || p.has('photo') || p.has('profile') || p.has('card'))) history.back();
+  const hasModal = p.has('video') || p.has('photo') || p.has('profile') || p.has('card') || p.has('id');
+  if (!instant && hasModal) {
+    if (folderId && p.has('img')) {
+      history.back();
+      setTimeout(() => openFolderModal(folderId, folderName, folderSrcs, false), 10);
+    } else {
+      history.back();
+    }
+  }
   if (instant) { el.remove(); return; }
   el.classList.add('closing');
   setTimeout(() => el.remove(), 200);
@@ -659,17 +785,22 @@ function _openVideoModal(id, push = true) {
     <div class="modal-video-info">
       <p class="modal-video-title">${title}</p>
       ${creator ? `<p class="modal-video-creator">par ${creator}</p>` : ''}
-    </div>`, push ? ['video', id] : null);
+    </div>`, ...push ? ['video', id] : []);
 }
 
-function _openPhotoModal(idx, push = true) {
-  const items = [...document.querySelectorAll('.photo-item[data-img-src]')];
-  const item  = items[idx];
-  if (!item) return;
+function _openPhotoModal(idx, push = true, srcs = null) {
+  let src;
+  if (srcs) {
+    src = srcs[idx];
+  } else {
+    const items = [...document.querySelectorAll('.photo-item[data-img-src]')];
+    src = items[idx]?.dataset.imgSrc;
+  }
+  if (!src) return;
   _openModal(`
     <div class="modal-photo-wrap">
-      <img src="${item.dataset.imgSrc}" alt="Photo FICH Team">
-    </div>`, push ? ['photo', idx] : null);
+      <img src="${src}" alt="Photo FICH Team">
+    </div>`, ...push ? ['photo', idx] : []);
 }
 
 (function init() {
@@ -691,6 +822,7 @@ function _openPhotoModal(idx, push = true) {
     else if (photoIdx !== null) extra.photo = photoIdx;
     else if (profileIdx !== null) extra.profile = profileIdx;
     else if (qp().get('card')) extra.card = qp().get('card');
+    else if (qp().get('id')) { extra.id = qp().get('id'); if (qp().get('img')) extra.img = qp().get('img'); }
     history.replaceState({ p: pageKey }, PAGES[pageKey].title, buildUrl(pageKey, extra));
   }
 
@@ -706,8 +838,21 @@ function _openPhotoModal(idx, push = true) {
   if (pageKey === 'home' && profileIdx !== null) {
     waitForMembers().then(() => openMemberModal(parseInt(profileIdx), false));
   }
-  const cardId = qp().get('card');
+  const cardId   = qp().get('card');
+  const folderId = qp().get('id');
+  const imgIdx   = qp().get('img');
   if (pageKey === 'home' && cardId) {
     waitForHome().then(() => openCardModal(cardId, false));
+  }
+  if (pageKey === 'projects' && folderId) {
+    waitForProjects().then(() => {
+      const folder = _getFolderById(folderId);
+      if (!folder) return;
+      if (imgIdx !== null) {
+        openFolderImageModal(folderId, folder.name, folder.srcs, parseInt(imgIdx), false);
+      } else {
+        openFolderModal(folderId, folder.name, folder.srcs, false);
+      }
+    });
   }
 })();

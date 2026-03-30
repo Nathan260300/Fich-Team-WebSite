@@ -492,11 +492,6 @@ a:hover { color: #fff; }
 .proj-panel { display: none; }
 .proj-panel.active { display: block; }
 
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-}
 .photo-item {
   position: relative; border-radius: var(--r-md); overflow: hidden;
   aspect-ratio: 16/10; cursor: pointer;
@@ -1075,4 +1070,102 @@ a:hover { color: #fff; }
 
 .card[data-card-id]:hover .card-read-more {
   color: #fff;
+}
+
+.photo-folder-count {
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  color: var(--c-dim);
+  letter-spacing: .08em;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.folders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.folder-card {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-md); overflow: hidden; cursor: pointer;
+  transition: transform .28s var(--ease), border-color .28s, box-shadow .28s;
+  animation: fadeUp .55s var(--ease) both;
+  animation-delay: var(--delay, 0s);
+}
+.folder-card * { pointer-events: none; }
+
+.folder-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--c-border-hi);
+  box-shadow: 0 14px 40px rgba(0,0,0,.45);
+}
+
+.folder-card-cover {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: var(--c-surface-2);
+}
+.folder-card-cover img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .38s var(--ease);
+}
+.folder-card:hover .folder-card-cover img { transform: scale(1.06); }
+
+.folder-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7,13,26,.7) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 12px;
+}
+.folder-card-count {
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: rgba(255,255,255,.8);
+  letter-spacing: .06em;
+}
+
+.folder-card-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+}
+.folder-card-icon { font-size: 1rem; flex-shrink: 0; }
+.folder-card-name {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: .85rem;
+  color: var(--c-text);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.folder-modal { padding: 22px; }
+.folder-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--c-border);
+}
+.folder-modal-title {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--c-text);
+  letter-spacing: -.02em;
+}
+.folder-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
 }
