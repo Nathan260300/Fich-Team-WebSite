@@ -1,7 +1,3 @@
-// ─── pages/partners.js ─────────────────────────────────────
-// Rendu et chargement de la page Partenaires.
-// ────────────────────────────────────────────────────────────
-
 import { setLoaded, isLoaded } from '../state.js';
 import { clearElement } from '../utils.js';
 import { ChannelCard, LoadingSpinner, ErrorMessage } from '../components.js';
@@ -21,8 +17,6 @@ export function render() {
 export function onMount() {
   loadChannels();
 }
-
-// ── Loader ────────────────────────────────────────────────────
 
 async function loadChannels() {
   const grid = document.getElementById('channels-grid');
@@ -47,16 +41,13 @@ async function loadChannels() {
     console.error('[partners] Erreur chargement chaînes :', err);
     clearElement(grid);
     grid.appendChild(ErrorMessage('Impossible de charger les partenaires.', () => {
-      setLoaded('channels', false); // permet un nouveau fetch
-      // Réessai
+      setLoaded('channels', false);
       clearElement(grid);
       grid.appendChild(LoadingSpinner());
       loadChannels();
     }));
   }
 }
-
-// ── Builders DOM ──────────────────────────────────────────────
 
 function _buildHero() {
   const div = document.createElement('div');

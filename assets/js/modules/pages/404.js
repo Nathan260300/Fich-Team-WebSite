@@ -1,7 +1,3 @@
-// ─── pages/404.js ──────────────────────────────────────────
-// Page d'erreur 404.
-// ────────────────────────────────────────────────────────────
-
 import { getState } from '../state.js';
 
 export const title = '404 — Page introuvable · FICH Team';

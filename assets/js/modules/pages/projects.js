@@ -1,7 +1,3 @@
-// ─── pages/projects.js ─────────────────────────────────────
-// Rendu et chargement de la page Projets.
-// ────────────────────────────────────────────────────────────
-
 import { getState, setState, setLoaded, isLoaded } from '../state.js';
 import { waitUntil, clearElement } from '../utils.js';
 import { FolderCard, VideoCard, LoadingSpinner, ErrorMessage } from '../components.js';
@@ -26,8 +22,6 @@ export function onMount() {
 export function waitForProjects() {
   return waitUntil(() => isLoaded('projects'));
 }
-
-// ── Loader ────────────────────────────────────────────────────
 
 async function loadProjects() {
   const photoGrid = document.getElementById('photo-grid');
@@ -69,8 +63,6 @@ async function loadProjects() {
   }
 }
 
-// ── Gestion des dossiers ──────────────────────────────────────
-
 function _storeFolders(images) {
   const folders = {};
   images.forEach(img => {
@@ -81,8 +73,6 @@ function _storeFolders(images) {
   });
   setState('photoFolders', folders);
 }
-
-// ── Tabs ──────────────────────────────────────────────────────
 
 function _initTabs() {
   document.addEventListener('click', _onTabClick);
@@ -101,8 +91,6 @@ function _onTabClick(e) {
   });
 }
 
-// ── Builders DOM privés ───────────────────────────────────────
-
 function _buildHero() {
   const div = document.createElement('div');
   div.className = 'page-hero';
@@ -116,8 +104,6 @@ function _buildHero() {
 function _buildProjectsLayout() {
   const wrap = document.createElement('div');
   wrap.className = 'projects-page';
-
-  // Tabs
   const tabs = document.createElement('div');
   tabs.className = 'proj-tabs';
   tabs.setAttribute('role', 'tablist');
@@ -132,7 +118,6 @@ function _buildProjectsLayout() {
       <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
     </svg>`));
 
-  // Panels
   const panelPhotos = _buildPanel('photos', 'photo-grid', true);
   const panelVideos = _buildPanel('videos', 'video-grid', false);
 
@@ -173,7 +158,6 @@ function _buildPanel(key, gridId, active) {
 }
 
 function _buildFoldersGrid(images) {
-  // Regroupe les images par catégorie
   const grouped = {};
   images.forEach(img => {
     const cat   = img.category    || 'Sans catégorie';

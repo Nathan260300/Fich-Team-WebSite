@@ -1,7 +1,3 @@
-// ─── pages/join.js ─────────────────────────────────────────
-// Rendu de la page Rejoindre (contenu statique).
-// ────────────────────────────────────────────────────────────
-
 import { DISCORD_ICON } from '../icons.js';
 
 export const title = 'Rejoindre — FICH Team';
@@ -15,8 +11,6 @@ export function render() {
   section.appendChild(_buildJoinContent());
   return section;
 }
-
-// ── Builders DOM ──────────────────────────────────────────────
 
 function _buildHero() {
   const div = document.createElement('div');

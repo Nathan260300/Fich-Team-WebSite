@@ -1,16 +1,9 @@
-// ─── pages/home.js ─────────────────────────────────────────
-// Rendu et chargement de la page Accueil.
-// Séparé : render() construit le DOM, loadHome/loadMembers
-// fetchent les données et injectent les composants.
-// ────────────────────────────────────────────────────────────
-
 import { getState, setState, setLoaded, isLoaded } from '../state.js';
 import { waitUntil, clearElement } from '../utils.js';
 import { HomeCard, MemberCard, LoadingSpinner, ErrorMessage } from '../components.js';
 
 export const title = 'Accueil — FICH Team';
 
-/** Construit le DOM de la page (sans données). */
 export function render() {
   const section = document.createElement('section');
   section.className = 'page';
@@ -22,13 +15,10 @@ export function render() {
   return section;
 }
 
-/** Appelé après le montage de la page. */
 export function onMount() {
   loadHome();
   loadMembers();
 }
-
-// ── Waits (utilisés par le router pour la restauration modale) ─
 
 export function waitForHome() {
   return waitUntil(() => isLoaded('home'));
@@ -37,8 +27,6 @@ export function waitForHome() {
 export function waitForMembers() {
   return waitUntil(() => isLoaded('members'));
 }
-
-// ── Loaders ──────────────────────────────────────────────────
 
 async function loadHome() {
   const grid = document.getElementById('home-cards-grid');
@@ -79,8 +67,6 @@ async function loadMembers() {
   }
 }
 
-// ── Builders DOM privés ───────────────────────────────────────
-
 function _buildHero() {
   const div = document.createElement('div');
   div.className = 'hero-section';
@@ -112,7 +98,6 @@ function _buildCardsSection() {
   grid.className = 'cards-grid';
   grid.id = 'home-cards-grid';
   grid.appendChild(LoadingSpinner());
-  // Le span de style grid-column est géré par CSS, pas en inline ici
   grid.firstChild.style.gridColumn = '1 / -1';
 
   section.appendChild(label);
