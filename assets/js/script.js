@@ -385,7 +385,21 @@ document.addEventListener('click', e => {
     return;
   }
   const memberCard = e.target.closest('.member-card[data-member-idx]');
-  if (memberCard) { openMemberModal(parseInt(memberCard.dataset.memberIdx), true); }
+  if (memberCard) { openMemberModal(parseInt(memberCard.dataset.memberIdx), true); return; }
+
+  const navMember = e.target.closest('[data-nav-member]');
+  if (navMember && !navMember.disabled) {
+    openMemberModal(parseInt(navMember.dataset.navMember), 'replace');
+    return;
+  }
+
+  const navImg = e.target.closest('[data-nav-img]');
+  if (navImg && !navImg.disabled) {
+    const fi  = navImg.dataset.folderId;
+    const folder = _getFolderById(fi);
+    if (folder) openFolderImageModal(fi, folder.name, folder.srcs, parseInt(navImg.dataset.navImg), 'replace');
+    return;
+  }
 });
 
 document.addEventListener('keydown', e => {
@@ -673,6 +687,9 @@ function openMemberModal(idx, push = true) {
   const data = JSON.parse(grid.dataset.members || '[]');
   const m = data[idx];
   if (!m) return;
+  const hasPrev = idx > 0;
+  const hasNext = idx < data.length - 1;
+  const pushFlag = push === 'replace' ? ['__replace__', 'profile', idx] : push ? ['profile', idx] : [];
   _openModal(`
     <div class="member-modal-banner">
       <img src="${m.banner}" alt="Bannière ${m.pseudo}">
@@ -683,7 +700,12 @@ function openMemberModal(idx, push = true) {
       </div>
       <h2 class="member-modal-name">${m.pseudo}</h2>
       ${m.description ? `<p class="member-modal-desc">${m.description.replace(/\n/g, '<br>')}</p>` : ''}
-    </div>`, ...push ? ['profile', idx] : []);
+      <div class="modal-nav">
+        <button class="modal-nav-btn" ${!hasPrev ? 'disabled' : ''} data-nav-member="${idx - 1}">←</button>
+        <span class="modal-nav-counter">${idx + 1} / ${data.length}</span>
+        <button class="modal-nav-btn" ${!hasNext ? 'disabled' : ''} data-nav-member="${idx + 1}">→</button>
+      </div>
+    </div>`, ...pushFlag);
 }
 
 function buildFolderModalHtml(name, srcs, folderId) {
@@ -714,13 +736,25 @@ function openFolderModal(folderId, name, srcs, push = true) {
 function openFolderImageModal(folderId, name, srcs, imgIdx, push = true) {
   const src = srcs[imgIdx];
   if (!src) return;
+  const hasPrev = imgIdx > 0;
+  const hasNext = imgIdx < srcs.length - 1;
+  const pushFlag = push === 'replace' ? ['__replace__', 'id', folderId, 'img', imgIdx] : push ? ['id', folderId, 'img', imgIdx] : [];
   _openModal(`
     <div class="modal-photo-wrap">
       <img src="${src}" alt="${name}">
-    </div>`, ...push ? ['id', folderId, 'img', imgIdx] : []);
+    </div>
+    <div class="modal-img-footer">
+      <span class="modal-img-category">📁 ${name}</span>
+      <div class="modal-nav">
+        <button class="modal-nav-btn" ${!hasPrev ? 'disabled' : ''} data-nav-img="${imgIdx - 1}" data-folder-id="${folderId}">←</button>
+        <span class="modal-nav-counter">${imgIdx + 1} / ${srcs.length}</span>
+        <button class="modal-nav-btn" ${!hasNext ? 'disabled' : ''} data-nav-img="${imgIdx + 1}" data-folder-id="${folderId}">→</button>
+      </div>
+    </div>`, ...pushFlag);
   activeModal._folderId   = folderId;
   activeModal._folderName = name;
   activeModal._folderSrcs = srcs;
+  activeModal._isFolderImg = true;
 }
 
 function _openModal(html, ...paramPairs) {
@@ -735,11 +769,23 @@ function _openModal(html, ...paramPairs) {
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
   activeModal = overlay;
-  if (paramPairs.length) {
+  let useReplace = false;
+  let pairs = paramPairs;
+  if (paramPairs[0] === '__replace__') {
+    useReplace = true;
+    pairs = paramPairs.slice(1);
+    overlay.classList.add('modal-no-anim');
+  }
+  if (pairs.length) {
     const u = qp();
     for (const k of ['video','photo','profile','card','id','img']) u.delete(k);
-    for (let i = 0; i < paramPairs.length; i += 2) u.set(paramPairs[i], paramPairs[i+1]);
-    history.pushState({ p: 'projects', modal: paramPairs }, document.title, '?' + u.toString());
+    for (let i = 0; i < pairs.length; i += 2) u.set(pairs[i], pairs[i+1]);
+    if (useReplace) {
+      history.replaceState({ p: currentPageKey, modal: pairs }, document.title, '?' + u.toString());
+      activeModal._noHistoryBack = true;
+    } else {
+      history.pushState({ p: currentPageKey, modal: pairs }, document.title, '?' + u.toString());
+    }
   }
   overlay.querySelector('.modal-close').addEventListener('click', () => closeModal());
   overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
@@ -747,26 +793,41 @@ function _openModal(html, ...paramPairs) {
 
 function closeModal(instant = false) {
   if (!activeModal) return;
-  const folderId   = activeModal._folderId;
-  const folderName = activeModal._folderName;
-  const folderSrcs = activeModal._folderSrcs;
+  const folderId      = activeModal._folderId;
+  const folderName    = activeModal._folderName;
+  const folderSrcs    = activeModal._folderSrcs;
+  const noHistoryBack = activeModal._noHistoryBack;
+  const isFolderImg   = activeModal._isFolderImg;
   const el = activeModal;
   activeModal = null;
   document.body.style.overflow = '';
   el.querySelectorAll('iframe').forEach(f => { f.src = ''; });
+
+  if (instant) { el.remove(); return; }
+
+  el.classList.add('closing');
+  setTimeout(() => el.remove(), 200);
+
   const p = qp();
   const hasModal = p.has('video') || p.has('photo') || p.has('profile') || p.has('card') || p.has('id');
-  if (!instant && hasModal) {
-    if (folderId && p.has('img')) {
-      history.back();
-      setTimeout(() => openFolderModal(folderId, folderName, folderSrcs, false), 10);
+  if (!hasModal) return;
+
+  if (isFolderImg && folderId) {
+    if (noHistoryBack) {
+      const u = qp();
+      for (const k of ['img']) u.delete(k);
+      history.replaceState({ p: currentPageKey }, document.title, '?' + u.toString());
     } else {
       history.back();
     }
+    setTimeout(() => openFolderModal(folderId, folderName, folderSrcs, false), 10);
+  } else if (noHistoryBack) {
+    const u = qp();
+    for (const k of ['video','photo','profile','card','id','img']) u.delete(k);
+    history.replaceState({ p: currentPageKey }, document.title, '?' + u.toString());
+  } else {
+    history.back();
   }
-  if (instant) { el.remove(); return; }
-  el.classList.add('closing');
-  setTimeout(() => el.remove(), 200);
 }
 
 function _openVideoModal(id, push = true) {
