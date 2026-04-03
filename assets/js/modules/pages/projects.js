@@ -104,6 +104,7 @@ function _buildHero() {
 function _buildProjectsLayout() {
   const wrap = document.createElement('div');
   wrap.className = 'projects-page';
+
   const tabs = document.createElement('div');
   tabs.className = 'proj-tabs';
   tabs.setAttribute('role', 'tablist');
@@ -145,15 +146,21 @@ function _buildPanel(key, gridId, active) {
   panel.className = `proj-panel${active ? ' active' : ''}`;
   panel.setAttribute('role', 'tabpanel');
 
-  const grid = document.createElement('div');
-  grid.className = key === 'photos' ? 'photo-grid' : 'video-grid';
-  grid.id = gridId;
+  if (key === 'videos') {
+    const grid = document.createElement('div');
+    grid.className = 'video-grid';
+    grid.id = gridId;
+    const spinner = LoadingSpinner();
+    spinner.style.gridColumn = '1 / -1';
+    grid.appendChild(spinner);
+    panel.appendChild(grid);
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.id = gridId;
+    placeholder.appendChild(LoadingSpinner());
+    panel.appendChild(placeholder);
+  }
 
-  const spinner = LoadingSpinner();
-  spinner.style.gridColumn = '1 / -1';
-  grid.appendChild(spinner);
-
-  panel.appendChild(grid);
   return panel;
 }
 

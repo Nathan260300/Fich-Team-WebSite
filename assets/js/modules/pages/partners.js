@@ -41,7 +41,8 @@ async function loadChannels() {
     console.error('[partners] Erreur chargement chaînes :', err);
     clearElement(grid);
     grid.appendChild(ErrorMessage('Impossible de charger les partenaires.', () => {
-      setLoaded('channels', false);
+      setLoaded('channels', false); 
+
       clearElement(grid);
       grid.appendChild(LoadingSpinner());
       loadChannels();

@@ -1,8 +1,5 @@
 import { DISCORD_ICON, YT_ICON } from './icons.js';
 
-/**
- * @returns {HTMLElement}
- */
 export function LoadingSpinner() {
   const wrap = document.createElement('div');
   wrap.className = 'channels-loading';
@@ -14,11 +11,6 @@ export function LoadingSpinner() {
   return wrap;
 }
 
-/**
- * @param {string}   message
- * @param {Function} onRetry
- * @returns {HTMLElement}
- */
 export function ErrorMessage(message, onRetry) {
   const wrap = document.createElement('div');
   wrap.className = 'channels-error';
@@ -44,11 +36,6 @@ export function ErrorMessage(message, onRetry) {
   return wrap;
 }
 
-/**
- * @param {{ id, title, short, full, emoji, wide, logo, special }} card
- * @param {number} index
- * @returns {HTMLElement}
- */
 export function HomeCard(card, index) {
   const article = document.createElement('article');
   article.className = `card${card.wide ? ' card--wide' : ''} fade-in`;
@@ -140,11 +127,6 @@ function _buildHomeCardInner(card) {
   return inner;
 }
 
-/**
- * @param {{ pseudo, avatar }} member
- * @param {number} index
- * @returns {HTMLElement}
- */
 export function MemberCard(member, index) {
   const div = document.createElement('div');
   div.className = 'member-card fade-in';
@@ -172,11 +154,6 @@ export function MemberCard(member, index) {
   return div;
 }
 
-/**
- * @param {{ name, avatar, description, url }} channel
- * @param {number} index
- * @returns {HTMLElement}
- */
 export function ChannelCard(channel, index) {
   const article = document.createElement('article');
   article.className = 'channel-card fade-in';
@@ -214,7 +191,7 @@ export function ChannelCard(channel, index) {
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
   link.className = 'channel-btn';
-  link.innerHTML = YT_ICON;
+  link.innerHTML = YT_ICON; 
   link.appendChild(document.createTextNode(' Voir la chaîne'));
 
   info.appendChild(h2);
@@ -227,10 +204,6 @@ export function ChannelCard(channel, index) {
   return article;
 }
 
-/**
- * @param {{ id, name, imgs: Array<{src}> }} folder
- * @returns {HTMLElement}
- */
 export function FolderCard(folder) {
   const cover  = folder.imgs[folder.imgs.length - 1].src;
   const srcs   = folder.imgs.map(i => i.src);
@@ -277,13 +250,6 @@ export function FolderCard(folder) {
   return div;
 }
 
-/**
- * @param {string} src
- * @param {number} index
- * @param {string} [folderId]
- * @param {string[]} [folderSrcs]
- * @returns {HTMLElement}
- */
 export function PhotoItem(src, index, folderId, folderSrcs) {
   const div = document.createElement('div');
   div.className = 'photo-item fade-in';
@@ -304,11 +270,6 @@ export function PhotoItem(src, index, folderId, folderSrcs) {
   return div;
 }
 
-/**
- * @param {{ id, title, creator, thumbnail }} vid
- * @param {number} index
- * @returns {HTMLElement}
- */
 export function VideoCard(vid, index) {
   const thumb = vid.thumbnail || `https://img.youtube.com/vi/${vid.id}/hqdefault.jpg`;
 

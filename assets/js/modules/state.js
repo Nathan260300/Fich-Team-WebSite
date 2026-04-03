@@ -1,7 +1,7 @@
 const _state = {
-  currentPage:    null,
-  activeModal:    null,
-  rawBadParam:    '',
+  currentPage:    null,   
+  activeModal:    null,   
+  rawBadParam:    '',     
 
   loaded: {
     home:     false,
@@ -10,8 +10,8 @@ const _state = {
     members:  false,
   },
 
-  homeCards:    [],
-  photoFolders: {},
+  homeCards:    [],   
+  photoFolders: {},   
 };
 
 export function getState(key) {

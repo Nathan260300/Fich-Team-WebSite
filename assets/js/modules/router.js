@@ -1,12 +1,8 @@
 import { getState, setState, resetPageLoaded } from './state.js';
 import { parseUrl, replaceHistory, pushHistory } from './navigation.js';
 import { home, partners, projects, join, page404 } from './pages/index.js';
-import {
-  openVideoModal, openPhotoModal,
-  openFolderModal, openFolderImageModal,
-  openMemberModal, openCardModal,
-  getFolderById,
-} from './modal.js';
+import { closeModal } from './modal/index.js';
+import { restoreModalsFromParams } from './modal/restore.js';
 
 const DEFAULT_PAGE = 'home';
 
@@ -27,8 +23,7 @@ export function resolvePageKey(rawPage) {
 }
 
 export function showPage(pageKey, pushState = false) {
-  const currentPage = getState('currentPage');
-  if (pageKey === currentPage) return;
+  if (pageKey === getState('currentPage')) return;
 
   const route = ROUTES[pageKey] || ROUTES[DEFAULT_PAGE];
 
@@ -37,20 +32,13 @@ export function showPage(pageKey, pushState = false) {
   document.title = route.title;
   _syncNavLinks(pageKey);
   _closeNavMenu();
-
-  if (_transitionTimer) {
-    clearTimeout(_transitionTimer);
-    _transitionTimer = null;
-    document.querySelectorAll('.page-flash').forEach(f => f.remove());
-  }
+  _cancelTransition();
 
   setState('currentPage', pageKey);
   resetPageLoaded();
 
   const current = app.firstElementChild;
-  const flash = document.createElement('div');
-  flash.className = 'page-flash';
-  document.body.appendChild(flash);
+  const flash   = _createFlash();
 
   if (current) current.classList.add('page-exit');
 
@@ -64,9 +52,47 @@ export function showPage(pageKey, pushState = false) {
   }, 200);
 }
 
+export function initRouter() {
+  const params  = parseUrl();
+  const pageKey = resolvePageKey(params.page);
+
+  _initHistory(pageKey, params);
+
+  setState('currentPage', null);
+  showPage(pageKey, false);
+  restoreModalsFromParams(pageKey, params, _buildWaiters());
+}
+
+function _initHistory(pageKey, params) {
+  if (!params.page) {
+    replaceHistory(DEFAULT_PAGE, ROUTES[DEFAULT_PAGE].title);
+  } else if (pageKey === '404') {
+    setState('rawBadParam', params.page);
+    replaceHistory('404', ROUTES['404'].title, { p: params.page });
+  } else {
+    replaceHistory(pageKey, ROUTES[pageKey].title, _modalExtra(params));
+  }
+}
+
+function _modalExtra({ video, photo, profile, card, id, img }) {
+  if (video)          return { video };
+  if (photo !== null) return { photo };
+  if (profile)        return { profile };
+  if (card)           return { card };
+  if (id)             return img !== null ? { id, img } : { id };
+  return {};
+}
+
+function _buildWaiters() {
+  return {
+    waitForProjects: projects.waitForProjects,
+    waitForMembers:  home.waitForMembers,
+    waitForHome:     home.waitForHome,
+  };
+}
+
 function _mountPage(route) {
-  const node = route.render();
-  app.replaceChildren(node);
+  app.replaceChildren(route.render());
   app.firstElementChild?.classList.add('page-enter');
   route.onMount?.();
   window.scrollTo({ top: 0 });
@@ -83,48 +109,16 @@ function _closeNavMenu() {
   if (toggle) toggle.checked = false;
 }
 
-export function initRouter() {
-  const params  = parseUrl();
-  const pageKey = resolvePageKey(params.page);
-
-  if (!params.page) {
-    replaceHistory(DEFAULT_PAGE, ROUTES[DEFAULT_PAGE].title);
-  } else if (pageKey === '404') {
-    setState('rawBadParam', params.page);
-    replaceHistory('404', ROUTES['404'].title, { p: params.page });
-  } else {
-    replaceHistory(pageKey, ROUTES[pageKey].title, _buildModalExtra(params));
-  }
-
-  setState('currentPage', null);
-  showPage(pageKey, false);
-  _restoreModals(pageKey, params);
+function _cancelTransition() {
+  if (!_transitionTimer) return;
+  clearTimeout(_transitionTimer);
+  _transitionTimer = null;
+  document.querySelectorAll('.page-flash').forEach(f => f.remove());
 }
 
-function _buildModalExtra({ video, photo, profile, card, id, img }) {
-  if (video)            return { video };
-  if (photo !== null)   return { photo };
-  if (profile !== null) return { profile };
-  if (card)             return { card };
-  if (id)               return img !== null ? { id, img } : { id };
-  return {};
-}
-
-function _restoreModals(pageKey, { video, photo, profile, card, id, img }) {
-  if (pageKey === 'projects') {
-    const wait = projects.waitForProjects;
-    if (video)          wait().then(() => openVideoModal(video, false));
-    else if (photo)     wait().then(() => openPhotoModal(parseInt(photo), false));
-    else if (id)        wait().then(() => {
-      const folder = getFolderById(id);
-      if (!folder) return;
-      if (img !== null) openFolderImageModal(id, folder.name, folder.srcs, parseInt(img), false);
-      else              openFolderModal(id, folder.name, folder.srcs, false);
-    });
-  }
-
-  if (pageKey === 'home') {
-    if (profile !== null) home.waitForMembers().then(() => openMemberModal(parseInt(profile), false));
-    if (card)             home.waitForHome().then(()    => openCardModal(card, false));
-  }
+function _createFlash() {
+  const flash = document.createElement('div');
+  flash.className = 'page-flash';
+  document.body.appendChild(flash);
+  return flash;
 }

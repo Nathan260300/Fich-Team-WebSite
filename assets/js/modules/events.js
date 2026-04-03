@@ -1,17 +1,11 @@
 import { showPage, resolvePageKey } from './router.js';
-import {
-  closeModal,
-  openVideoModal,
-  openPhotoModal,
-  openMemberModal,
-  openFolderModal,
-  openFolderImageModal,
-  openCardModal,
-  getFolderById,
-} from './modal.js';
-import { getState } from './state.js';
-import { parseUrl } from './navigation.js';
-import { home as homePage, projects as projectsPage } from './pages/index.js';
+import { closeModal, openVideoModal, openPhotoModal, openMemberModal,
+         openFolderModal, openFolderImageModal, openCardModal, getFolderById } from './modal/index.js';
+import { restoreModalsFromParams } from './modal/restore.js';
+import { consumeSkipRestore } from './modal/history.js';
+import { getState }    from './state.js';
+import { parseUrl }    from './navigation.js';
+import { home, projects } from './pages/index.js';
 
 document.addEventListener('click', e => {
   const link = e.target.closest('a[data-page]');
@@ -22,69 +16,25 @@ document.addEventListener('click', e => {
 });
 
 window.addEventListener('popstate', e => {
-  const state   = e.state || {};
   const params  = parseUrl();
-  const pageKey = state.p || resolvePageKey(params.page);
+  const pageKey = (e.state || {}).p || resolvePageKey(params.page);
 
   closeModal(true);
   showPage(pageKey, false);
 
-  _restoreModalsOnPop(pageKey, params);
+  if (!consumeSkipRestore()) {
+    restoreModalsFromParams(pageKey, params, _buildWaiters());
+  }
 });
 
 document.addEventListener('click', e => {
-  const homeCard = e.target.closest('.card[data-card-id]');
-  if (homeCard) {
-    const cards = getState('homeCards');
-    const card  = cards.find(c => c.id === homeCard.dataset.cardId);
-    if (card?.full) openCardModal(card.id, true);
-    return;
-  }
-
-  const vidCard = e.target.closest('.video-card[data-vid-id]');
-  if (vidCard) { openVideoModal(vidCard.dataset.vidId); return; }
-
-  const folderCard = e.target.closest('.folder-card[data-folder-id]');
-  if (folderCard) {
-    const id   = folderCard.dataset.folderId;
-    const name = folderCard.dataset.folderName;
-    const srcs = JSON.parse(folderCard.dataset.folderSrcs);
-    openFolderModal(id, name, srcs, true);
-    return;
-  }
-
-  const photoItem = e.target.closest('.photo-item[data-img-src]');
-  if (photoItem) {
-    const folderId = photoItem.dataset.folderId;
-    if (folderId) {
-      const srcs = JSON.parse(photoItem.dataset.folderSrcs || '[]');
-      const idx  = parseInt(photoItem.dataset.imgIdx || '0');
-      const grid = photoItem.closest('.folder-modal');
-      const name = grid?.querySelector('.folder-modal-title')?.textContent || '';
-      openFolderImageModal(folderId, name, srcs, idx, true);
-    } else {
-      const idx = [...document.querySelectorAll('.photo-item[data-img-src]')].indexOf(photoItem);
-      openPhotoModal(idx);
-    }
-    return;
-  }
-
-  const memberCard = e.target.closest('.member-card[data-member-idx]');
-  if (memberCard) { openMemberModal(parseInt(memberCard.dataset.memberIdx), true); return; }
-
-  const navMember = e.target.closest('[data-nav-member]');
-  if (navMember && !navMember.disabled) {
-    openMemberModal(parseInt(navMember.dataset.navMember), 'replace');
-    return;
-  }
-
-  const navImg = e.target.closest('[data-nav-img]');
-  if (navImg && !navImg.disabled) {
-    const fi     = navImg.dataset.folderId;
-    const folder = getFolderById(fi);
-    if (folder) openFolderImageModal(fi, folder.name, folder.srcs, parseInt(navImg.dataset.navImg), 'replace');
-    return;
-  }
+  if (_handleHomeCard(e))   return;
+  if (_handleVideoCard(e))  return;
+  if (_handleFolderCard(e)) return;
+  if (_handlePhotoItem(e))  return;
+  if (_handleMemberCard(e)) return;
+  if (_handleNavMember(e))  return;
+  if (_handleNavImg(e))     return;
 });
 
 document.addEventListener('keydown', e => {
@@ -101,23 +51,70 @@ window.addEventListener('scroll', () => {
     ?.classList.toggle('scrolled', window.scrollY > 10);
 }, { passive: true });
 
-function _restoreModalsOnPop(pageKey, { video, photo, profile, card, id, img }) {
-  if (pageKey === 'projects') {
-    const wait = projectsPage.waitForProjects;
-    if (video)       wait().then(() => openVideoModal(video, false));
-    else if (photo)  wait().then(() => openPhotoModal(parseInt(photo), false));
-    else if (id) {
-      wait().then(() => {
-        const folder = getFolderById(id);
-        if (!folder) return;
-        if (img !== null) openFolderImageModal(id, folder.name, folder.srcs, parseInt(img), false);
-        else              openFolderModal(id, folder.name, folder.srcs, false);
-      });
-    }
-  }
+function _handleHomeCard(e) {
+  const el = e.target.closest('.card[data-card-id]');
+  if (!el) return false;
+  const card = getState('homeCards').find(c => c.id === el.dataset.cardId);
+  if (card?.full) openCardModal(card.id, true);
+  return true;
+}
 
-  if (pageKey === 'home') {
-    if (profile !== null) homePage.waitForMembers().then(() => openMemberModal(parseInt(profile), false));
-    if (card)             homePage.waitForHome().then(()    => openCardModal(card, false));
+function _handleVideoCard(e) {
+  const el = e.target.closest('.video-card[data-vid-id]');
+  if (!el) return false;
+  openVideoModal(el.dataset.vidId);
+  return true;
+}
+
+function _handleFolderCard(e) {
+  const el = e.target.closest('.folder-card[data-folder-id]');
+  if (!el) return false;
+  openFolderModal(el.dataset.folderId, el.dataset.folderName, JSON.parse(el.dataset.folderSrcs), true);
+  return true;
+}
+
+function _handlePhotoItem(e) {
+  const el = e.target.closest('.photo-item[data-img-src]');
+  if (!el) return false;
+  const folderId = el.dataset.folderId;
+  if (folderId) {
+    const srcs = JSON.parse(el.dataset.folderSrcs || '[]');
+    const idx  = parseInt(el.dataset.imgIdx || '0');
+    const name = el.closest('.folder-modal')?.querySelector('.folder-modal-title')?.textContent || '';
+    openFolderImageModal(folderId, name, srcs, idx, true);
+  } else {
+    const idx = [...document.querySelectorAll('.photo-item[data-img-src]')].indexOf(el);
+    openPhotoModal(idx);
   }
+  return true;
+}
+
+function _handleMemberCard(e) {
+  const el = e.target.closest('.member-card[data-member-idx]');
+  if (!el) return false;
+  openMemberModal(parseInt(el.dataset.memberIdx), true);
+  return true;
+}
+
+function _handleNavMember(e) {
+  const el = e.target.closest('[data-nav-member]');
+  if (!el || el.disabled) return false;
+  openMemberModal(parseInt(el.dataset.navMember), 'replace');
+  return true;
+}
+
+function _handleNavImg(e) {
+  const el = e.target.closest('[data-nav-img]');
+  if (!el || el.disabled) return false;
+  const folder = getFolderById(el.dataset.folderId);
+  if (folder) openFolderImageModal(el.dataset.folderId, folder.name, folder.srcs, parseInt(el.dataset.navImg), 'replace');
+  return true;
+}
+
+function _buildWaiters() {
+  return {
+    waitForProjects: projects.waitForProjects,
+    waitForMembers:  home.waitForMembers,
+    waitForHome:     home.waitForHome,
+  };
 }

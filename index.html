@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FICH Team</title>
-  <meta name="description" content="FICH Team : communauté de joueurs passionnés, force, intelligence, charisme et honneur.">
+  <title>FICH Team — Communauté de joueurs passionnés</title>
+  <meta name="description" content="FICH Team : communauté de joueurs passionnés — Force, Intelligence, Charisme, Honneur. Build, redstone, RP et minijeux.">
   <meta name="keywords" content="FICH Team, gaming, build, redstone, minijeux, RP, communauté">
   <meta name="author" content="FICH Team">
-  <meta property="og:title" content="FICH Team">
+  <meta property="og:title" content="FICH Team — Communauté de joueurs passionnés">
   <meta property="og:description" content="Rejoins la FICH Team, une communauté de joueurs passionnés et matures.">
-  <meta property="og:image" content="assets/img/logo.png">
+  <meta property="og:image" content="https://fich-team.netlify.app/assets/img/logo.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fich-team.netlify.app">
+  <meta property="og:locale" content="fr_FR">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="FICH Team">
   <meta name="twitter:description" content="Rejoins la FICH Team, communauté de joueurs passionnés.">
-  <meta name="twitter:image" content="assets/img/logo.png">
+  <meta name="twitter:image" content="https://fich-team.netlify.app/assets/img/logo.png">
   <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -23,11 +24,12 @@
   <link rel="manifest" href="assets/favicon/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
   <meta name="google-site-verification" content="AOHa2EYIvyxy1nXJg2k06YyBg-qSUtZEUeEhL6w2Ofo" />
 </head>
 <body>
+  <a href="#app" class="skip-link">Aller au contenu principal</a>
   <div class="bg-layer" aria-hidden="true">
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
@@ -37,18 +39,18 @@
   </div>
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <a class="brand" href="?p=home" data-page="home" aria-label="Retour accueil FICH Team">
+      <a class="brand" href="?p=home" data-page="home" aria-label="FICH Team — Retour à l'accueil">
         <div class="logo-wrap">
-          <img src="assets/img/logo.png" alt="Logo FICH Team" class="logo" width="42" height="42">
+          <img src="assets/img/logo.png" alt="" class="logo" width="42" height="42" fetchpriority="high">
           <div class="logo-glow" aria-hidden="true"></div>
         </div>
         <div class="brand-text">
-          <span class="brand-name">FICH Team</span>
-          <span class="brand-tagline">Force · Intelligence · Charisme · Honneur</span>
+          <span class="brand-name" aria-hidden="true">FICH Team</span>
+          <span class="brand-tagline" aria-hidden="true">Force · Intelligence · Charisme · Honneur</span>
         </div>
       </a>
       <input id="nav-toggle" class="nav-toggle" type="checkbox" aria-hidden="true">
-      <label for="nav-toggle" class="burger" aria-label="Ouvrir le menu" aria-controls="main-nav">
+      <label for="nav-toggle" class="burger" aria-label="Ouvrir le menu de navigation" aria-controls="main-nav" aria-expanded="false">
         <span></span><span></span><span></span>
       </label>
       <nav id="main-nav" class="nav-menu" role="navigation" aria-label="Menu principal">
@@ -59,11 +61,11 @@
       </nav>
     </div>
   </header>
-  <main id="app" class="app-main" role="main"></main>
+  <main id="app" class="app-main" role="main" tabindex="-1"></main>
   <footer class="site-footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-brand">
-        <img src="assets/img/logo.png" alt="FICH Team" width="26" height="26">
+        <img src="assets/img/logo.png" alt="FICH Team" width="26" height="26" loading="lazy">
         <span>FICH Team</span>
       </div>
       <p class="footer-copy">&copy;<span id="year"></span> <strong>FICH Team.</strong> Tous droits réservés.</p>

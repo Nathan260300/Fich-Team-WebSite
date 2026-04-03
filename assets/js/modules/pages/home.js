@@ -98,6 +98,7 @@ function _buildCardsSection() {
   grid.className = 'cards-grid';
   grid.id = 'home-cards-grid';
   grid.appendChild(LoadingSpinner());
+
   grid.firstChild.style.gridColumn = '1 / -1';
 
   section.appendChild(label);
