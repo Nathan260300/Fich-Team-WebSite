@@ -1,0 +1,116 @@
+.tabs {
+  display: flex; gap: 4px; background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-sm); padding: 4px; width: fit-content; margin-bottom: 28px;
+}
+.tab {
+  font-family: var(--f-display); font-weight: 600; font-size: .82rem;
+  color: var(--c-muted); padding: 7px 18px; border-radius: var(--r-xs);
+  border: none; background: transparent; cursor: pointer;
+  transition: color .18s, background .18s; min-height: 38px;
+}
+.tab:hover { color: var(--c-text); }
+.tabActive { background: var(--c-accent); color: #070d1a; font-weight: 700; }
+
+.foldersGrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 16px; padding-bottom: 44px; }
+.folderCard {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-md); overflow: hidden; cursor: pointer;
+  transition: border-color .28s, box-shadow .28s;
+}
+.folderCard:hover { border-color: var(--c-border-hi); box-shadow: 0 12px 38px rgba(0,0,0,.45); }
+.folderCover { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--c-surface-2); }
+.folderCover img { width: 100%; height: 100%; object-fit: cover; transition: transform .36s var(--ease); }
+.folderCard:hover .folderCover img { transform: scale(1.06); }
+.folderOverlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,rgba(7,13,26,.65) 0%,transparent 60%);
+  display: flex; align-items: flex-end; padding: 10px 12px;
+}
+.folderCount { font-family: var(--f-mono); font-size: .68rem; color: rgba(255,255,255,.85); letter-spacing: .06em; }
+.folderInfo { display: flex; align-items: center; gap: 8px; padding: 10px 14px; }
+.folderIcon { font-size: 1rem; flex-shrink: 0; }
+.folderName { font-family: var(--f-display); font-weight: 700; font-size: .85rem; color: var(--c-text); letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.folderModal { padding: 22px; }
+.folderModalHeader { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--c-border); }
+.folderModalTitle { font-family: var(--f-display); font-weight: 800; font-size: 1.1rem; color: var(--c-text); letter-spacing: -.02em; }
+.folderCount2 { font-family: var(--f-mono); font-size: .65rem; color: var(--c-dim); letter-spacing: .08em; margin-left: auto; flex-shrink: 0; }
+.folderModalGrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(160px,1fr)); gap: 10px; }
+.photoItem {
+  position: relative; border-radius: var(--r-md); overflow: hidden;
+  aspect-ratio: 16/10; cursor: pointer; background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  transition: box-shadow .28s, border-color .28s;
+}
+.photoItem:hover { border-color: var(--c-border-hi); box-shadow: 0 10px 32px rgba(0,0,0,.5); }
+.photoItem img { width: 100%; height: 100%; object-fit: cover; transition: transform .36s var(--ease); }
+.photoItem:hover img { transform: scale(1.06); }
+
+.photoWrap {
+  border-radius: var(--r-md) var(--r-md) 0 0; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: #000; max-height: 75vh;
+}
+.photoWrap img { max-height: 75vh; width: auto; max-width: 100%; object-fit: contain; }
+.photoFooter {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; gap: 12px; flex-wrap: wrap;
+}
+.photoCategory { font-family: var(--f-mono); font-size: .72rem; color: var(--c-muted); letter-spacing: .05em; }
+
+.videoGrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 16px; padding-bottom: 44px; }
+.videoCard {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-md); overflow: hidden; cursor: pointer;
+  transition: border-color .28s, box-shadow .28s;
+}
+.videoCard:hover { border-color: var(--c-border-hi); box-shadow: 0 12px 38px rgba(0,0,0,.45); }
+.videoThumb { position: relative; aspect-ratio: 16/9; background: var(--c-surface-2); overflow: hidden; }
+.videoThumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .36s var(--ease); }
+.videoCard:hover .videoThumb img { transform: scale(1.04); }
+.videoPlay {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(7,13,26,.3); transition: background .22s;
+}
+.videoCard:hover .videoPlay { background: rgba(7,13,26,.18); }
+.playBtn {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(61,158,255,.9); display: flex; align-items: center; justify-content: center;
+  transition: transform .22s var(--ease-spring), background .2s;
+  box-shadow: 0 0 0 8px rgba(61,158,255,.14);
+}
+.videoCard:hover .playBtn { transform: scale(1.12); background: var(--c-accent); }
+.playBtn svg { margin-left: 3px; }
+.videoInfo { padding: 13px 15px; }
+.videoTitle {
+  font-family: var(--f-display); font-weight: 700; font-size: .88rem; color: var(--c-text);
+  margin-bottom: 5px; letter-spacing: -.01em;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.videoCreator { font-family: var(--f-mono); font-size: .7rem; color: var(--c-muted); letter-spacing: .04em; }
+
+.videoWrap { position: relative; aspect-ratio: 16/9; border-radius: var(--r-md); overflow: hidden; background: #000; }
+.videoWrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.videoModalInfo { padding: 16px 0 0; }
+.videoModalTitle { font-family: var(--f-display); font-weight: 700; font-size: 1rem; color: var(--c-text); margin-bottom: 4px; letter-spacing: -.01em; }
+.videoModalCreator { font-family: var(--f-mono); font-size: .72rem; color: var(--c-muted); letter-spacing: .04em; }
+
+@media (max-width: 520px) {
+  .videoGrid { grid-template-columns: 1fr; }
+  .folderModalGrid { grid-template-columns: 1fr 1fr; }
+  .foldersGrid { gap: 8px; }
+}
+
+.loadingDots {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 80px 0;
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--c-accent); display: block;
+  animation: dotBounce .75s ease-in-out infinite;
+}
+@keyframes dotBounce {
+  0%,100% { transform: translateY(0); opacity: .35; }
+  50%      { transform: translateY(-9px); opacity: 1; }
+}

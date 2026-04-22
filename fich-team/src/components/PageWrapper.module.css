@@ -1,0 +1,8 @@
+.main {
+  flex: 1; width: 100%; max-width: var(--max-w);
+  margin: 0 auto; padding: calc(var(--header-h) + 0px) 22px 48px;
+}
+
+@media (max-width: 520px) {
+  .main { padding-left: 14px; padding-right: 14px; }
+}

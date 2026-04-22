@@ -1,0 +1,25 @@
+.footer {
+  border-top: 1px solid var(--c-border);
+  background: rgba(7,13,26,.55); padding: 22px;
+  margin-top: auto;
+}
+.inner {
+  max-width: var(--max-w); margin: 0 auto;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--f-display); font-weight: 700;
+  color: var(--c-muted); font-size: .88rem;
+}
+.logoImg {
+  width: 26px; height: 26px; border-radius: 6px; object-fit: cover;
+}
+.copy { font-size: .8rem; color: var(--c-dim); }
+.credit { font-size: .8rem; color: var(--c-dim); margin-left: auto; }
+.credit a { color: var(--c-muted); }
+.credit a:hover { color: var(--c-text); }
+
+@media (max-width: 520px) {
+  .credit { margin-left: 0; }
+}

@@ -1,0 +1,62 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #070d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loaderContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.loaderLogo {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px rgba(61, 158, 255, 0.15),
+    0 0 40px rgba(61, 158, 255, 0.18),
+    0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.loaderName {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+  color: #e6eeff;
+  margin: 0;
+}
+.loaderName span {
+  color: #3d9eff;
+  margin-left: 5px;
+}
+
+.loaderBar {
+  width: 100px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.loaderBarFill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #1a6fcc, #3d9eff, #7ec8ff);
+  transform-origin: left;
+  border-radius: 99px;
+}

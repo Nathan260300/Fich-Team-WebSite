@@ -1,0 +1,82 @@
+.hero { padding: 68px 0 56px; max-width: 700px; }
+.title {
+  display: flex; flex-direction: column;
+  font-family: var(--f-display); font-weight: 800;
+  font-size: clamp(3.4rem,9.5vw,7rem);
+  line-height: .9; letter-spacing: -.045em; margin-bottom: 18px;
+}
+.titleLine { display: block; }
+.titleAccent { color: var(--c-accent); }
+.sub {
+  font-family: var(--f-mono); font-size: .76rem;
+  color: var(--c-muted); margin-bottom: 14px; text-transform: uppercase;
+}
+.desc { font-size: 1rem; color: #a4bcd8; max-width: 46ch; margin-bottom: 32px; line-height: 1.72; }
+.actions { display: flex; gap: 11px; flex-wrap: wrap; }
+
+.cardsSection { padding-bottom: 48px; }
+.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--gap); }
+
+.card {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-lg); overflow: hidden; position: relative;
+  transition: border-color .28s, box-shadow .28s;
+}
+.cardClickable { cursor: pointer; }
+.cardClickable:hover {
+  border-color: var(--c-border-hi);
+  box-shadow: 0 12px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(61,158,255,.07);
+}
+.cardWide { grid-column: 1 / -1; }
+.cardAccentBar {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg,var(--c-accent),transparent);
+  opacity: 0; transition: opacity .28s;
+}
+.card:hover .cardAccentBar { opacity: 1; }
+
+.cardInner { display: flex; flex-direction: column; align-items: flex-start; padding: 20px; }
+.cardInnerRow { display: flex; align-items: center; gap: 18px; padding: 20px; }
+.cardLogo { width: 68px; height: 68px; border-radius: var(--r-md); object-fit: cover; flex-shrink: 0; }
+.cardEmoji { font-size: 1.9rem; margin-bottom: 6px; display: block; }
+.cardTitle {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: .95rem; color: var(--c-text); margin-bottom: 7px; letter-spacing: -.01em;
+}
+.cardText { font-size: .875rem; color: var(--c-muted); line-height: 1.62; }
+.cardHint { padding: 0 20px 14px; margin-top: -6px; }
+.readMore { font-family: var(--f-mono); font-size: .7rem; color: var(--c-accent); letter-spacing: .04em; }
+.cardClickable:hover .readMore { color: #fff; }
+
+.fichLetters { display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 2px 0; }
+.fichLetters span {
+  font-family: var(--f-display); font-size: .88rem; color: var(--c-muted);
+  padding: 6px 10px; border-radius: var(--r-xs); border-left: 2px solid transparent;
+  transition: border-color .2s, background .2s, color .2s; display: block;
+}
+.fichLetters span strong { color: var(--c-accent); font-size: .95rem; margin-right: 6px; }
+.fichLetters span:hover { background: rgba(61,158,255,.07); border-left-color: var(--c-accent); color: var(--c-text); }
+
+.modalBody { padding: 28px; }
+.modalHeader {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--c-border);
+}
+.modalEmoji { font-size: 2rem; flex-shrink: 0; }
+.modalTitle { font-family: var(--f-display); font-weight: 800; font-size: 1.3rem; color: var(--c-text); letter-spacing: -.02em; }
+.modalContent { font-size: .9rem; color: var(--c-muted); line-height: 1.8; }
+.modalContent p { margin-bottom: 12px; }
+.modalContent p:last-child { margin-bottom: 0; }
+.modalContent strong { color: var(--c-text); font-weight: 600; }
+.modalContent em { font-style: italic; }
+
+@media (max-width: 960px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) {
+  .hero { padding: 36px 0 32px; }
+  .actions { flex-direction: column; align-items: flex-start; }
+  .grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .hero { padding: 36px 0 28px; }
+  .cardInnerRow { flex-direction: column; align-items: flex-start; }
+}

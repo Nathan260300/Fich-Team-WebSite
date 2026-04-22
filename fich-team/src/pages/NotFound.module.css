@@ -1,0 +1,152 @@
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+}
+
+.glitchWrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: -10px;
+  user-select: none;
+}
+
+.num {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: clamp(9rem, 26vw, 17rem);
+  line-height: 1;
+  letter-spacing: -.06em;
+  background: linear-gradient(160deg, #18386a 0%, #0b1d3a 50%, #060f1e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+  animation: numFloat 7s ease-in-out infinite;
+}
+
+@keyframes numFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.glitch1 {
+  position: absolute; top: 0; left: 0; right: 0;
+  -webkit-text-stroke: 1.5px rgba(255,77,109,.5);
+  background: none; -webkit-background-clip: unset;
+  background-clip: unset; -webkit-text-fill-color: transparent;
+  z-index: 2;
+  animation: glitch1 4.5s infinite;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  opacity: 0;
+}
+
+.glitch2 {
+  position: absolute; top: 0; left: 0; right: 0;
+  -webkit-text-stroke: 1.5px rgba(61,158,255,.6);
+  background: none; -webkit-background-clip: unset;
+  background-clip: unset; -webkit-text-fill-color: transparent;
+  z-index: 2;
+  animation: glitch2 4.5s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%);
+  opacity: 0;
+}
+
+@keyframes glitch1 {
+  0%,88%,100% { opacity:0; transform:translate(0); }
+  90% { opacity:1; transform:translate(-5px,2px); }
+  92% { opacity:1; transform:translate(5px,-2px); }
+  95% { opacity:1; transform:translate(-2px,0); }
+  97% { opacity:0; }
+}
+
+@keyframes glitch2 {
+  0%,82%,100% { opacity:0; transform:translate(0); }
+  84% { opacity:1; transform:translate(6px,-3px); }
+  87% { opacity:1; transform:translate(-4px,2px); }
+  90% { opacity:0; }
+}
+
+.scanlines {
+  position: absolute;
+  top: 0; left: -50%; right: -50%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px
+  );
+  pointer-events: none; z-index: 3;
+  animation: scanMove 12s linear infinite;
+  opacity: .28;
+}
+
+@keyframes scanMove {
+  from { background-position: 0 0; }
+  to   { background-position: 0 200px; }
+}
+
+.inner {
+  position: relative; z-index: 5;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.title {
+  font-family: var(--f-display); font-weight: 800;
+  font-size: clamp(1.5rem,4vw,2.2rem);
+  color: var(--c-text); letter-spacing: -.03em;
+  margin-bottom: 18px;
+}
+
+.code {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--f-mono); font-size: .8rem;
+  color: #ff6b84; padding: 9px 16px; border-radius: var(--r-sm);
+  margin-bottom: 18px; letter-spacing: .03em; white-space: nowrap;
+  background: rgba(255,77,109,.07); border: 1px solid rgba(255,77,109,.16);
+}
+.prompt { color: var(--c-red); font-weight: 700; }
+.cursor {
+  animation: blink .9s step-end infinite;
+  color: #ff6b84; margin-left: 2px;
+}
+@keyframes blink {
+  0%,100% { opacity:1; }
+  50%     { opacity:0; }
+}
+
+.desc {
+  font-size: .92rem; color: var(--c-muted);
+  line-height: 1.7; margin-bottom: 30px;
+}
+
+.actions { display: flex; gap: 11px; justify-content: center; flex-wrap: wrap; }
+
+.grid {
+  position: absolute; bottom: -60px; left: -40%; right: -40%; height: 230px;
+  background-image:
+    linear-gradient(rgba(61,158,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,158,255,.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(400px) rotateX(60deg);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0,0,0,.5) 0%, transparent 100%);
+  pointer-events: none; z-index: 0;
+}
+
+@media (max-width: 520px) {
+  .code { font-size: .7rem; padding: 8px 12px; }
+  .actions { flex-direction: column; align-items: center; }
+}
