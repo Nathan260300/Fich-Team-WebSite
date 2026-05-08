@@ -11,6 +11,7 @@ import Membres from './pages/Membres';
 import Projets from './pages/Projets';
 import Partenaires from './pages/Partenaires';
 import Rejoindre from './pages/Rejoindre';
+import Reseaux from './pages/Reseaux';
 import NotFound from './pages/NotFound';
 import { usePageTitle } from './hooks/usePageTitle';
 import styles from './App.module.css';
@@ -89,6 +90,7 @@ function AppContent({ ready }) {
             <Route path="/membres"     element={<Membres />} />
             <Route path="/projets"     element={<Projets />} />
             <Route path="/partenaires" element={<Partenaires />} />
+            <Route path="/reseaux"     element={<Reseaux />} />
             <Route path="/rejoindre"   element={<Rejoindre />} />
             <Route path="*"            element={<NotFound />} />
           </Routes>

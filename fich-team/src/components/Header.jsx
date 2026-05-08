@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { to: '/membres',     label: 'Membres',     code: '02' },
   { to: '/projets',     label: 'Projets',     code: '03' },
   { to: '/partenaires', label: 'Partenaires', code: '04' },
+  { to: '/reseaux',     label: 'Réseaux',     code: '05' },
 ];
 
 export default function Header() {

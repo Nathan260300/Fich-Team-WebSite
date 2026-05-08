@@ -5,6 +5,7 @@ const TITLES = {
   '/membres':     'Membres — FICH Team',
   '/projets':     'Projets & Médias — FICH Team',
   '/partenaires': 'Partenaires — FICH Team',
+  '/reseaux':     'Réseaux — FICH Team',
   '/rejoindre':   'Rejoindre — FICH Team',
 };
 
