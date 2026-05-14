@@ -1,0 +1,38 @@
+[
+  {
+    "id": "taupy-surprise",
+    "name": "Taupy",
+    "subtitle": "Vidéo surprise",
+    "date": null,
+    "dateLabel": "Pas de date",
+    "icon": "🎬",
+    "uncertain": true
+  },
+  {
+    "id": "lerat-surprise",
+    "name": "Le RatSolitaire",
+    "subtitle": "Vidéo surprise",
+    "date": null,
+    "dateLabel": "Pas de date",
+    "icon": "🐀",
+    "uncertain": true
+  },
+  {
+    "id": "civ-event",
+    "name": "Événement Civilisation",
+    "subtitle": "LeRatSolitaire",
+    "date": "2025-08-01",
+    "dateLabel": "Début août 2026",
+    "icon": "🏛️",
+    "uncertain": false
+  },
+  {
+    "id": "minecraft-server",
+    "name": "Projets serveur Minecraft",
+    "subtitle": "???",
+    "date": "2025-08-15",
+    "dateLabel": "Mi-août 2026",
+    "icon": "⛏️",
+    "uncertain": true
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "Aucun prochain projet",
+  "description": "Pour le moment, la FICH Team n'a pas de prochain projet !",
+  "infos": [
+    { "icon": "✅", "label": "Vraiment ?", "value": "Oui" },
+    { "icon": "🐟", "label": "FICH ?", "value": "FICH !!!!"},
+    { "icon": "👪", "label": "FICH Family ?", "value": "Rejoins MAINTENANT"},
+    { "icon": "🐐", "label": "GOAT ?", "value": "The_CubKing"}
+  ],
+  "date": "9999/12/31",
+  "formUrl": "https://www.google.com/search?q=FICH+Team"
+}
