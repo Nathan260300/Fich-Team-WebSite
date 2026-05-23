@@ -127,7 +127,7 @@ function NextProjectSection({ onOpenForm }) {
         {p.infos.map((info, i) => (
           <motion.div
             key={i}
-            className={styles.nextInfoItem}
+            className={`${styles.nextInfoItem} ${info.highlight ? styles.nextInfoItemHighlight : ''}`}
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -142,6 +142,7 @@ function NextProjectSection({ onOpenForm }) {
           </motion.div>
         ))}
       </div>
+
 
       <motion.div
         className={styles.nextFooter}
@@ -192,6 +193,101 @@ function TimelineSection() {
         transition={{ delay: 0.1, duration: 0.35 }}
       >
         <span className={styles.badge}>FUTURS PROJETS</span>
+        <span className={styles.headerLine} />
+      </motion.div>
+
+      <div className={styles.track}>
+        <motion.div
+          className={styles.vertLine}
+          initial={{ scaleY: 0 }}
+          whileInView={{ scaleY: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        />
+
+        {items.map((item, i) => (
+          <motion.div
+            key={item.id}
+            className={styles.item}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.18 + i * 0.1, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <motion.div
+              className={`${styles.dot} ${item.uncertain ? styles.dotUncertain : styles.dotSure}`}
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 + i * 0.1, type: 'spring', stiffness: 320, damping: 18 }}
+            />
+
+            <motion.div
+              className={styles.card}
+              whileHover={{ x: 4, transition: { duration: 0.2 } }}
+            >
+              <div className={styles.cardTop}>
+                <motion.span
+                  className={styles.icon}
+                  initial={{ scale: 0, rotate: -15 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.32 + i * 0.1, duration: 0.4, type: 'spring', stiffness: 280 }}
+                >
+                  {item.icon}
+                </motion.span>
+                <div className={styles.cardText}>
+                  <p className={styles.name}>{item.name}</p>
+                  <p className={styles.sub}>{item.subtitle}</p>
+                </div>
+              </div>
+
+              <span className={`${styles.dateTag} ${item.uncertain ? styles.dateTagUncertain : styles.dateTagSure}`}>
+                {item.uncertain && <span className={styles.dateTilde}>~</span>}
+                {item.dateLabel}
+              </span>
+            </motion.div>
+          </motion.div>
+        ))}
+
+        <motion.div
+          className={styles.arrow}
+          initial={{ opacity: 0, y: -8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8, duration: 0.35 }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 2v12M4 10l4 4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span className={styles.arrowLabel}>Et plus encore…</span>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+function OtherProjectsSection() {
+  const { data: items } = useFetch('/other-projects.json');
+
+  if (!items) return null;
+
+  return (
+    <motion.div
+      className={styles.box}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <motion.div
+        className={styles.header}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.1, duration: 0.35 }}
+      >
+        <span className={styles.badge}>AUTRES PROJETS</span>
         <span className={styles.headerLine} />
       </motion.div>
 
@@ -392,6 +488,7 @@ export default function Projets() {
 
       <NextProjectSection onOpenForm={() => setFormOpen(true)} />
       <TimelineSection />
+      <OtherProjectsSection />
 
       <motion.div
         className={styles.tabs}
