@@ -1,12 +1,16 @@
 {
-  "name": "Aucun prochain projet",
-  "description": "Pour le moment, la FICH Team n'a pas de prochain projet !",
+  "name": " Evénement Civilisation",
+  "description": "L'événement Civilisation est un Minecraft RP/PvP massif qui réunit 250 joueurs répartis en 8 équipes. Les équipes apparaîssent chacune sur un gigantesque dirigeable où ils doivent construire de petis vaisseaux avec les ressources disponibles à bord et aller visiter les nombreuse îles flottantes de cet univers.",
   "infos": [
-    { "icon": "✅", "label": "Vraiment ?", "value": "Oui" },
-    { "icon": "🐟", "label": "FICH ?", "value": "FICH !!!!"},
-    { "icon": "👪", "label": "FICH Family ?", "value": "Rejoins MAINTENANT"},
-    { "icon": "🐐", "label": "GOAT ?", "value": "The_CubKing"}
+    { "icon": "⏱️", "label": "Quand ?", "value": "Septembre/Octobre, 5 à 10, Soirées de 20h30 à 00h00"},
+    { "icon": "⚒️", "label": "Objectif", "value": "Développez votre civilisation"},
+    { "icon": "🛸", "label": "Objectif", "value": "Construisez des vaisseaux"},
+    { "icon": "🧭", "label": "Objectif", "value": "Explorez les îles"},
+    { "icon": "🤝", "label": "Objectif", "value": "Formez des alliances"},
+    { "icon": "⚔️", "label": "Objectif", "value": "Formez des alliances"},
+    { "icon": "👑", "label": "Objectif", "value": "Dominez le ciel"},
+    { "icon": "👀", "label": "Wiki", "value": "Coming Soon"}
   ],
-  "date": "9999/12/31",
+  "date": "2026/09/30",
   "formUrl": "https://www.google.com/search?q=FICH+Team"
 }
