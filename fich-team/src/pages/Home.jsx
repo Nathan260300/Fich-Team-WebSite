@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import PageWrapper from '../components/PageWrapper';
 import Modal from '../components/Modal';
 import { Badge, Btn, SectionLabel } from '../components/UI';
@@ -7,13 +6,8 @@ import { useModal } from '../hooks/useModal';
 import { useFetch } from '../hooks/useFetch';
 import { staggerDelay } from '../utils/helpers';
 import { useAppReady } from '../App';
+import HeroSlideshow from '../components/HeroSlideshow';
 import styles from './Home.module.css';
-
-function fixPath(src) {
-  if (!src) return null;
-  if (src.startsWith('http')) return src;
-  return '/' + src.replace(/^assets\//, '');
-}
 
 function FichLetters() {
   const letters = [
@@ -120,71 +114,92 @@ export default function Home() {
 
   return (
     <PageWrapper>
-      <section className={styles.hero}>
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-          transition={{ duration: 0.4, ease: [0.16,1,0.3,1] }}
-        >
-          <Badge color="blue">Communauté active</Badge>
-        </motion.div>
 
-        <motion.h1
-          className={styles.title}
-          initial={{ opacity: 0, y: 32 }}
-          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          transition={{ delay: 0.55, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.span
-            className={styles.titleLine}
-            initial={{ opacity: 0, x: -20 }}
-            animate={ready ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-            transition={{ delay: 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      {}
+      <div className={styles.heroWrap}>
+
+        {}
+        <div className={styles.heroBg}>
+          <HeroSlideshow />
+          {}
+          <div className={styles.heroBgOverlay} />
+        </div>
+
+        {}
+        <section className={styles.hero}>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.4, ease: [0.16,1,0.3,1] }}
           >
-            FICH
-          </motion.span>
-          <motion.span
-            className={`${styles.titleLine} ${styles.titleAccent}`}
-            initial={{ opacity: 0, x: 20 }}
-            animate={ready ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-            transition={{ delay: 0.15, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            <Badge color="blue">Communauté active</Badge>
+          </motion.div>
+
+          <motion.h1
+            className={styles.title}
+            initial={{ opacity: 0, y: 32 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
+            transition={{ delay: 0.55, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           >
-            TEAM
-          </motion.span>
-        </motion.h1>
+            <motion.span
+              className={styles.titleLine}
+              initial={{ opacity: 0, x: -20 }}
+              animate={ready ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+              transition={{ delay: 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              FICH
+            </motion.span>
+            <motion.span
+              className={`${styles.titleLine} ${styles.titleAccent}`}
+              initial={{ opacity: 0, x: 20 }}
+              animate={ready ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+              transition={{ delay: 0.15, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              TEAM
+            </motion.span>
+          </motion.h1>
 
-        <motion.p
-          className={styles.sub}
-          initial={{ opacity: 0, letterSpacing: '0.3em' }}
-          animate={ready ? { opacity: 1, letterSpacing: '0.12em' } : { opacity: 0, letterSpacing: '0.3em' }}
-          transition={{ delay: 0.22, duration: 0.45 }}
-        >
-          Force · Intelligence · Charisme · Honneur
-        </motion.p>
+          <motion.p
+            className={styles.sub}
+            initial={{ opacity: 0, letterSpacing: '0.3em' }}
+            animate={ready ? { opacity: 1, letterSpacing: '0.12em' } : { opacity: 0, letterSpacing: '0.3em' }}
+            transition={{ delay: 0.22, duration: 0.45 }}
+          >
+            Force · Intelligence · Charisme · Honneur
+          </motion.p>
 
-        <motion.p
-          className={styles.desc}
-          initial={{ opacity: 0, y: 8 }}
-          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-          transition={{ delay: 0.3, duration: 0.45 }}
-        >
-          Communauté de joueurs passionnés, matures et créatifs.<br />Build, redstone, RP et minijeux.
-        </motion.p>
+          <motion.p
+            className={styles.desc}
+            initial={{ opacity: 0, y: 8 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            transition={{ delay: 0.3, duration: 0.45 }}
+          >
+            Communauté de joueurs passionnés, matures et créatifs.<br />Build, redstone, RP et minijeux.
+          </motion.p>
 
-        <motion.div
-          className={styles.actions}
-          initial={{ opacity: 0, y: 12 }}
-          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ delay: 0.4, duration: 0.45 }}
-        >
-          <Btn href="/rejoindre"   variant="primary" size="lg">Nous rejoindre →</Btn>
-          <Btn href="/reseaux"     variant="ghost"   size="lg">Nos réseaux</Btn>
-          <Btn href="/membres"     variant="ghost"   size="lg">Les membres</Btn>
-          <Btn href="/partenaires" variant="ghost"   size="lg">Nos partenaires</Btn>
-          <Btn href="/projets"     variant="ghost"   size="lg">Nos projets</Btn>
-        </motion.div>
-      </section>
+          <motion.div
+            className={styles.actions}
+            initial={{ opacity: 0, y: 12 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ delay: 0.4, duration: 0.45 }}
+          >
+            <Btn href="/rejoindre"   variant="primary" size="lg">Nous rejoindre →</Btn>
+            <Btn href="/reseaux"     variant="ghost"   size="lg">Nos réseaux</Btn>
+            <Btn href="/membres"     variant="ghost"   size="lg">Les membres</Btn>
+            <Btn href="/partenaires" variant="ghost"   size="lg">Nos partenaires</Btn>
+            <Btn href="/projets"     variant="ghost"   size="lg">Nos projets</Btn>
+          </motion.div>
+        </section>
 
+        {}
+        <div className={styles.heroDivider}>
+          <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,120 1440,0 1440,120" fill="var(--c-bg)" />
+          </svg>
+        </div>
+      </div>
+
+      {}
       <motion.section
         className={styles.cardsSection}
         initial={{ opacity: 0 }}

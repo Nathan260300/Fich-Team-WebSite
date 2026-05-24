@@ -1,0 +1,27 @@
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: 65% center;
+  will-change: transform, opacity;
+}
+
+.slideIn {
+  animation: slideEnter .9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 1;
+}
+
+.slideOut {
+  animation: slideLeave .9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 2;
+}
+
+@keyframes slideEnter {
+  from { transform: translateX(6%); opacity: 0; }
+  to   { transform: translateX(0);  opacity: 1; }
+}
+
+@keyframes slideLeave {
+  from { transform: translateX(0);   opacity: 1; }
+  to   { transform: translateX(-6%); opacity: 0; }
+}

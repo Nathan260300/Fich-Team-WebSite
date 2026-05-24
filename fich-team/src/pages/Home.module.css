@@ -1,4 +1,53 @@
-.hero { padding: 68px 0 56px; max-width: 700px; }
+.heroWrap {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  overflow: hidden;
+  background: transparent;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%);
+}
+
+.heroBgOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%);
+  background:
+    linear-gradient(90deg,
+      rgba(10,14,26,.98) 0%,
+      rgba(10,14,26,.92) 30%,
+      rgba(10,14,26,.60) 55%,
+      rgba(10,14,26,.15) 75%,
+      rgba(10,14,26,.00) 100%
+    ),
+    linear-gradient(180deg,
+      rgba(10,14,26,.30) 0%,
+      transparent 35%,
+      rgba(10,14,26,.50) 100%
+    );
+}
+
+.hero {
+  position: relative;
+  z-index: 4;
+  max-width: calc(var(--max-w) + 44px);
+  margin: 0 auto;
+  padding: 90px 22px 120px;
+  width: 100%;
+}
+
+.heroDivider { display: none; }
+
 .title {
   display: flex; flex-direction: column;
   font-family: var(--f-display); font-weight: 800;
@@ -9,12 +58,12 @@
 .titleAccent { color: var(--c-accent); }
 .sub {
   font-family: var(--f-mono); font-size: .76rem;
-  color: var(--c-muted); margin-bottom: 14px; text-transform: uppercase;
+  color: rgba(255,255,255,.55); margin-bottom: 14px; text-transform: uppercase;
 }
-.desc { font-size: 1rem; color: #a4bcd8; max-width: 46ch; margin-bottom: 32px; line-height: 1.72; }
+.desc { font-size: 1rem; color: rgba(255,255,255,.75); max-width: 46ch; margin-bottom: 32px; line-height: 1.72; }
 .actions { display: flex; gap: 11px; flex-wrap: wrap; }
 
-.cardsSection { padding-bottom: 48px; }
+.cardsSection { padding-bottom: 48px; padding-top: 12px; }
 .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--gap); }
 
 .card {
@@ -72,11 +121,13 @@
 
 @media (max-width: 960px) { .grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 760px) {
-  .hero { padding: 36px 0 32px; }
+  .hero { padding: 60px var(--page-px, 20px) 100px; }
+  .heroBgOverlay {
+    background: linear-gradient(180deg, rgba(10,14,26,.85) 0%, rgba(10,14,26,.65) 60%, rgba(10,14,26,.75) 100%);
+  }
   .actions { flex-direction: column; align-items: flex-start; }
   .grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
-  .hero { padding: 36px 0 28px; }
   .cardInnerRow { flex-direction: column; align-items: flex-start; }
 }
