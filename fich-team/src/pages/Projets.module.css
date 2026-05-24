@@ -44,14 +44,16 @@
   line-height: 1.7; max-width: 680px; margin-bottom: 30px;
 }
 .nextInfos {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px; margin-bottom: 34px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-bottom: 34px;
 }
 .nextInfoItem {
-  display: flex; align-items: flex-start; gap: 12px;
+  display: flex; align-items: flex-start; gap: 10px;
   background: var(--c-surface-2); border: 1px solid var(--c-border);
-  border-radius: var(--r-md); padding: 14px 16px;
+  border-radius: var(--r-md); padding: 12px 14px;
+  min-width: 0; overflow: hidden;
 }
+.nextInfoItem > div { min-width: 0; }
 .nextInfoIcon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
 .nextInfoLabel {
   font-family: var(--f-mono); font-size: .65rem; color: var(--c-dim);
@@ -60,6 +62,7 @@
 .nextInfoValue {
   font-family: var(--f-display); font-size: .88rem; font-weight: 700;
   color: var(--c-text); letter-spacing: -.01em;
+  word-break: break-word; overflow-wrap: break-word;
 }
 
 /* highlight: true dans le JSON */
@@ -140,7 +143,7 @@
   .cdUnit { min-width: 48px; padding: 8px 10px; }
   .cdNum { font-size: 1.2rem; }
   .countdown { gap: 6px; }
-  .nextInfos { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .nextInfos { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .formModalWrap { padding: 18px 16px 0; }
   .formIframeWrap iframe { height: 480px; }
 }
