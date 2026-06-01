@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFetch } from '../hooks/useFetch';
+import { useSupabase } from '../hooks/useSupabase';
+import { storageUrl } from '../lib/supabase';
 import styles from './HeroSlideshow.module.css';
 
 export default function HeroSlideshow() {
-  const { data: images } = useFetch('/hero-slideshow.json');
+  const { data: rows } = useSupabase('hero_slideshow');
+  const images = rows ? rows.map(r => storageUrl(r.path)) : null;
+
   const [index, setIndex] = useState(0);
   const [prev,  setPrev]  = useState(null);
-  const [dir,   setDir]   = useState(1);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -15,7 +17,6 @@ export default function HeroSlideshow() {
       setIndex(i => {
         const next = (i + 1) % images.length;
         setPrev(i);
-        setDir(1);
         return next;
       });
     }, 8500);
@@ -32,18 +33,16 @@ export default function HeroSlideshow() {
 
   return (
     <>
-      {}
       {prev !== null && (
         <div
           className={`${styles.slide} ${styles.slideOut}`}
-          style={{ backgroundImage: `url(/${images[prev]})` }}
+          style={{ backgroundImage: `url(${images[prev]})` }}
         />
       )}
-      {}
       <div
         key={index}
         className={`${styles.slide} ${styles.slideIn}`}
-        style={{ backgroundImage: `url(/${images[index]})` }}
+        style={{ backgroundImage: `url(${images[index]})` }}
       />
     </>
   );

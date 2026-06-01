@@ -3,23 +3,16 @@ import PageWrapper from '../components/PageWrapper';
 import Modal, { ModalNav } from '../components/Modal';
 import { PageHero } from '../components/UI';
 import { useModal } from '../hooks/useModal';
-import { useFetch } from '../hooks/useFetch';
+import { useSupabase } from '../hooks/useSupabase';
+import { useAvatar } from '../hooks/useAvatar';
+import { storageUrl } from '../lib/supabase';
 import { staggerDelay } from '../utils/helpers';
 import styles from './Membres.module.css';
 
-function fixPath(src) {
-  if (!src) return null;
-  if (src.startsWith('http')) return src;
-  return '/' + src.replace(/^assets\//, '');
-}
-
-function AvatarImg({ src, pseudo, className, fallbackClass }) {
-  if (src) return <img src={src} alt={pseudo} className={className} loading="lazy" />;
-  return (
-    <div className={fallbackClass}>
-      {pseudo.charAt(0).toUpperCase()}
-    </div>
-  );
+function AvatarImg({ avatarRaw, pseudo, className, fallbackClass }) {
+  const url = useAvatar(avatarRaw);
+  if (url) return <img src={url} alt={pseudo} className={className} loading="lazy" />;
+  return <div className={fallbackClass}>{pseudo.charAt(0).toUpperCase()}</div>;
 }
 
 function LoadingGrid() {
@@ -33,7 +26,7 @@ function LoadingGrid() {
 }
 
 export default function Membres() {
-  const { data: members, status } = useFetch('/members.json');
+  const { data: members, status } = useSupabase('members');
   const { activeModal, openModal, closeModal } = useModal();
 
   const activeIndex = members ? members.findIndex((_, i) => String(i) === activeModal) : -1;
@@ -57,7 +50,7 @@ export default function Membres() {
           <div className={styles.grid}>
             {members.map((member, i) => (
               <motion.div
-                key={i}
+                key={member.id}
                 className={styles.card}
                 initial={{ opacity: 0, y: 24, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -76,7 +69,7 @@ export default function Membres() {
                   transition={{ type: 'spring', stiffness: 400, damping: 18 }}
                 >
                   <AvatarImg
-                    src={fixPath(member.avatar)}
+                    avatarRaw={member.avatar}
                     pseudo={member.pseudo}
                     className={styles.avatar}
                     fallbackClass={styles.avatarFallback}
@@ -93,12 +86,12 @@ export default function Membres() {
         {activeMember && (
           <>
             <div className={styles.modalBanner}>
-              <img src={fixPath(activeMember.banner)} alt="" loading="lazy" />
+              <img src={storageUrl(activeMember.banner)} alt="" loading="lazy" />
             </div>
             <div className={styles.modalBody}>
               <div className={styles.modalAvatarWrap}>
                 <AvatarImg
-                  src={fixPath(activeMember.avatar)}
+                  avatarRaw={activeMember.avatar}
                   pseudo={activeMember.pseudo}
                   className={styles.modalAvatar}
                   fallbackClass={styles.modalAvatarFallback}

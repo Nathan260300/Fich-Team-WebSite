@@ -4,7 +4,8 @@ import PageWrapper from '../components/PageWrapper';
 import Modal, { ModalNav } from '../components/Modal';
 import { PageHero } from '../components/UI';
 import { useModal } from '../hooks/useModal';
-import { useFetch } from '../hooks/useFetch';
+import { useSupabase } from '../hooks/useSupabase';
+import { storageUrl } from '../lib/supabase';
 import { staggerDelay, getYouTubeThumbnail, getYouTubeEmbedUrl } from '../utils/helpers';
 import styles from './Projets.module.css';
 
@@ -73,11 +74,13 @@ function Countdown({ targetDate }) {
 }
 
 function NextProjectSection({ onOpenForm }) {
-  const { data: p } = useFetch('/next-project.json');
+  const { data: p } = useSupabase('next_project', { single: true, order: null });
+  const { data: infos } = useSupabase('next_project_infos', { order: 'sort_order' });
 
   if (!p) return <LoadingDots />;
 
-  const formattedDate = new Date(p.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const project = { ...p, infos: infos ?? [] };
+  const formattedDate = new Date(project.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
     <motion.div
@@ -110,7 +113,7 @@ function NextProjectSection({ onOpenForm }) {
         viewport={{ once: true }}
         transition={{ delay: 0.2, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
-        {p.name}
+        {project.name}
       </motion.h2>
 
       <motion.p
@@ -120,13 +123,13 @@ function NextProjectSection({ onOpenForm }) {
         viewport={{ once: true }}
         transition={{ delay: 0.28, duration: 0.45 }}
       >
-        {p.description}
+        {project.description}
       </motion.p>
 
       <div className={styles.nextInfos}>
-        {p.infos.map((info, i) => (
+        {project.infos.map((info, i) => (
           <motion.div
-            key={i}
+            key={info.id}
             className={`${styles.nextInfoItem} ${info.highlight ? styles.nextInfoItemHighlight : ''}`}
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -143,7 +146,6 @@ function NextProjectSection({ onOpenForm }) {
         ))}
       </div>
 
-
       <motion.div
         className={styles.nextFooter}
         initial={{ opacity: 0 }}
@@ -153,7 +155,7 @@ function NextProjectSection({ onOpenForm }) {
       >
         <div className={styles.nextCountdownBlock}>
           <p className={styles.nextCountdownLabel}>Lancement dans</p>
-          <Countdown targetDate={p.date} />
+          <Countdown targetDate={project.date} />
         </div>
         <motion.button
           className={styles.nextFormBtn}
@@ -173,7 +175,7 @@ function NextProjectSection({ onOpenForm }) {
 }
 
 function TimelineSection() {
-  const { data: items } = useFetch('/future-projects.json');
+  const { data: items } = useSupabase('future_projects');
 
   if (!items) return null;
 
@@ -244,7 +246,7 @@ function TimelineSection() {
 
               <span className={`${styles.dateTag} ${item.uncertain ? styles.dateTagUncertain : styles.dateTagSure}`}>
                 {item.uncertain && <span className={styles.dateTilde}>~</span>}
-                {item.dateLabel}
+                {item.date_label}
               </span>
             </motion.div>
           </motion.div>
@@ -268,7 +270,7 @@ function TimelineSection() {
 }
 
 function OtherProjectsSection() {
-  const { data: items } = useFetch('/other-projects.json');
+  const { data: items } = useSupabase('other_projects');
 
   if (!items) return null;
 
@@ -339,7 +341,7 @@ function OtherProjectsSection() {
 
               <span className={`${styles.dateTag} ${item.uncertain ? styles.dateTagUncertain : styles.dateTagSure}`}>
                 {item.uncertain && <span className={styles.dateTilde}>~</span>}
-                {item.dateLabel}
+                {item.date_label}
               </span>
             </motion.div>
           </motion.div>
@@ -399,7 +401,7 @@ function PhotosPanel({ folders, openModal }) {
 }
 
 function VideosPanel({ openModal }) {
-  const { data: videos } = useFetch('/videos.json');
+  const { data: videos } = useSupabase('videos');
 
   if (!videos) return <LoadingDots />;
 
@@ -450,9 +452,17 @@ export default function Projets() {
   const [tab, setTab] = useState('photos');
   const [formOpen, setFormOpen] = useState(false);
   const { activeModal, openModal, closeModal } = useModal();
-  const { data: folders } = useFetch('/projects.json');
-  const { data: nextProject } = useFetch('/next-project.json');
-  const { data: videos } = useFetch('/videos.json');
+  const { data: projectsRaw } = useSupabase('projects');
+  const { data: projectImages } = useSupabase('project_images');
+  const { data: nextProject } = useSupabase('next_project', { single: true, order: null });
+  const { data: videos } = useSupabase('videos');
+
+  const folders = projectsRaw && projectImages
+    ? projectsRaw.map(p => ({
+        ...p,
+        images: projectImages.filter(img => img.project_id === p.id).map(img => storageUrl(img.path)),
+      }))
+    : null;
 
   const isFolderModal = activeModal?.startsWith('folder_');
   const isPhotoModal  = activeModal?.startsWith('photo_');
@@ -618,7 +628,7 @@ export default function Projets() {
             </div>
             <div className={styles.formIframeWrap}>
               <iframe
-                src={nextProject.formUrl}
+                src={nextProject.form_url}
                 title="Formulaire d'inscription"
                 frameBorder="0"
                 allowFullScreen

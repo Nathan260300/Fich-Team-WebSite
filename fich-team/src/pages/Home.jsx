@@ -3,7 +3,7 @@ import PageWrapper from '../components/PageWrapper';
 import Modal from '../components/Modal';
 import { Badge, Btn, SectionLabel } from '../components/UI';
 import { useModal } from '../hooks/useModal';
-import { useFetch } from '../hooks/useFetch';
+import { useSupabase } from '../hooks/useSupabase';
 import { staggerDelay } from '../utils/helpers';
 import { useAppReady } from '../App';
 import HeroSlideshow from '../components/HeroSlideshow';
@@ -74,7 +74,7 @@ function CardNormal({ card, index, openModal, ready }) {
     );
   }
 
-  const clickable = !!card.full;
+  const clickable = !!card.full_text;
   return (
     <motion.div
       className={`${styles.card} ${clickable ? styles.cardClickable : ''}`}
@@ -105,27 +105,21 @@ function CardNormal({ card, index, openModal, ready }) {
 export default function Home() {
   const ready = useAppReady();
   const { activeModal, openModal, closeModal } = useModal();
-  const { data: homeData } = useFetch('/home.json');
+  const { data: cards } = useSupabase('home_cards');
 
-  const cards = homeData?.cards ?? [];
-  const wideCard  = cards.find(c => c.wide);
-  const normCards = cards.filter(c => !c.wide);
-  const activeCard = cards.find(c => c.id === activeModal);
+  const allCards = cards ?? [];
+  const wideCard  = allCards.find(c => c.wide);
+  const normCards = allCards.filter(c => !c.wide);
+  const activeCard = allCards.find(c => c.id === activeModal);
 
   return (
     <PageWrapper>
-
-      {}
       <div className={styles.heroWrap}>
-
-        {}
         <div className={styles.heroBg}>
           <HeroSlideshow />
-          {}
           <div className={styles.heroBgOverlay} />
         </div>
 
-        {}
         <section className={styles.hero}>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -191,7 +185,6 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {}
         <div className={styles.heroDivider}>
           <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <polygon points="0,120 1440,0 1440,120" fill="var(--c-bg)" />
@@ -199,7 +192,6 @@ export default function Home() {
         </div>
       </div>
 
-      {}
       <motion.section
         className={styles.cardsSection}
         initial={{ opacity: 0 }}
@@ -216,14 +208,14 @@ export default function Home() {
       </motion.section>
 
       <Modal isOpen={!!activeCard} onClose={closeModal}>
-        {activeCard?.full && (
+        {activeCard?.full_text && (
           <div className={styles.modalBody}>
             <div className={styles.modalHeader}>
               {activeCard.emoji && <span className={styles.modalEmoji}>{activeCard.emoji}</span>}
               <h2 className={styles.modalTitle}>{activeCard.title}</h2>
             </div>
             <div className={styles.modalContent}>
-              {activeCard.full.split('\n').map((line, i) =>
+              {activeCard.full_text.split('\n').map((line, i) =>
                 line.trim()
                   ? <p key={i} dangerouslySetInnerHTML={{ __html: line }} />
                   : <br key={i} />

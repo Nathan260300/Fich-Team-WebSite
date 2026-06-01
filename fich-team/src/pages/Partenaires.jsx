@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PageWrapper from '../components/PageWrapper';
 import { PageHero } from '../components/UI';
+import { useSupabase } from '../hooks/useSupabase';
 import { staggerDelay } from '../utils/helpers';
 import styles from './Partenaires.module.css';
 
@@ -16,15 +16,7 @@ function LoadingDots() {
 }
 
 export default function Partenaires() {
-  const [channels, setChannels] = useState([]);
-  const [status, setStatus] = useState('loading');
-
-  useEffect(() => {
-    fetch('/channels.json')
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(data => { setChannels(data); setStatus('ok'); })
-      .catch(() => setStatus('error'));
-  }, []);
+  const { data: channels, status } = useSupabase('channels');
 
   return (
     <PageWrapper>
@@ -46,13 +38,13 @@ export default function Partenaires() {
         <div className={styles.grid}>
           {channels.map((ch, i) => (
             <motion.div
-              key={ch.name}
+              key={ch.id}
               className={styles.card}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: staggerDelay(i, 0.09), duration: 0.5, ease: [0.16,1,0.3,1] }}
               whileHover={{ y: -8, scale: 1.02, transition: { type: 'spring', stiffness: 280, damping: 18 } }}
-          whileTap={{ scale: 0.97 }}
+              whileTap={{ scale: 0.97 }}
             >
               <div className={styles.cardBg} />
               <div className={styles.avatarWrap}>
