@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--c-text);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.desc {
+  font-size: 0.875rem;
+  color: var(--c-muted);
+}
+
+.action {
+  flex-shrink: 0;
+}
