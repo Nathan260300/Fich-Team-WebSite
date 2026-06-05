@@ -1,1 +1,5 @@
-/* /index.html 200
+/app/fich/*             /app/fich/index.html            200
+/app/leratsolitaire/*   /app/leratsolitaire/index.html  200
+/leratsolitaire/*       /leratsolitaire/index.html      200
+/app/*                   /app/index.html                200
+/*                      /index.html                     200
