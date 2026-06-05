@@ -1,0 +1,39 @@
+.pickerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.pickerItem {
+  position: relative;
+  aspect-ratio: 16/9;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color .18s, transform .18s;
+}
+
+.pickerItem:hover { border-color: var(--c-accent); transform: scale(1.02); }
+
+.pickerItem img { width: 100%; height: 100%; object-fit: cover; }
+
+.pickerItemActive {
+  border-color: var(--c-green);
+  cursor: default;
+  opacity: .6;
+}
+
+.pickerItemActive:hover { transform: none; }
+
+.pickerBadge {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--c-green);
+}
