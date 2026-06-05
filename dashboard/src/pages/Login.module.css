@@ -1,0 +1,132 @@
+.root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.orb1 {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,158,255,.13) 0%, transparent 70%);
+  top: -160px;
+  right: -100px;
+  pointer-events: none;
+}
+
+.orb2 {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,158,255,.07) 0%, transparent 70%);
+  bottom: -100px;
+  left: -80px;
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: 400px;
+  background: var(--c-surface);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 20px;
+  padding: 40px 40px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoWrap {
+  width: 88px;
+  height: 88px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  border: 1px solid rgba(61,158,255,.18);
+}
+
+.logoWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--c-text);
+  letter-spacing: .04em;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.sub {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.sep {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sepLine {
+  flex: 1;
+  height: 1px;
+  background: var(--c-border);
+}
+
+.sepText {
+  font-size: 0.7rem;
+  color: var(--c-dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.discordBtn {
+  width: 100%;
+  background: #5865f2;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 13px 20px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: var(--f-body);
+  transition: background 0.18s, transform 0.18s;
+}
+
+.discordBtn:hover {
+  background: #4752c4;
+  transform: translateY(-2px);
+}
+
+.discordBtn:active {
+  transform: translateY(0);
+}
+
+.note {
+  margin-top: 18px;
+  font-size: 0.72rem;
+  color: var(--c-dim);
+  text-align: center;
+}
