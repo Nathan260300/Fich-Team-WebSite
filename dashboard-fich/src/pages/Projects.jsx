@@ -1,11 +1,26 @@
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
 import s from './shared.module.css';
 import ps from './Projects.module.css';
 
 const STORAGE_URL = 'https://unhfpfhsidmyxwcfdnek.supabase.co/storage/v1/object/public/media';
+
+const toWebp = (file) => new Promise((resolve, reject) => {
+  const img = new Image();
+  const url = URL.createObjectURL(file);
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+    canvas.getContext('2d').drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Conversion échouée')), 'image/webp', 0.9);
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image invalide')); };
+  img.src = url;
+});
 
 function ProjectModal({ project, onClose, onSave }) {
   const isNew = !project.id;
@@ -15,7 +30,7 @@ function ProjectModal({ project, onClose, onSave }) {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const handleSave = async () => {
-    if (!form.id.trim()) { setError('L\'ID est requis.'); return; }
+    if (!form.id.trim()) { setError("L'ID est requis."); return; }
     if (!form.name.trim()) { setError('Le nom est requis.'); return; }
     setSaving(true); setError(null);
     const payload = { id: form.id.trim(), name: form.name.trim(), icon: form.icon.trim() || null };
@@ -33,8 +48,8 @@ function ProjectModal({ project, onClose, onSave }) {
   };
 
   return (
-    <div className={s.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className={s.modal}>
+    <motion.div className={s.overlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => e.target === e.currentTarget && onClose()}>
+      <motion.div className={s.modal} initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.22, ease: [0.16,1,0.3,1] }}>
         <div className={s.modalHeader}>
           <h2 className={s.modalTitle}>{isNew ? 'Ajouter un projet' : 'Modifier le projet'}</h2>
           <button className={s.closeBtn} onClick={onClose}>✕</button>
@@ -54,14 +69,14 @@ function ProjectModal({ project, onClose, onSave }) {
             <label className={s.label}>Nom *</label>
             <input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Nom du projet" />
           </div>
-          {error && <p className={s.error}>{error}</p>}
+          {error && <motion.p className={s.error} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.p>}
         </div>
         <div className={s.modalFooter}>
           <button className={s.btnGhost} onClick={onClose}>Annuler</button>
           <button className={s.btnPrimary} onClick={handleSave} disabled={saving}>{saving ? 'Enregistrement…' : 'Enregistrer'}</button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -70,43 +85,23 @@ function PhotosPanel({ project, images, onRefresh }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
 
-  const toWebp = (file) => new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      canvas.getContext('2d').drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
-      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Conversion webp échouée')), 'image/webp', 0.9);
-    };
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image invalide')); };
-    img.src = url;
-  });
-
   const handleUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true); setError(null);
 
     const { data: existing } = await supabase.from('project_images').select('path').eq('project_id', project.id).order('sort_order', { ascending: false });
-    const nums = (existing ?? []).map(r => {
-      const match = r.path.match(/img(\d+)\.webp$/);
-      return match ? parseInt(match[1]) : -1;
-    });
+    const nums = (existing ?? []).map(r => { const m = r.path.match(/img(\d+)\.webp$/); return m ? parseInt(m[1]) : -1; });
     const nextNum = nums.length > 0 ? Math.max(...nums) + 1 : 0;
     const finalPath = `data-img/projects/${project.id}/img${nextNum}.webp`;
 
-    let webpBlob;
-    try { webpBlob = await toWebp(file); }
-    catch (err) { setError(err.message); setUploading(false); return; }
+    let blob;
+    try { blob = await toWebp(file); } catch (err) { setError(err.message); setUploading(false); return; }
 
-    const { error: upErr } = await supabase.storage.from('media').upload(finalPath, webpBlob, { upsert: false, contentType: 'image/webp' });
+    const { error: upErr } = await supabase.storage.from('media').upload(finalPath, blob, { upsert: false, contentType: 'image/webp' });
     if (upErr) { setError(upErr.message); setUploading(false); return; }
 
-    const maxOrder = existing?.length ?? 0;
-    await supabase.from('project_images').insert({ project_id: project.id, path: finalPath, sort_order: maxOrder });
+    await supabase.from('project_images').insert({ project_id: project.id, path: finalPath, sort_order: existing?.length ?? 0 });
     setUploading(false);
     onRefresh();
     fileRef.current.value = '';
@@ -128,14 +123,14 @@ function PhotosPanel({ project, images, onRefresh }) {
         </label>
         {error && <span className={s.error} style={{ flex: 1 }}>{error}</span>}
       </div>
-      <div className={ps.photoGrid}>
-        {images.map(img => (
-          <div key={img.id} className={ps.photoItem}>
+      <motion.div className={ps.photoGrid} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.04 } } }}>
+        {images.map((img, idx) => (
+          <motion.div key={img.id} className={ps.photoItem} variants={{ hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } }} transition={{ duration: 0.25 }}>
             <img src={`${STORAGE_URL}/${img.path}`} alt="" loading="lazy" />
             <button className={ps.photoDelete} onClick={() => handleDelete(img)} title="Supprimer">✕</button>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -170,14 +165,16 @@ export default function Projects() {
 
   return (
     <div>
-      <PageHeader title="Projets & Photos" desc="Gérer les projets et leurs photos." action={<button className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter un projet</button>} />
+      <PageHeader title="Projets & Photos" desc="Gérer les projets et leurs photos." action={
+        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }} className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter un projet</motion.button>
+      } />
       {loading ? <div className={s.loading}>Chargement…</div> : (
-        <div className={s.list}>
+        <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
           {projects.map(p => {
             const projectImages = images.filter(i => i.project_id === p.id);
             const isOpen = expanded === p.id;
             return (
-              <div key={p.id} className={ps.projectBlock}>
+              <motion.div key={p.id} className={ps.projectBlock} variants={{ hidden: { opacity: 0, x: -14 }, visible: { opacity: 1, x: 0 } }} transition={{ duration: 0.35, ease: [0.16,1,0.3,1] }}>
                 <div className={s.row} style={{ cursor: 'pointer' }} onClick={() => setExpanded(isOpen ? null : p.id)}>
                   <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{p.icon}</span>
                   <div className={s.rowInfo}>
@@ -190,13 +187,21 @@ export default function Projects() {
                     <button className={`${s.iconBtn} ${s.iconBtnDanger}`} onClick={() => handleDelete(p.id)} title="Supprimer">🗑️</button>
                   </div>
                 </div>
-                {isOpen && <PhotosPanel project={p} images={projectImages} onRefresh={load} />}
-              </div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25, ease: [0.16,1,0.3,1] }} style={{ overflow: 'hidden' }}>
+                      <PhotosPanel project={p} images={projectImages} onRefresh={load} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       )}
-      {modal && <ProjectModal project={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      <AnimatePresence>
+        {modal && <ProjectModal project={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      </AnimatePresence>
     </div>
   );
 }

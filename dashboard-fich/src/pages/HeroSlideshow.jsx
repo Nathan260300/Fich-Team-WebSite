@@ -1,5 +1,6 @@
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
 import s from './shared.module.css';
@@ -13,7 +14,6 @@ export default function HeroSlideshow() {
   const [allImages, setAllImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [saving, setSaving] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -26,14 +26,13 @@ export default function HeroSlideshow() {
 
   useEffect(() => { load(); }, []);
 
-  const isInSlideshow = (path) => slides.some(s => s.path === path);
+  const isInSlideshow = (path) => slides.some(sl => sl.path === path);
 
   const addSlide = async (path) => {
     if (isInSlideshow(path)) return;
-    setSaving(true);
     const { data: maxRow } = await supabase.from('hero_slideshow').select('sort_order').order('sort_order', { ascending: false }).limit(1).single();
     await supabase.from('hero_slideshow').insert({ path, sort_order: (maxRow?.sort_order ?? -1) + 1 });
-    setSaving(false);
+    setPickerOpen(false);
     load();
   };
 
@@ -56,14 +55,14 @@ export default function HeroSlideshow() {
       <PageHeader
         title="Page Accueil"
         desc="Sélectionne les images qui défilent sur la page d'accueil du site."
-        action={<button className={s.btnPrimary} onClick={() => setPickerOpen(true)}>+ Ajouter une image</button>}
+        action={<motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }} className={s.btnPrimary} onClick={() => setPickerOpen(true)}>+ Ajouter une image</motion.button>}
       />
 
       {loading ? <div className={s.loading}>Chargement…</div> : (
-        <div className={s.list}>
+        <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
           {slides.length === 0 && <p style={{ color: 'var(--c-muted)', fontSize: '0.875rem' }}>Aucune image dans le slideshow.</p>}
           {slides.map((slide, i) => (
-            <div key={slide.id} className={s.row}>
+            <motion.div key={slide.id} className={s.row} variants={{ hidden: { opacity: 0, x: -14 }, visible: { opacity: 1, x: 0 } }} transition={{ duration: 0.35, ease: [0.16,1,0.3,1] }}>
               <img src={`${STORAGE_URL}/${slide.path}`} alt="" style={{ width: 96, height: 54, objectFit: 'cover', borderRadius: 'var(--r-xs)', flexShrink: 0 }} />
               <div className={s.rowInfo}>
                 <span className={s.rowName} style={{ fontFamily: 'var(--f-mono)', fontSize: '0.75rem' }}>{slide.path}</span>
@@ -73,42 +72,40 @@ export default function HeroSlideshow() {
                 <button className={s.iconBtn} onClick={() => moveSlide(i, 1)} disabled={i === slides.length - 1} title="Descendre">↓</button>
                 <button className={`${s.iconBtn} ${s.iconBtnDanger}`} onClick={() => removeSlide(slide.id)} title="Retirer">✕</button>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
-      {pickerOpen && (
-        <div className={s.overlay} onClick={e => e.target === e.currentTarget && setPickerOpen(false)}>
-          <div className={s.modal} style={{ maxWidth: 720 }}>
-            <div className={s.modalHeader}>
-              <h2 className={s.modalTitle}>Choisir une image</h2>
-              <button className={s.closeBtn} onClick={() => setPickerOpen(false)}>✕</button>
-            </div>
-            <div className={s.modalBody}>
-              {allImages.length === 0 ? (
-                <p style={{ color: 'var(--c-muted)', fontSize: '0.875rem' }}>Aucune photo de projet disponible.</p>
-              ) : (
-                <div className={hs.pickerGrid}>
-                  {allImages.map(img => {
-                    const already = isInSlideshow(img.path);
-                    return (
-                      <div
-                        key={img.id}
-                        className={`${hs.pickerItem} ${already ? hs.pickerItemActive : ''}`}
-                        onClick={() => { if (!already) { addSlide(img.path); setPickerOpen(false); } }}
-                      >
-                        <img src={`${STORAGE_URL}/${img.path}`} alt="" loading="lazy" />
-                        {already && <div className={hs.pickerBadge}>✓ Déjà dans le slideshow</div>}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {pickerOpen && (
+          <motion.div className={s.overlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => e.target === e.currentTarget && setPickerOpen(false)}>
+            <motion.div className={s.modal} style={{ maxWidth: 720 }} initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.22, ease: [0.16,1,0.3,1] }}>
+              <div className={s.modalHeader}>
+                <h2 className={s.modalTitle}>Choisir une image</h2>
+                <button className={s.closeBtn} onClick={() => setPickerOpen(false)}>✕</button>
+              </div>
+              <div className={s.modalBody}>
+                {allImages.length === 0 ? (
+                  <p style={{ color: 'var(--c-muted)', fontSize: '0.875rem' }}>Aucune photo de projet disponible.</p>
+                ) : (
+                  <motion.div className={hs.pickerGrid} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.03 } } }}>
+                    {allImages.map(img => {
+                      const already = isInSlideshow(img.path);
+                      return (
+                        <motion.div key={img.id} className={`${hs.pickerItem} ${already ? hs.pickerItemActive : ''}`} variants={{ hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } }} onClick={() => !already && addSlide(img.path)}>
+                          <img src={`${STORAGE_URL}/${img.path}`} alt="" loading="lazy" />
+                          {already && <div className={hs.pickerBadge}>✓ Déjà ajouté</div>}
+                        </motion.div>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

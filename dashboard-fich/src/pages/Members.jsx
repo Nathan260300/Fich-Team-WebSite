@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -10,6 +11,20 @@ import styles from './Members.module.css';
 const EDGE_AVATAR = 'https://unhfpfhsidmyxwcfdnek.supabase.co/functions/v1/get-discord-avatar';
 const DISCORD_ID_RE = /^\d{17,20}$/;
 const STORAGE = 'https://unhfpfhsidmyxwcfdnek.supabase.co/storage/v1/object/public/media';
+
+const toWebp = (file) => new Promise((resolve, reject) => {
+  const img = new Image();
+  const url = URL.createObjectURL(file);
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+    canvas.getContext('2d').drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Conversion échouée')), 'image/webp', 0.9);
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image invalide')); };
+  img.src = url;
+});
 
 function AvatarPreview({ value }) {
   const [url, setUrl] = useState(null);
@@ -23,13 +38,50 @@ function AvatarPreview({ value }) {
   return <img src={url} alt="" className={styles.avatarImg} />;
 }
 
+function UploadBtn({ label, uploading, onFile }) {
+  return (
+    <label className={styles.uploadBtn}>
+      {uploading ? 'Upload…' : label}
+      <input type="file" accept="image/*" style={{ display: 'none' }} disabled={uploading} onChange={e => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ''; }} />
+    </label>
+  );
+}
+
 function MemberModal({ member, onClose, onSave }) {
   const isNew = !member.id;
   const [form, setForm] = useState({ pseudo: member.pseudo ?? '', avatar: member.avatar ?? '', banner: member.banner ?? '', description: member.description ?? '' });
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingBanner, setUploadingBanner] = useState(false);
+  const [error, setError] = useState(null);
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const handleUploadAvatar = async (file) => {
+    if (!form.pseudo.trim()) { setError('Saisis le pseudo avant d\'uploader l\'avatar.'); return; }
+    setUploadingAvatar(true); setError(null);
+    try {
+      const blob = await toWebp(file);
+      const pseudo = form.pseudo.trim().toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'member';
+      const path = `data-img/members/pp-${pseudo}.webp`;
+      const { error: upErr } = await supabase.storage.from('media').upload(path, blob, { upsert: true, contentType: 'image/webp' });
+      if (upErr) { setError(upErr.message); } else { set('avatar', path); }
+    } catch (e) { setError(e.message); }
+    setUploadingAvatar(false);
+  };
+
+  const handleUploadBanner = async (file) => {
+    setUploadingBanner(true); setError(null);
+    try {
+      const { data: existing } = await supabase.storage.from('media').list('data-img/members', { search: 'banner' });
+      const nums = (existing ?? []).map(f => { const m = f.name.match(/banner(\d+)\.webp$/); return m ? parseInt(m[1]) : -1; });
+      const nextNum = nums.length > 0 ? Math.max(...nums) + 1 : 0;
+      const path = `data-img/members/banner${nextNum}.webp`;
+      const blob = await toWebp(file);
+      const { error: upErr } = await supabase.storage.from('media').upload(path, blob, { upsert: false, contentType: 'image/webp' });
+      if (upErr) { setError(upErr.message); } else { set('banner', path); }
+    } catch (e) { setError(e.message); }
+    setUploadingBanner(false);
+  };
 
   const handleSave = async () => {
     if (!form.pseudo.trim()) { setError('Le pseudo est requis.'); return; }
@@ -49,8 +101,8 @@ function MemberModal({ member, onClose, onSave }) {
   };
 
   return (
-    <div className={styles.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className={styles.modal}>
+    <motion.div className={styles.overlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => e.target === e.currentTarget && onClose()}>
+      <motion.div className={styles.modal} initial={{ opacity: 0, y: 32, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: 0.97 }} transition={{ duration: 0.25, ease: [0.16,1,0.3,1] }}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{isNew ? 'Ajouter un membre' : 'Modifier le membre'}</h2>
           <button className={styles.closeBtn} onClick={onClose}>✕</button>
@@ -58,38 +110,11 @@ function MemberModal({ member, onClose, onSave }) {
         <div className={styles.modalBody}>
           <div className={styles.avatarSection}>
             <div className={styles.avatarPreviewWrap}><AvatarPreview value={form.avatar} /></div>
-            <div className={styles.field}>
+            <div className={styles.field} style={{ flex: 1 }}>
               <label className={styles.label}>Avatar</label>
               <input value={form.avatar} onChange={e => set('avatar', e.target.value)} placeholder="ID Discord ou chemin storage" />
-              <span className={styles.hint}>ID Discord (ex: 1316068882154393693) ou chemin storage</span>
-              <label className={styles.uploadAvatarBtn}>
-                {uploadingAvatar ? 'Upload…' : '📁 Uploader une image'}
-                <input type="file" accept="image/*" style={{ display: 'none' }} disabled={uploadingAvatar}
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    if (!form.pseudo.trim()) { alert('Saisis le pseudo avant d\'uploader l\'avatar.'); e.target.value = ''; return; }
-                    setUploadingAvatar(true);
-                    const img = new Image();
-                    const url = URL.createObjectURL(file);
-                    img.onload = async () => {
-                      const canvas = document.createElement('canvas');
-                      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
-                      canvas.getContext('2d').drawImage(img, 0, 0);
-                      URL.revokeObjectURL(url);
-                      canvas.toBlob(async (blob) => {
-                        const pseudo = form.pseudo.trim().toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'member';
-                        const path = `data-img/members/pp-${pseudo}.webp`;
-                        const { error: upErr } = await supabase.storage.from('media').upload(path, blob, { upsert: true, contentType: 'image/webp' });
-                        setUploadingAvatar(false);
-                        if (!upErr) set('avatar', path);
-                      }, 'image/webp', 0.9);
-                    };
-                    img.onerror = () => { URL.revokeObjectURL(url); setUploadingAvatar(false); };
-                    img.src = url;
-                  }}
-                />
-              </label>
+              <span className={styles.hint}>Ex: 1316068882154393693</span>
+              <UploadBtn label="📁 Uploader un avatar" uploading={uploadingAvatar} onFile={handleUploadAvatar} />
             </div>
           </div>
           <div className={styles.field}>
@@ -97,21 +122,23 @@ function MemberModal({ member, onClose, onSave }) {
             <input value={form.pseudo} onChange={e => set('pseudo', e.target.value)} placeholder="Pseudo du membre" />
           </div>
           <div className={styles.field}>
-            <label className={styles.label}>Bannière (chemin storage)</label>
+            <label className={styles.label}>Bannière</label>
             <input value={form.banner} onChange={e => set('banner', e.target.value)} placeholder="data-img/members/banner0.webp" />
+            {form.banner && <img src={`${STORAGE}/${form.banner}`} alt="" style={{ width: '100%', aspectRatio: '3/1', objectFit: 'cover', borderRadius: 'var(--r-sm)', marginTop: 4 }} />}
+            <UploadBtn label="📁 Uploader une bannière" uploading={uploadingBanner} onFile={handleUploadBanner} />
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Description</label>
             <textarea rows={5} value={form.description} onChange={e => set('description', e.target.value)} placeholder="Description du membre..." />
           </div>
-          {error && <p className={styles.error}>{error}</p>}
+          {error && <motion.p className={styles.error} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.p>}
         </div>
         <div className={styles.modalFooter}>
           <button className={styles.btnGhost} onClick={onClose}>Annuler</button>
           <button className={styles.btnPrimary} onClick={handleSave} disabled={saving}>{saving ? 'Enregistrement…' : 'Enregistrer'}</button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -119,7 +146,7 @@ function SortableRow({ member, onEdit, onDelete, onUp, onDown, isFirst, isLast }
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: member.id });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 };
   return (
-    <div ref={setNodeRef} style={style} className={styles.row}>
+    <motion.div ref={setNodeRef} style={style} className={styles.row} layout>
       <div className={styles.dragHandle} {...attributes} {...listeners}>⠿</div>
       <div className={styles.rowAvatar}><AvatarPreview value={member.avatar} /></div>
       <div className={styles.rowInfo}>
@@ -132,7 +159,7 @@ function SortableRow({ member, onEdit, onDelete, onUp, onDown, isFirst, isLast }
         <button className={styles.iconBtn} onClick={onEdit} title="Modifier">✏️</button>
         <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={onDelete} title="Supprimer">🗑️</button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -175,21 +202,31 @@ export default function Members() {
 
   return (
     <div>
-      <PageHeader title="Membres" desc="Gérer les membres de la FICH Team." action={<button className={styles.btnPrimary} onClick={() => setModal({})}>+ Ajouter</button>} />
-      {loading ? <div className={styles.loading}>Chargement…</div> : (
+      <PageHeader title="Membres" desc="Gérer les membres de la FICH Team." action={
+        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }} className={styles.btnPrimary} onClick={() => setModal({})}>+ Ajouter</motion.button>
+      } />
+      {loading ? (
+        <div className={styles.loading}>
+          {[0,1,2].map(i => <motion.span key={i} className={styles.loadingDot} animate={{ y: [0, -8, 0] }} transition={{ duration: 0.6, delay: i * 0.15, repeat: Infinity }} />)}
+        </div>
+      ) : (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={members.map(m => m.id)} strategy={verticalListSortingStrategy}>
-            <div className={styles.list}>
+            <motion.div className={styles.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.05 } } }}>
               {members.map((m, i) => (
-                <SortableRow key={m.id} member={m} isFirst={i === 0} isLast={i === members.length - 1}
-                  onEdit={() => setModal(m)} onDelete={() => handleDelete(m.id)}
-                  onUp={() => move(i, -1)} onDown={() => move(i, 1)} />
+                <motion.div key={m.id} variants={{ hidden: { opacity: 0, x: -16 }, visible: { opacity: 1, x: 0 } }}>
+                  <SortableRow member={m} isFirst={i === 0} isLast={i === members.length - 1}
+                    onEdit={() => setModal(m)} onDelete={() => handleDelete(m.id)}
+                    onUp={() => move(i, -1)} onDown={() => move(i, 1)} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </SortableContext>
         </DndContext>
       )}
-      {modal && <MemberModal member={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      <AnimatePresence>
+        {modal && <MemberModal member={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      </AnimatePresence>
     </div>
   );
 }

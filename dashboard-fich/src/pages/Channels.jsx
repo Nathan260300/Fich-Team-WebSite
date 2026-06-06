@@ -1,5 +1,6 @@
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
 import s from './shared.module.css';
@@ -29,8 +30,8 @@ function ChannelModal({ channel, onClose, onSave }) {
   };
 
   return (
-    <div className={s.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className={s.modal}>
+    <motion.div className={s.overlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => e.target === e.currentTarget && onClose()}>
+      <motion.div className={s.modal} initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.22, ease: [0.16,1,0.3,1] }}>
         <div className={s.modalHeader}>
           <h2 className={s.modalTitle}>{isNew ? 'Ajouter un partenaire' : 'Modifier le partenaire'}</h2>
           <button className={s.closeBtn} onClick={onClose}>✕</button>
@@ -53,14 +54,14 @@ function ChannelModal({ channel, onClose, onSave }) {
             <input value={form.avatar} onChange={e => set('avatar', e.target.value)} placeholder="https://..." />
             {form.avatar && <img src={form.avatar} alt="" style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', marginTop: 4 }} />}
           </div>
-          {error && <p className={s.error}>{error}</p>}
+          {error && <motion.p className={s.error} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.p>}
         </div>
         <div className={s.modalFooter}>
           <button className={s.btnGhost} onClick={onClose}>Annuler</button>
           <button className={s.btnPrimary} onClick={handleSave} disabled={saving}>{saving ? 'Enregistrement…' : 'Enregistrer'}</button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -87,11 +88,13 @@ export default function Channels() {
 
   return (
     <div>
-      <PageHeader title="Partenaires" desc="Gérer les chaînes partenaires." action={<button className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter</button>} />
+      <PageHeader title="Partenaires" desc="Gérer les chaînes partenaires." action={
+        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }} className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter</motion.button>
+      } />
       {loading ? <div className={s.loading}>Chargement…</div> : (
-        <div className={s.list}>
+        <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
           {channels.map(c => (
-            <div key={c.id} className={s.row}>
+            <motion.div key={c.id} className={s.row} variants={{ hidden: { opacity: 0, x: -14 }, visible: { opacity: 1, x: 0 } }} transition={{ duration: 0.35, ease: [0.16,1,0.3,1] }}>
               {c.avatar && <img src={c.avatar} alt="" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />}
               <div className={s.rowInfo}>
                 <span className={s.rowName}>{c.name}</span>
@@ -101,11 +104,13 @@ export default function Channels() {
                 <button className={s.iconBtn} onClick={() => setModal(c)} title="Modifier">✏️</button>
                 <button className={`${s.iconBtn} ${s.iconBtnDanger}`} onClick={() => handleDelete(c.id)} title="Supprimer">🗑️</button>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
-      {modal && <ChannelModal channel={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      <AnimatePresence>
+        {modal && <ChannelModal channel={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      </AnimatePresence>
     </div>
   );
 }

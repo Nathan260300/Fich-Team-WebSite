@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
@@ -25,9 +26,9 @@ export default function Sidebar({ onClose, mobileOpen }) {
       </div>
 
       <nav className={styles.nav}>
-        {NAV.map(({ to, label, icon, end }) => (
+        {NAV.map(({ to, label, icon, end }, i) => (
+          <motion.div key={to} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.16,1,0.3,1] }}>
           <NavLink
-            key={to}
             to={to}
             end={end}
             className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
@@ -36,6 +37,7 @@ export default function Sidebar({ onClose, mobileOpen }) {
             <span className={styles.linkIcon}>{icon}</span>
             <span className={styles.linkLabel}>{label}</span>
           </NavLink>
+          </motion.div>
         ))}
       </nav>
     </aside>

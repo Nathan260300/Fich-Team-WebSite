@@ -1,5 +1,6 @@
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
 import s from './shared.module.css';
@@ -12,7 +13,7 @@ function ProjectModal({ project, onClose, onSave }) {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const handleSave = async () => {
-    if (!form.id.trim()) { setError('L\'ID est requis.'); return; }
+    if (!form.id.trim()) { setError("L'ID est requis."); return; }
     if (!form.name.trim()) { setError('Le nom est requis.'); return; }
     setSaving(true); setError(null);
     const payload = { id: form.id.trim(), name: form.name.trim(), subtitle: form.subtitle.trim() || null, date: form.date || null, date_label: form.date_label.trim() || null, icon: form.icon.trim() || null, uncertain: form.uncertain };
@@ -30,8 +31,8 @@ function ProjectModal({ project, onClose, onSave }) {
   };
 
   return (
-    <div className={s.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className={s.modal}>
+    <motion.div className={s.overlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => e.target === e.currentTarget && onClose()}>
+      <motion.div className={s.modal} initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.22, ease: [0.16,1,0.3,1] }}>
         <div className={s.modalHeader}>
           <h2 className={s.modalTitle}>{isNew ? 'Ajouter un projet futur' : 'Modifier le projet'}</h2>
           <button className={s.closeBtn} onClick={onClose}>✕</button>
@@ -53,7 +54,7 @@ function ProjectModal({ project, onClose, onSave }) {
           </div>
           <div className={s.field}>
             <label className={s.label}>Sous-titre</label>
-            <input value={form.subtitle} onChange={e => set('subtitle', e.target.value)} placeholder="Sous-titre affiché sous le nom" />
+            <input value={form.subtitle} onChange={e => set('subtitle', e.target.value)} placeholder="Sous-titre" />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div className={s.field}>
@@ -69,14 +70,14 @@ function ProjectModal({ project, onClose, onSave }) {
             <input type="checkbox" checked={form.uncertain} onChange={e => set('uncertain', e.target.checked)} style={{ width: 'auto' }} />
             Date incertaine (~)
           </label>
-          {error && <p className={s.error}>{error}</p>}
+          {error && <motion.p className={s.error} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.p>}
         </div>
         <div className={s.modalFooter}>
           <button className={s.btnGhost} onClick={onClose}>Annuler</button>
           <button className={s.btnPrimary} onClick={handleSave} disabled={saving}>{saving ? 'Enregistrement…' : 'Enregistrer'}</button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -103,11 +104,13 @@ export default function FutureProjects() {
 
   return (
     <div>
-      <PageHeader title="Futurs projets" desc="Gérer la timeline des futurs projets." action={<button className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter</button>} />
+      <PageHeader title="Futurs projets" desc="Gérer la timeline des futurs projets." action={
+        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }} className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter</motion.button>
+      } />
       {loading ? <div className={s.loading}>Chargement…</div> : (
-        <div className={s.list}>
+        <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
           {items.map(p => (
-            <div key={p.id} className={s.row}>
+            <motion.div key={p.id} className={s.row} variants={{ hidden: { opacity: 0, x: -14 }, visible: { opacity: 1, x: 0 } }} transition={{ duration: 0.35, ease: [0.16,1,0.3,1] }}>
               <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{p.icon}</span>
               <div className={s.rowInfo}>
                 <span className={s.rowName}>{p.name}</span>
@@ -118,11 +121,13 @@ export default function FutureProjects() {
                 <button className={s.iconBtn} onClick={() => setModal(p)} title="Modifier">✏️</button>
                 <button className={`${s.iconBtn} ${s.iconBtnDanger}`} onClick={() => handleDelete(p.id)} title="Supprimer">🗑️</button>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
-      {modal && <ProjectModal project={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      <AnimatePresence>
+        {modal && <ProjectModal project={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+      </AnimatePresence>
     </div>
   );
 }
