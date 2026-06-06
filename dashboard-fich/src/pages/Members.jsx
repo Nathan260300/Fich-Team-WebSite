@@ -67,6 +67,7 @@ function MemberModal({ member, onClose, onSave }) {
                   onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
+                    if (!form.pseudo.trim()) { alert('Saisis le pseudo avant d\'uploader l\'avatar.'); e.target.value = ''; return; }
                     setUploadingAvatar(true);
                     const img = new Image();
                     const url = URL.createObjectURL(file);
@@ -76,7 +77,7 @@ function MemberModal({ member, onClose, onSave }) {
                       canvas.getContext('2d').drawImage(img, 0, 0);
                       URL.revokeObjectURL(url);
                       canvas.toBlob(async (blob) => {
-                        const pseudo = form.pseudo.trim().toLowerCase().replace(/\s+/g, '-') || 'member';
+                        const pseudo = form.pseudo.trim().toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'member';
                         const path = `data-img/members/pp-${pseudo}.webp`;
                         const { error: upErr } = await supabase.storage.from('media').upload(path, blob, { upsert: true, contentType: 'image/webp' });
                         setUploadingAvatar(false);

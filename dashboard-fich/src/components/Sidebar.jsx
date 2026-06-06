@@ -2,14 +2,15 @@ import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
 const NAV = [
-  { to: '/members',         label: 'Membres',          icon: '👥' },
-  { to: '/projects',        label: 'Projets & Photos',  icon: '📸' },
-  { to: '/future-projects', label: 'Futurs projets',    icon: '🗓️' },
-  { to: '/other-projects',  label: 'Autres projets',    icon: '📋' },
-  { to: '/next-project',    label: 'Prochain event',    icon: '🎯' },
-  { to: '/videos',          label: 'Vidéos',            icon: '🎬' },
-  { to: '/channels',        label: 'Partenaires',       icon: '🤝' },
-  { to: '/hero-slideshow',  label: 'Slideshow hero',    icon: '🖼️' },
+  { to: '/',                label: 'Accueil',            icon: '🏠', end: true },
+  { to: '/members',         label: 'Membres',            icon: '👥' },
+  { to: '/projects',        label: 'Projets & Photos',   icon: '📸' },
+  { to: '/future-projects', label: 'Futurs projets',     icon: '🗓️' },
+  { to: '/other-projects',  label: 'Autres projets',     icon: '📋' },
+  { to: '/next-project',    label: 'Prochain event',     icon: '🎯' },
+  { to: '/videos',          label: 'Vidéos',             icon: '🎬' },
+  { to: '/channels',        label: 'Partenaires',        icon: '🤝' },
+  { to: '/hero-slideshow',  label: 'Carrousel accueil',  icon: '🖼️' },
 ];
 
 export default function Sidebar({ onClose, mobileOpen }) {
@@ -24,10 +25,11 @@ export default function Sidebar({ onClose, mobileOpen }) {
       </div>
 
       <nav className={styles.nav}>
-        {NAV.map(({ to, label, icon }) => (
+        {NAV.map(({ to, label, icon, end }) => (
           <NavLink
             key={to}
             to={to}
+            end={end}
             className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
             onClick={onClose}
           >

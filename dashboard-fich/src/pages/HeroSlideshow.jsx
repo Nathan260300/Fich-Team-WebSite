@@ -52,8 +52,8 @@ export default function HeroSlideshow() {
   return (
     <div>
       <PageHeader
-        title="Slideshow Hero"
-        desc="Sélectionne les images du slideshow depuis les photos de projets."
+        title="Carrousel accueil"
+        desc="Sélectionne les images qui défilent sur la page d'accueil du site."
         action={<button className={s.btnPrimary} onClick={() => setPickerOpen(true)}>+ Ajouter une image</button>}
       />
 
