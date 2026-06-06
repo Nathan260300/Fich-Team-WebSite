@@ -27,6 +27,7 @@ function MemberModal({ member, onClose, onSave }) {
   const [form, setForm] = useState({ pseudo: member.pseudo ?? '', avatar: member.avatar ?? '', banner: member.banner ?? '', description: member.description ?? '' });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const handleSave = async () => {
@@ -59,7 +60,34 @@ function MemberModal({ member, onClose, onSave }) {
             <div className={styles.field}>
               <label className={styles.label}>Avatar</label>
               <input value={form.avatar} onChange={e => set('avatar', e.target.value)} placeholder="ID Discord ou chemin storage" />
-              <span className={styles.hint}>Ex: 1316068882154393693 ou data-img/members/pp-xxx.webp</span>
+              <span className={styles.hint}>ID Discord (ex: 1316068882154393693) ou chemin storage</span>
+              <label className={styles.uploadAvatarBtn}>
+                {uploadingAvatar ? 'Upload…' : '📁 Uploader une image'}
+                <input type="file" accept="image/*" style={{ display: 'none' }} disabled={uploadingAvatar}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setUploadingAvatar(true);
+                    const img = new Image();
+                    const url = URL.createObjectURL(file);
+                    img.onload = async () => {
+                      const canvas = document.createElement('canvas');
+                      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+                      canvas.getContext('2d').drawImage(img, 0, 0);
+                      URL.revokeObjectURL(url);
+                      canvas.toBlob(async (blob) => {
+                        const pseudo = form.pseudo.trim().toLowerCase().replace(/\s+/g, '-') || 'member';
+                        const path = `data-img/members/pp-${pseudo}.webp`;
+                        const { error: upErr } = await supabase.storage.from('media').upload(path, blob, { upsert: true, contentType: 'image/webp' });
+                        setUploadingAvatar(false);
+                        if (!upErr) set('avatar', path);
+                      }, 'image/webp', 0.9);
+                    };
+                    img.onerror = () => { URL.revokeObjectURL(url); setUploadingAvatar(false); };
+                    img.src = url;
+                  }}
+                />
+              </label>
             </div>
           </div>
           <div className={styles.field}>

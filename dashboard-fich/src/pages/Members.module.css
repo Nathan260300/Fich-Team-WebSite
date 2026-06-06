@@ -265,3 +265,24 @@
   .rowDesc { display: none; }
   .iconBtn { width: 28px; height: 28px; font-size: 0.75rem; }
 }
+
+.uploadAvatarBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(61,158,255,.08);
+  border: 1px dashed rgba(61,158,255,.3);
+  color: var(--c-accent);
+  border-radius: var(--r-sm);
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+  margin-top: 4px;
+}
+
+.uploadAvatarBtn:hover {
+  background: rgba(61,158,255,.15);
+  border-color: rgba(61,158,255,.5);
+}
