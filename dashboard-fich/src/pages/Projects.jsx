@@ -69,6 +69,21 @@ function PhotosPanel({ project, images, onRefresh }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
 
+  const toWebp = (file) => new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext('2d').drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Conversion webp échouée')), 'image/webp', 0.9);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image invalide')); };
+    img.src = url;
+  });
+
   const handleUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -80,21 +95,16 @@ function PhotosPanel({ project, images, onRefresh }) {
       return match ? parseInt(match[1]) : -1;
     });
     const nextNum = nums.length > 0 ? Math.max(...nums) + 1 : 0;
-
-    const ext = file.name.split('.').pop();
-    const tmpPath = `data-img/projects/${project.id}/img${nextNum}_tmp.${ext}`;
     const finalPath = `data-img/projects/${project.id}/img${nextNum}.webp`;
 
-    const { error: upErr } = await supabase.storage.from('media').upload(tmpPath, file, { upsert: true, contentType: file.type });
+    let webpBlob;
+    try { webpBlob = await toWebp(file); }
+    catch (err) { setError(err.message); setUploading(false); return; }
+
+    const { error: upErr } = await supabase.storage.from('media').upload(finalPath, webpBlob, { upsert: false, contentType: 'image/webp' });
     if (upErr) { setError(upErr.message); setUploading(false); return; }
 
-    const { error: copyErr } = await supabase.storage.from('media').move(tmpPath, finalPath);
-    if (copyErr) {
-      await supabase.storage.from('media').remove([tmpPath]);
-      setError(copyErr.message); setUploading(false); return;
-    }
-
-    const maxOrder = existing?.length > 0 ? nums.length : 0;
+    const maxOrder = existing?.length ?? 0;
     await supabase.from('project_images').insert({ project_id: project.id, path: finalPath, sort_order: maxOrder });
     setUploading(false);
     onRefresh();
