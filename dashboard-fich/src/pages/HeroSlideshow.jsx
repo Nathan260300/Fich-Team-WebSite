@@ -54,7 +54,7 @@ export default function HeroSlideshow() {
   return (
     <div>
       <PageHeader
-        title="Carrousel accueil"
+        title="Page Accueil"
         desc="Sélectionne les images qui défilent sur la page d'accueil du site."
         action={<button className={s.btnPrimary} onClick={() => setPickerOpen(true)}>+ Ajouter une image</button>}
       />
