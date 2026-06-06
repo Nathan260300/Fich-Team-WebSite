@@ -1,3 +1,4 @@
+import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
@@ -64,6 +65,7 @@ function VideoModal({ video, onClose, onSave }) {
 }
 
 export default function Videos() {
+  usePageTitle('Vidéos');
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);

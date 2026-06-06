@@ -1,3 +1,4 @@
+import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
@@ -64,6 +65,7 @@ function ChannelModal({ channel, onClose, onSave }) {
 }
 
 export default function Channels() {
+  usePageTitle('Partenaires');
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);

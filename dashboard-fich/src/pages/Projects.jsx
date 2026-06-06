@@ -1,3 +1,4 @@
+import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
@@ -140,6 +141,7 @@ function PhotosPanel({ project, images, onRefresh }) {
 }
 
 export default function Projects() {
+  usePageTitle('Projets & Photos');
   const [projects, setProjects] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);

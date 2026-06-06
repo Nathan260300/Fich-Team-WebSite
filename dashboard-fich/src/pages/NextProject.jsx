@@ -1,3 +1,4 @@
+import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
@@ -65,6 +66,7 @@ function InfoModal({ info, projectId, onClose, onSave }) {
 }
 
 export default function NextProject() {
+  usePageTitle('Prochain event');
   const [project, setProject] = useState(null);
   const [infos, setInfos] = useState([]);
   const [loading, setLoading] = useState(true);

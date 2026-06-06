@@ -1,3 +1,4 @@
+import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
@@ -7,6 +8,7 @@ import hs from './HeroSlideshow.module.css';
 const STORAGE_URL = 'https://unhfpfhsidmyxwcfdnek.supabase.co/storage/v1/object/public/media';
 
 export default function HeroSlideshow() {
+  usePageTitle('Page Accueil');
   const [slides, setSlides] = useState([]);
   const [allImages, setAllImages] = useState([]);
   const [loading, setLoading] = useState(true);

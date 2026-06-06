@@ -1,3 +1,4 @@
+import { usePageTitle } from '../hooks/usePageTitle';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
@@ -13,6 +14,7 @@ const SECTIONS = [
 ];
 
 export default function Home() {
+  usePageTitle('Accueil');
   return (
     <div>
       <div className={styles.hero}>

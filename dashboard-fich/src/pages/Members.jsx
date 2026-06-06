@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -136,6 +137,7 @@ function SortableRow({ member, onEdit, onDelete, onUp, onDown, isFirst, isLast }
 }
 
 export default function Members() {
+  usePageTitle('Membres');
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);
