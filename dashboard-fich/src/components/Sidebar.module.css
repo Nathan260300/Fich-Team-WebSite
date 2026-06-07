@@ -100,3 +100,27 @@
     transform: translateX(0);
   }
 }
+
+.footer {
+  padding: 12px 10px 16px;
+  border-top: 1px solid var(--c-border);
+  margin-top: auto;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  color: var(--c-dim);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color .18s, background .18s;
+}
+
+.backBtn:hover {
+  color: var(--c-muted);
+  background: rgba(255,255,255,.04);
+}
