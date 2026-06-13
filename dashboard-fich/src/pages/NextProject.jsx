@@ -7,7 +7,7 @@ import s from './shared.module.css';
 
 function InfoModal({ info, projectId, onClose, onSave }) {
   const isNew = !info.id;
-  const [form, setForm] = useState({ icon: info.icon ?? '', label: info.label ?? '', value: info.value ?? '', highlight: info.highlight ?? false });
+  const [form, setForm] = useState({ icon: info.icon ?? '', label: info.label ?? '', value: info.value ?? '', url: info.url ?? '', highlight: info.highlight ?? false });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
@@ -15,7 +15,7 @@ function InfoModal({ info, projectId, onClose, onSave }) {
   const handleSave = async () => {
     if (!form.label.trim()) { setError('Le label est requis.'); return; }
     setSaving(true); setError(null);
-    const payload = { next_project_id: projectId, icon: form.icon.trim() || null, label: form.label.trim(), value: form.value.trim() || null, highlight: form.highlight };
+    const payload = { next_project_id: projectId, icon: form.icon.trim() || null, label: form.label.trim(), value: form.value.trim() || null, url: form.url.trim() || null, highlight: form.highlight };
     let err;
     if (isNew) {
       const { data: maxRow } = await supabase.from('next_project_infos').select('sort_order').order('sort_order', { ascending: false }).limit(1).single();
@@ -50,6 +50,11 @@ function InfoModal({ info, projectId, onClose, onSave }) {
           <div className={s.field}>
             <label className={s.label}>Valeur</label>
             <input value={form.value} onChange={e => set('value', e.target.value)} placeholder="survival.fich.fr" />
+          </div>
+          <div className={s.field}>
+            <label className={s.label}>Lien (optionnel)</label>
+            <input value={form.url} onChange={e => set('url', e.target.value)} placeholder="https://..." />
+            <span className={s.hint}>Si renseigné, la carte devient cliquable</span>
           </div>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.875rem', color: 'var(--c-muted)', cursor: 'pointer' }}>
             <input type="checkbox" checked={form.highlight} onChange={e => set('highlight', e.target.checked)} style={{ width: 'auto' }} />
@@ -153,6 +158,11 @@ export default function NextProject() {
                   <span className={s.rowName}>{info.label}</span>
                   <span className={s.rowSub}>{info.value}</span>
                 </div>
+                {info.url && (
+                  <a href={info.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.78rem', color: 'var(--c-accent)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+                    Ouvrir <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </a>
+                )}
                 {info.highlight && <span className={`${s.badge} ${s.badgeSure}`}>Highlight</span>}
                 <div className={s.rowActions}>
                   <button className={s.iconBtn} onClick={() => setInfoModal(info)} title="Modifier">✏️</button>
