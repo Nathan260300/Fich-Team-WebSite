@@ -130,18 +130,24 @@ function NextProjectSection({ onOpenForm }) {
         {project.infos.map((info, i) => (
           <motion.div
             key={info.id}
-            className={`${styles.nextInfoItem} ${info.highlight ? styles.nextInfoItemHighlight : ''}`}
+            className={`${styles.nextInfoItem} ${info.highlight ? styles.nextInfoItemHighlight : ''} ${info.url ? styles.nextInfoItemLink : ''}`}
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             whileHover={{ y: -2, transition: { duration: 0.2 } }}
             transition={{ delay: 0.32 + i * 0.07, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            onClick={() => info.url && window.open(info.url, '_blank', 'noopener,noreferrer')}
           >
             <span className={styles.nextInfoIcon}>{info.icon}</span>
             <div>
               <p className={styles.nextInfoLabel}>{info.label}</p>
               <p className={styles.nextInfoValue}>{info.value}</p>
             </div>
+            {info.url && (
+              <svg className={styles.nextInfoArrow} width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
           </motion.div>
         ))}
       </div>
