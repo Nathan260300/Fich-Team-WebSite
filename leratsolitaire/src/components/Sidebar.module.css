@@ -1,0 +1,57 @@
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: var(--parchment-bg);
+  background-image: linear-gradient(180deg, var(--parchment-hi) 0%, var(--parchment) 45%, var(--parchment-lo) 100%);
+  border: 3px solid var(--wood-border);
+  border-radius: 4px;
+  box-shadow: inset 0 0 24px rgba(0,0,0,.1), 0 6px 20px rgba(0,0,0,.5);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.rivets { position: absolute; inset: 5px; pointer-events: none; }
+.rivet {
+  position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--wood-hi), var(--rivet) 60%, var(--wood-darkest));
+  box-shadow: 0 1px 3px rgba(0,0,0,.6);
+}
+.rivets .rivet:nth-child(1) { top: 0; left: 0; }
+.rivets .rivet:nth-child(2) { top: 0; right: 0; }
+.rivets .rivet:nth-child(3) { bottom: 0; left: 0; }
+.rivets .rivet:nth-child(4) { bottom: 0; right: 0; }
+
+.section { border-bottom: 2px solid var(--parchment-lo); }
+.section:last-of-type { border-bottom: none; }
+
+.sectionHeader {
+  background: var(--wood-dark);
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,.08) 3px, rgba(0,0,0,.08) 4px);
+  padding: 8px 16px;
+  border-top: 1px solid var(--wood-border);
+  border-bottom: 1px solid var(--wood-border);
+}
+
+.sectionTitle {
+  font-family: var(--f-display); font-size: 0.66rem; font-weight: 700;
+  color: var(--parchment-lo); text-transform: uppercase; letter-spacing: .16em;
+}
+
+.nav { display: flex; flex-direction: column; padding: 8px; gap: 1px; }
+
+.link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 10px; border-radius: 2px;
+  font-family: var(--f-body); font-size: 0.92rem;
+  color: var(--ink); text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: color .12s, background .12s, border-color .12s;
+}
+.link:hover { background: rgba(0,0,0,.07); }
+.link.active { background: rgba(0,0,0,.1); border-left-color: var(--wood-border); font-weight: 600; }
+
+.footer { padding: 14px 16px; text-align: center; }
+.footerText { font-family: var(--f-display); font-size: 0.6rem; color: var(--text-muted); letter-spacing: .06em; text-transform: uppercase; }
+.footerSub { font-size: 0.72rem; color: var(--text-muted); font-style: italic; margin-top: 2px; }

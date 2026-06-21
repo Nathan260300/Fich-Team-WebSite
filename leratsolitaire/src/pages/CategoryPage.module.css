@@ -1,0 +1,44 @@
+.loading { color: var(--text-muted); font-style: italic; }
+
+.notFound { color: var(--text-dim); }
+.notFound h1 { font-family: var(--f-display); color: var(--ink); margin-bottom: 12px; font-size: 1.5rem; }
+
+.header { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 0.82rem; }
+.breadcrumb { color: var(--wood-border); }
+.breadcrumb:hover { color: var(--gold-lo); }
+.breadcrumbSep { color: var(--text-muted); }
+.breadcrumbCurrent { color: var(--text-dim); }
+
+.title {
+  font-family: var(--f-display); font-size: 1.6rem; font-weight: 900;
+  color: var(--ink); display: flex; align-items: center; gap: 12px;
+  margin-bottom: 8px; text-transform: uppercase;
+  text-shadow: 1px 1px 0 rgba(255,255,255,.3);
+}
+.titleSep { height: 3px; background: linear-gradient(90deg, var(--wood-border), transparent); margin-bottom: 24px; }
+
+.empty { color: var(--text-muted); font-style: italic; }
+
+.list { display: flex; flex-direction: column; gap: 8px; }
+
+.pageCard {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--wood-dark);
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,.07) 3px, rgba(0,0,0,.07) 4px);
+  border: 2px solid var(--wood-border); border-radius: 3px;
+  padding: 13px 18px; text-decoration: none; color: var(--parchment);
+  position: relative; overflow: hidden;
+  transition: border-color .15s, transform .15s;
+  box-shadow: 0 3px 8px rgba(0,0,0,.4);
+}
+.pageCard:hover { border-color: var(--gold); transform: translateX(5px); color: var(--parchment-hi); }
+
+.pageCardLeft { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); opacity: 0; transition: opacity .15s; }
+.pageCard:hover .pageCardLeft { opacity: 1; }
+
+.pageInfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pageTitle { font-family: var(--f-display); font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .02em; }
+.pageDate { font-size: 0.74rem; color: var(--wood-hi); }
+
+.pageArrow { color: var(--wood-hi); font-size: 1rem; flex-shrink: 0; transition: color .15s, transform .15s; }
+.pageCard:hover .pageArrow { color: var(--gold); transform: translateX(4px); }

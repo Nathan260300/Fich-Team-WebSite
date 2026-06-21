@@ -5,25 +5,43 @@ import { supabase } from '../lib/supabase';
 import PageHeader from '../components/PageHeader';
 import s from './shared.module.css';
 
-function VideoModal({ video, onClose, onSave }) {
+function VideoModal({ video, channels, onClose, onSave }) {
   const isNew = !video.id;
-  const [form, setForm] = useState({ id: video.id ?? '', title: video.title ?? '', creator: video.creator ?? '' });
+  const [form, setForm] = useState({
+    id: video.id ?? '',
+    title: video.title ?? '',
+    creator_id: video.creator_id ?? '',
+    creator: video.creator ?? '',
+  });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const handleCreatorChange = (value) => {
+    if (value === 'autre') {
+      setForm(f => ({ ...f, creator_id: '' }));
+    } else {
+      setForm(f => ({ ...f, creator_id: value, creator: '' }));
+    }
+  };
 
   const handleSave = async () => {
     if (!form.id.trim()) { setError("L'ID YouTube est requis."); return; }
     if (!form.title.trim()) { setError('Le titre est requis.'); return; }
     setSaving(true); setError(null);
-    const payload = { id: form.id.trim(), title: form.title.trim(), creator: form.creator.trim() || null };
+    const payload = {
+      id: form.id.trim(),
+      title: form.title.trim(),
+      creator_id: form.creator_id || null,
+      creator: form.creator_id ? null : (form.creator.trim() || null),
+    };
     let err;
     if (isNew) {
       const { data: maxRow } = await supabase.from('videos').select('sort_order').order('sort_order', { ascending: false }).limit(1).single();
       payload.sort_order = (maxRow?.sort_order ?? -1) + 1;
       ({ error: err } = await supabase.from('videos').insert(payload));
     } else {
-      ({ error: err } = await supabase.from('videos').update({ title: payload.title, creator: payload.creator }).eq('id', video.id));
+      ({ error: err } = await supabase.from('videos').update({ title: payload.title, creator_id: payload.creator_id, creator: payload.creator }).eq('id', video.id));
     }
     setSaving(false);
     if (err) { setError(err.message); return; }
@@ -52,8 +70,19 @@ function VideoModal({ video, onClose, onSave }) {
           </div>
           <div className={s.field}>
             <label className={s.label}>Créateur</label>
-            <input value={form.creator} onChange={e => set('creator', e.target.value)} placeholder="Nom du créateur" />
+            <select value={form.creator_id || 'autre'} onChange={e => handleCreatorChange(e.target.value)}>
+              <option value="autre">Autre (texte libre)</option>
+              {channels.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
           </div>
+          {!form.creator_id && (
+            <div className={s.field}>
+              <label className={s.label}>Nom du créateur</label>
+              <input value={form.creator} onChange={e => set('creator', e.target.value)} placeholder="Nom du créateur" />
+            </div>
+          )}
           {error && <motion.p className={s.error} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.p>}
         </div>
         <div className={s.modalFooter}>
@@ -68,13 +97,18 @@ function VideoModal({ video, onClose, onSave }) {
 export default function Videos() {
   usePageTitle('Vidéos');
   const [videos, setVideos] = useState([]);
+  const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase.from('videos').select('*').order('sort_order');
-    setVideos(data ?? []);
+    const [{ data: v }, { data: c }] = await Promise.all([
+      supabase.from('videos').select('*, channel:channels!creator_id(name)').order('sort_order'),
+      supabase.from('channels').select('id, name').order('sort_order'),
+    ]);
+    setVideos(v ?? []);
+    setChannels(c ?? []);
     setLoading(false);
   };
 
@@ -98,7 +132,7 @@ export default function Videos() {
               <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt="" style={{ width: 80, height: 45, objectFit: 'cover', borderRadius: 'var(--r-xs)', flexShrink: 0 }} />
               <div className={s.rowInfo}>
                 <span className={s.rowName}>{v.title}</span>
-                <span className={s.rowSub}>{v.creator} · {v.id}</span>
+                <span className={s.rowSub}>{v.channel?.name ?? v.creator} · {v.id}</span>
               </div>
               <div className={s.rowActions}>
                 <button className={s.iconBtn} onClick={() => setModal(v)} title="Modifier">✏️</button>
@@ -109,7 +143,7 @@ export default function Videos() {
         </motion.div>
       )}
       <AnimatePresence>
-        {modal && <VideoModal video={modal} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
+        {modal && <VideoModal video={modal} channels={channels} onClose={() => setModal(null)} onSave={() => { setModal(null); load(); }} />}
       </AnimatePresence>
     </div>
   );
