@@ -407,7 +407,7 @@ function PhotosPanel({ folders, openModal }) {
 }
 
 function VideosPanel({ openModal }) {
-  const { data: videos } = useSupabase('videos');
+  const { data: videos } = useSupabase('videos', { select: '*, channel:channels!creator_id(name, avatar)' });
 
   if (!videos) return <LoadingDots />;
 
@@ -446,7 +446,7 @@ function VideosPanel({ openModal }) {
           </div>
           <div className={styles.videoInfo}>
             <p className={styles.videoTitle}>{video.title}</p>
-            <p className={styles.videoCreator}>{video.creator}</p>
+            <p className={styles.videoCreator}>{video.channel?.name ?? video.creator}</p>
           </div>
         </motion.div>
       ))}
@@ -461,7 +461,7 @@ export default function Projets() {
   const { data: projectsRaw } = useSupabase('projects');
   const { data: projectImages } = useSupabase('project_images');
   const { data: nextProject } = useSupabase('next_project', { single: true, order: null });
-  const { data: videos } = useSupabase('videos');
+  const { data: videos } = useSupabase('videos', { select: '*, channel:channels!creator_id(name, avatar)' });
 
   const folders = projectsRaw && projectImages
     ? projectsRaw.map(p => ({
@@ -619,7 +619,7 @@ export default function Projets() {
             </div>
             <div className={styles.videoModalInfo}>
               <p className={styles.videoModalTitle}>{activeVideo.title}</p>
-              <p className={styles.videoModalCreator}>{activeVideo.creator}</p>
+              <p className={styles.videoModalCreator}>{activeVideo.channel?.name ?? activeVideo.creator}</p>
             </div>
           </motion.div>
         )}

@@ -57,15 +57,41 @@
 }
 .desc { font-size: .85rem; color: var(--c-muted); line-height: 1.62; max-width: 22ch; }
 
+.links {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 8px; margin-top: 3px;
+}
+
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--f-display); font-weight: 600; font-size: .78rem;
   color: var(--c-accent); background: rgba(61,158,255,.09);
   border: 1px solid rgba(61,158,255,.18); padding: 7px 15px;
-  border-radius: var(--r-sm); text-decoration: none; margin-top: 3px;
+  border-radius: var(--r-sm); text-decoration: none;
   transition: background .18s, transform .2s var(--ease-spring), color .18s;
 }
 .btn:hover { background: rgba(61,158,255,.18); color: #fff; transform: scale(1.04); }
+
+.btnTwitch { color: #b794ff; background: rgba(145,70,255,.09); border-color: rgba(145,70,255,.18); }
+.btnTwitch:hover { background: rgba(145,70,255,.18); color: #fff; }
+
+.btnDiscord { color: #8ea1ff; background: rgba(88,101,242,.09); border-color: rgba(88,101,242,.18); }
+.btnDiscord:hover { background: rgba(88,101,242,.18); color: #fff; }
+
+.sectionHeader {
+  display: flex; align-items: center; gap: 16px;
+  margin: 8px 0 26px;
+}
+.sectionBadge {
+  font-family: var(--f-mono); font-size: .7rem; font-weight: 700;
+  color: var(--c-muted); letter-spacing: .12em;
+  background: var(--c-surface-2); border: 1px solid var(--c-border-hi);
+  border-radius: 99px; padding: 5px 14px; white-space: nowrap; flex-shrink: 0;
+}
+.sectionLine {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--c-border-hi) 0%, transparent 100%);
+}
 
 .loading {
   display: flex; align-items: center; justify-content: center;
