@@ -10,7 +10,7 @@ const SECTIONS = [
   { to: '/other-projects',  icon: '📋', label: 'Autres projets',    desc: 'Gérer la timeline des autres projets.' },
   { to: '/next-project',    icon: '🎯', label: 'Prochain event',    desc: 'Modifier les infos du prochain événement.' },
   { to: '/videos',          icon: '🎬', label: 'Vidéos',            desc: 'Ajouter ou supprimer des vidéos YouTube.' },
-  { to: '/channels',        icon: '🤝', label: 'Relations',         desc: 'Gérer les chaînes partenaires.' },
+  { to: '/channels',        icon: '🤝', label: 'Relations',         desc: 'Gérer les relations.' },
   { to: '/hero-slideshow',  icon: '🖼️', label: 'Page Accueil',      desc: 'Choisir les images du carrousel.' },
 ];
 
