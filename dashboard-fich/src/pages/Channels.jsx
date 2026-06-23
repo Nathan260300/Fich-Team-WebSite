@@ -15,6 +15,7 @@ function ChannelModal({ channel, onClose, onSave }) {
     category: channel.category ?? 'partenaire',
     twitch_url: channel.twitch_url ?? '',
     discord_url: channel.discord_url ?? '',
+    recommendation_text: channel.recommendation_text ?? '',
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -31,6 +32,7 @@ function ChannelModal({ channel, onClose, onSave }) {
       category: form.category,
       twitch_url: form.twitch_url.trim() || null,
       discord_url: form.discord_url.trim() || null,
+      recommendation_text: form.recommendation_text.trim() || null,
     };
     let err;
     if (isNew) {
@@ -49,7 +51,7 @@ function ChannelModal({ channel, onClose, onSave }) {
     <motion.div className={s.overlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => e.target === e.currentTarget && onClose()}>
       <motion.div className={s.modal} initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.22, ease: [0.16,1,0.3,1] }}>
         <div className={s.modalHeader}>
-          <h2 className={s.modalTitle}>{isNew ? 'Ajouter un partenaire' : 'Modifier le partenaire'}</h2>
+          <h2 className={s.modalTitle}>{isNew ? 'Ajouter une relation' : 'Modifier la relation'}</h2>
           <button className={s.closeBtn} onClick={onClose}>✕</button>
         </div>
         <div className={s.modalBody}>
@@ -62,8 +64,15 @@ function ChannelModal({ channel, onClose, onSave }) {
             <select value={form.category} onChange={e => set('category', e.target.value)}>
               <option value="partenaire">Partenaire</option>
               <option value="ancien">Ancien partenaire</option>
+              <option value="recommandation">Recommandation</option>
             </select>
           </div>
+          {form.category === 'recommandation' && (
+            <div className={s.field}>
+              <label className={s.label}>Texte de recommandation</label>
+              <input value={form.recommendation_text} onChange={e => set('recommendation_text', e.target.value)} placeholder="Pourquoi recommandez-vous cette chaîne ?" />
+            </div>
+          )}
           <div className={s.field}>
             <label className={s.label}>Description</label>
             <input value={form.description} onChange={e => set('description', e.target.value)} placeholder="Description courte" />
@@ -104,7 +113,9 @@ function ChannelRow({ c, onEdit, onDelete }) {
         <span className={s.rowName}>{c.name}</span>
         <span className={s.rowSub}>{c.description}</span>
       </div>
-      <span className={`${s.badge} ${c.category === 'ancien' ? s.badgeUncertain : s.badgeSure}`}>{c.category === 'ancien' ? 'Ancien' : 'Partenaire'}</span>
+      <span className={`${s.badge} ${c.category === 'ancien' ? s.badgeUncertain : c.category === 'recommandation' ? s.badgeReco : s.badgeSure}`}>
+        {c.category === 'ancien' ? 'Ancien' : c.category === 'recommandation' ? 'Recommandation' : 'Partenaire'}
+      </span>
       <div className={s.rowActions}>
         <button className={s.iconBtn} onClick={() => onEdit(c)} title="Modifier">✏️</button>
         <button className={`${s.iconBtn} ${s.iconBtnDanger}`} onClick={() => onDelete(c.id)} title="Supprimer">🗑️</button>
@@ -114,7 +125,7 @@ function ChannelRow({ c, onEdit, onDelete }) {
 }
 
 export default function Channels() {
-  usePageTitle('Partenaires');
+  usePageTitle('Relations');
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);
@@ -134,16 +145,18 @@ export default function Channels() {
     load();
   };
 
-  const partners = channels.filter(c => c.category !== 'ancien');
-  const formers = channels.filter(c => c.category === 'ancien');
+  const partners    = channels.filter(c => c.category === 'partenaire' || (!c.category || (c.category !== 'ancien' && c.category !== 'recommandation')));
+  const formers     = channels.filter(c => c.category === 'ancien');
+  const recommended = channels.filter(c => c.category === 'recommandation');
 
   return (
     <div>
-      <PageHeader title="Partenaires" desc="Gérer les chaînes partenaires." action={
+      <PageHeader title="Relations" desc="Gérer les partenaires, anciens partenaires et recommandations." action={
         <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }} className={s.btnPrimary} onClick={() => setModal({})}>+ Ajouter</motion.button>
       } />
       {loading ? <div className={s.loading}>Chargement…</div> : (
         <>
+          <div className={s.label} style={{ margin: '0 0 8px' }}>Partenaires</div>
           <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
             {partners.map(c => (
               <ChannelRow key={c.id} c={c} onEdit={setModal} onDelete={handleDelete} />
@@ -155,6 +168,17 @@ export default function Channels() {
               <div className={s.label} style={{ margin: '20px 0 8px' }}>Anciens partenaires</div>
               <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
                 {formers.map(c => (
+                  <ChannelRow key={c.id} c={c} onEdit={setModal} onDelete={handleDelete} />
+                ))}
+              </motion.div>
+            </>
+          )}
+
+          {recommended.length > 0 && (
+            <>
+              <div className={s.label} style={{ margin: '20px 0 8px' }}>Recommandations</div>
+              <motion.div className={s.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
+                {recommended.map(c => (
                   <ChannelRow key={c.id} c={c} onEdit={setModal} onDelete={handleDelete} />
                 ))}
               </motion.div>

@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 
 const TITLES = {
-  '/':            'Accueil — FICH Team',
-  '/membres':     'Membres — FICH Team',
-  '/projets':     'Projets & Médias — FICH Team',
-  '/partenaires': 'Partenaires — FICH Team',
-  '/reseaux':     'Réseaux — FICH Team',
-  '/rejoindre':   'Rejoindre — FICH Team',
+  '/':          'Accueil — FICH Team',
+  '/qui':       'Qui — FICH Team',
+  '/projets':   'Projets & Médias — FICH Team',
+  '/reseaux':   'Réseaux — FICH Team',
+  '/rejoindre': 'Rejoindre — FICH Team',
 };
 
 export function usePageTitle(pathname) {

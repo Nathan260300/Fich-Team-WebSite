@@ -7,9 +7,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
-import Membres from './pages/Membres';
+import Qui from './pages/Qui';
 import Projets from './pages/Projets';
-import Partenaires from './pages/Partenaires';
 import Rejoindre from './pages/Rejoindre';
 import Reseaux from './pages/Reseaux';
 import NotFound from './pages/NotFound';
@@ -87,9 +86,8 @@ function AppContent({ ready }) {
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/"            element={<Home />} />
-            <Route path="/membres"     element={<Membres />} />
+            <Route path="/qui"         element={<Qui />} />
             <Route path="/projets"     element={<Projets />} />
-            <Route path="/partenaires" element={<Partenaires />} />
             <Route path="/reseaux"     element={<Reseaux />} />
             <Route path="/rejoindre"   element={<Rejoindre />} />
             <Route path="*"            element={<NotFound />} />

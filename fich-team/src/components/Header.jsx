@@ -5,11 +5,10 @@ import { useAppReady } from '../App';
 import styles from './Header.module.css';
 
 const NAV_LINKS = [
-  { to: '/',            label: 'Accueil',     code: '01' },
-  { to: '/membres',     label: 'Membres',     code: '02' },
-  { to: '/projets',     label: 'Projets',     code: '03' },
-  { to: '/partenaires', label: 'Partenaires', code: '04' },
-  { to: '/reseaux',     label: 'Réseaux',     code: '05' },
+  { to: '/',        label: 'Accueil',  code: '01' },
+  { to: '/qui',     label: 'Qui',    code: '02' },
+  { to: '/projets', label: 'Projets',  code: '03' },
+  { to: '/reseaux', label: 'Réseaux',  code: '04' },
 ];
 
 export default function Header() {

@@ -178,10 +178,9 @@ export default function Home() {
             transition={{ delay: 0.4, duration: 0.45 }}
           >
             <Btn href="/rejoindre"   variant="primary" size="lg">Nous rejoindre →</Btn>
-            <Btn href="/reseaux"     variant="ghost"   size="lg">Nos réseaux</Btn>
-            <Btn href="/membres"     variant="ghost"   size="lg">Les membres</Btn>
-            <Btn href="/partenaires" variant="ghost"   size="lg">Nos partenaires</Btn>
+            <Btn href="/qui"         variant="ghost"   size="lg">Qui sommes nous</Btn>
             <Btn href="/projets"     variant="ghost"   size="lg">Nos projets</Btn>
+            <Btn href="/reseaux"     variant="ghost"   size="lg">Nos réseaux</Btn>
           </motion.div>
         </section>
 
