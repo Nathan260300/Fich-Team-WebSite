@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
 const SECTIONS = [
-  { to: '/members',         icon: '👥', label: 'Membres',          desc: 'Ajouter, modifier, réordonner les membres.' },
+  { to: '/members',         icon: '👥', label: 'Membres',           desc: 'Ajouter, modifier, réordonner les membres.' },
   { to: '/projects',        icon: '📸', label: 'Projets & Photos',  desc: 'Gérer les projets et uploader des photos.' },
   { to: '/future-projects', icon: '🗓️', label: 'Futurs projets',    desc: 'Gérer la timeline des futurs projets.' },
   { to: '/other-projects',  icon: '📋', label: 'Autres projets',    desc: 'Gérer la timeline des autres projets.' },
   { to: '/next-project',    icon: '🎯', label: 'Prochain event',    desc: 'Modifier les infos du prochain événement.' },
   { to: '/videos',          icon: '🎬', label: 'Vidéos',            desc: 'Ajouter ou supprimer des vidéos YouTube.' },
-  { to: '/channels',        icon: '🤝', label: 'Partenaires',       desc: 'Gérer les chaînes partenaires.' },
+  { to: '/channels',        icon: '🤝', label: 'Relations',         desc: 'Gérer les chaînes partenaires.' },
   { to: '/hero-slideshow',  icon: '🖼️', label: 'Page Accueil',      desc: 'Choisir les images du carrousel.' },
 ];
 

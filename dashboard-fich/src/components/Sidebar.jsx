@@ -10,8 +10,8 @@ const NAV = [
   { to: '/other-projects',  label: 'Autres projets',     icon: '📋' },
   { to: '/next-project',    label: 'Prochain event',     icon: '🎯' },
   { to: '/videos',          label: 'Vidéos',             icon: '🎬' },
-  { to: '/channels',        label: 'Partenaires',        icon: '🤝' },
-  { to: '/hero-slideshow',  label: 'Page Accueil',  icon: '🖼️' },
+  { to: '/channels',        label: 'Relations',          icon: '🤝' },
+  { to: '/hero-slideshow',  label: 'Page Accueil',       icon: '🖼️' },
 ];
 
 export default function Sidebar({ onClose, mobileOpen }) {
