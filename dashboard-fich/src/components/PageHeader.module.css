@@ -3,8 +3,13 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
+}
+
+.left {
+  min-width: 0;
+  flex: 1;
 }
 
 .title {
@@ -12,15 +17,25 @@
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--c-text);
-  line-height: 1.2;
-  margin-bottom: 4px;
+  line-height: 1.15;
+  margin-bottom: 5px;
 }
 
 .desc {
   font-size: 0.875rem;
   color: var(--c-muted);
+  line-height: 1.5;
 }
 
 .action {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .header { gap: 12px; }
+  .title { font-size: 1.25rem; }
+  .action { width: 100%; }
 }
