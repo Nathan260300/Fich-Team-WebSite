@@ -4,44 +4,40 @@ import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import RightPanel from './RightPanel';
-import styles from './Layout.module.css';
+import s from './Layout.module.css';
 
 export default function Layout({ categories, children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const location = useLocation();
-
+  const [open, setOpen] = useState(false);
+  const loc = useLocation();
   return (
-    <div className={styles.root}>
+    <div className={s.root}>
       <Header categories={categories} />
-      <div className={styles.body}>
-        <button className={styles.burger} onClick={() => setSidebarOpen(v => !v)} aria-label="Menu">
-          <span className={styles.bar} /><span className={styles.bar} /><span className={styles.bar} />
+      <div className={s.body}>
+        <button className={s.burger} onClick={() => setOpen(v => !v)} aria-label="Menu">
+          <span className={s.bar}/><span className={s.bar}/><span className={s.bar}/>
         </button>
-        <div className={`${styles.sidebarWrap} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
-          <Sidebar categories={categories} onClose={() => setSidebarOpen(false)} />
+        <div className={`${s.sw} ${open ? s.so : ''}`}>
+          <Sidebar categories={categories} onClose={() => setOpen(false)} />
         </div>
-        {sidebarOpen && <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />}
-
-        <main className={styles.main}>
-          <div className={styles.mainPanel}>
-            <div className={styles.mainPanelRivets}>
-              <div className={styles.rivet} /><div className={styles.rivet} />
-              <div className={styles.rivet} /><div className={styles.rivet} />
+        {open && <div className={s.ov} onClick={() => setOpen(false)} />}
+        <main className={s.main}>
+          <div className={s.mp}>
+            <div className={s.rv}>
+              <div className={s.r}/><div className={s.r}/><div className={s.r}/><div className={s.r}/>
             </div>
             <AnimatePresence mode="wait">
-              <motion.div key={location.pathname}
-                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, ease: [0.16,1,0.3,1] }}>
+              <motion.div key={loc.pathname}
+                initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.18, ease: [0.16,1,0.3,1] }}>
                 {children}
               </motion.div>
             </AnimatePresence>
           </div>
         </main>
-
         <RightPanel />
       </div>
-      <footer className={styles.footer}>
-        <span>Civilisation Céleste II Wiki · Cet événement n'est pas affilié à Mojang AB</span>
+      <footer className={s.footer}>
+        Civilisation Céleste II Wiki · Cet événement n'est pas affilié à Mojang AB
       </footer>
     </div>
   );

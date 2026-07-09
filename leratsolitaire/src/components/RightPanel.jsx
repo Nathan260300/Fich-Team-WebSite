@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import styles from './RightPanel.module.css';
+import s from './RightPanel.module.css';
 
-const PLACEHOLDER_LINKS = [
+const LINKS = [
   { icon: '📘', label: 'Guide de démarrage', href: '#' },
   { icon: '❓', label: 'FAQ', href: '#' },
   { icon: '📦', label: 'Liste des objets', href: '#' },
@@ -10,55 +10,31 @@ const PLACEHOLDER_LINKS = [
 ];
 
 export default function RightPanel({ galleryImages = [] }) {
-  const [index, setIndex] = useState(0);
-  const hasImages = galleryImages.length > 0;
-
+  const [idx, setIdx] = useState(0);
   return (
-    <aside className={styles.panel}>
-      <div className={styles.block}>
-        <div className={styles.rivets}>
-          <div className={styles.rivet}/><div className={styles.rivet}/>
-          <div className={styles.rivet}/><div className={styles.rivet}/>
+    <aside className={s.panel}>
+      <div className={s.block}>
+        <div className={s.rivets}><div className={s.r}/><div className={s.r}/><div className={s.r}/><div className={s.r}/></div>
+        <div className={s.sh}><span className={s.st}>Galerie</span></div>
+        <div className={s.gframe}>
+          {galleryImages.length > 0
+            ? <img src={galleryImages[idx]} alt="" className={s.gimg} />
+            : <div className={s.gph}><img src="/leratsolitaire/bg.png" alt="" className={s.gimg} style={{objectPosition:'center 20%'}}/></div>
+          }
         </div>
-        <div className={styles.sectionHeader}><span className={styles.sectionTitle}>Galerie</span></div>
-        <div className={styles.galleryFrame}>
-          {hasImages ? (
-            <img src={galleryImages[index]} alt="" className={styles.galleryImg} />
-          ) : (
-            <div className={styles.galleryPlaceholder}>🏰</div>
-          )}
+        <div className={s.dots}>
+          {[0,1,2,3].map(i => <button key={i} className={`${s.dot}${idx===i?` ${s.da}`:''}`} onClick={() => setIdx(i)} />)}
         </div>
-        {hasImages && galleryImages.length > 1 && (
-          <div className={styles.dots}>
-            {galleryImages.map((_, i) => (
-              <button key={i} className={`${styles.dot} ${i === index ? styles.dotActive : ''}`} onClick={() => setIndex(i)} aria-label={`Image ${i + 1}`} />
-            ))}
-          </div>
-        )}
       </div>
 
-      <div className={styles.block}>
-        <div className={styles.rivets}>
-          <div className={styles.rivet}/><div className={styles.rivet}/>
-          <div className={styles.rivet}/><div className={styles.rivet}/>
-        </div>
-        <div className={styles.sectionHeader}><span className={styles.sectionTitle}>Liens utiles</span></div>
-        <div className={styles.linksList}>
-          {PLACEHOLDER_LINKS.map((l, i) => (
-            <a key={i} href={l.href} className={styles.linkItem}>
-              <span>{l.icon}</span> {l.label}
-            </a>
+      <div className={s.block}>
+        <div className={s.rivets}><div className={s.r}/><div className={s.r}/><div className={s.r}/><div className={s.r}/></div>
+        <div className={s.sh}><span className={s.st}>Liens utiles</span></div>
+        <div className={s.links}>
+          {LINKS.map((l, i) => (
+            <a key={i} href={l.href} className={s.li}><span>{l.icon}</span> {l.label}</a>
           ))}
         </div>
-      </div>
-
-      <div className={styles.quoteBlock}>
-        <div className={styles.rivets}>
-          <div className={styles.rivet}/><div className={styles.rivet}/>
-          <div className={styles.rivet}/><div className={styles.rivet}/>
-        </div>
-        <p className={styles.quote}>« L'innovation est le moteur du progrès, et l'ingéniosité notre meilleur allié. »</p>
-        <p className={styles.quoteAuthor}>— Guide Céleste</p>
       </div>
     </aside>
   );

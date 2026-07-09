@@ -1,11 +1,11 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
-import styles from './WikiContent.module.css';
+import s from './WikiContent.module.css';
 
 export default function WikiContent({ content }) {
   return (
-    <div className={styles.content}>
+    <div className={s.c}>
       <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{content}</ReactMarkdown>
     </div>
   );

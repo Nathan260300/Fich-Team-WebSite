@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { usePagesByCategory, useCategories } from '../hooks/useWikiData';
-import styles from './CategoryPage.module.css';
+import s from './CategoryPage.module.css';
 
 export default function CategoryPage() {
   const { categorySlug } = useParams();
@@ -9,47 +9,36 @@ export default function CategoryPage() {
   const pages = usePagesByCategory(categorySlug);
   const cat = categories?.find(c => c.slug === categorySlug);
 
-  if (pages === null) return <div className={styles.loading}>Chargement…</div>;
+  if (pages === null) return <div className={s.loading}>Chargement…</div>;
 
-  if (!cat && categories !== null) {
-    return (
-      <div className={styles.notFound}>
-        <h1>Catégorie introuvable</h1>
-        <Link to="/">← Retour à l'accueil</Link>
-      </div>
-    );
-  }
+  if (!cat && categories !== null) return (
+    <div className={s.nf}><h1>Catégorie introuvable</h1><Link to="/">← Retour</Link></div>
+  );
 
   return (
     <div>
-      <motion.div className={styles.header} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-        <Link to="/" className={styles.breadcrumb}>Accueil</Link>
-        <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>{cat?.name}</span>
+      <motion.div className={s.bc} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }}>
+        <Link to="/" className={s.bcl}>Accueil</Link>
+        <span className={s.bcs}>›</span>
+        <span className={s.bcc}>{cat?.name}</span>
       </motion.div>
-
-      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05, duration: 0.35 }}>
-        <h1 className={styles.title}><span>{cat?.icon}</span> {cat?.name}</h1>
-        <div className={styles.titleSep} />
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04, duration: 0.3 }}>
+        <h1 className={s.title}><span>{cat?.icon}</span> {cat?.name}</h1>
+        <div className={s.sep} />
       </motion.div>
-
       {pages.length === 0 ? (
-        <motion.p className={styles.empty} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
-          Aucune page dans cette catégorie pour l'instant.
-        </motion.p>
+        <p className={s.empty}>Aucune page dans cette catégorie pour l'instant.</p>
       ) : (
-        <motion.div className={styles.list} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.06 } } }}>
+        <motion.div className={s.list} initial="h" animate="v" variants={{ v: { transition: { staggerChildren: 0.06 } } }}>
           {pages.map(page => (
-            <motion.div key={page.id} variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }}>
-              <Link to={`/wiki/${page.slug}`} className={styles.pageCard}>
-                <div className={styles.pageCardLeft} />
-                <div className={styles.pageInfo}>
-                  <span className={styles.pageTitle}>{page.title}</span>
-                  <span className={styles.pageDate}>
-                    Mis à jour le {new Date(page.updated_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
+            <motion.div key={page.id} variants={{ h: { opacity: 0, x: -10 }, v: { opacity: 1, x: 0 } }} transition={{ duration: 0.28, ease: [0.16,1,0.3,1] }}>
+              <Link to={`/wiki/${page.slug}`} className={s.pc}>
+                <div className={s.pl} />
+                <div className={s.pi}>
+                  <span className={s.pn}>{page.title}</span>
+                  <span className={s.pd}>Mis à jour le {new Date(page.updated_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                 </div>
-                <span className={styles.pageArrow}>→</span>
+                <span className={s.pa}>→</span>
               </Link>
             </motion.div>
           ))}
