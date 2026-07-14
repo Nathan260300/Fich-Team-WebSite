@@ -45,7 +45,11 @@ export default function Header({ categories }) {
       <div className={s.top}>
         <div className={s.topLeft} />
         <Link to="/" className={s.brand}>
-          <img src="/leratsolitaire/logo.png" alt="Civilisation Céleste II" className={s.logo} />
+          <div className={s.logoFrame}>
+            <div className={s.logoFrameCornerBL} />
+            <div className={s.logoFrameCornerBR} />
+            <img src="/leratsolitaire/logo.png" alt="Civilisation Céleste II" className={s.logo} />
+          </div>
           <div className={s.wikiTag}>
             <span className={s.wikiLabel}>Wiki</span>
           </div>
