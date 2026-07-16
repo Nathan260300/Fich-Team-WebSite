@@ -11,7 +11,7 @@ const MISSIONS = [
 ];
 
 export default function Home({ categories }) {
-  useEffect(() => { document.title = 'Civilisation Céleste II Wiki'; }, []);
+  useEffect(() => { document.title = 'Accueil – Civilisation Céleste II'; }, []);
   return (
     <div>
       <motion.div className={s.hero} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.16,1,0.3,1] }}>

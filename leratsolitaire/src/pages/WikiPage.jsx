@@ -10,9 +10,9 @@ export default function WikiPage() {
   const page = usePage(pageSlug);
 
   useEffect(() => {
-    if (page) document.title = `${page.title} · Civilisation Céleste II Wiki`;
-    else if (page === null) document.title = 'Page introuvable · Civilisation Céleste II Wiki';
-    return () => { document.title = 'Civilisation Céleste II Wiki'; };
+    if (page) document.title = `${page.title} – Civilisation Céleste II`;
+    else if (page === null) document.title = 'Page introuvable – Civilisation Céleste II';
+    return () => { document.title = 'Civilisation Céleste II'; };
   }, [page]);
 
   if (page === undefined) return (

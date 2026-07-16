@@ -11,8 +11,8 @@ export default function CategoryPage() {
   const cat = categories?.find(c => c.slug === categorySlug);
 
   useEffect(() => {
-    if (cat) document.title = `${cat.name} · Civilisation Céleste II Wiki`;
-    return () => { document.title = 'Civilisation Céleste II Wiki'; };
+    if (cat) document.title = `${cat.name} – Civilisation Céleste II`;
+    return () => { document.title = 'Civilisation Céleste II'; };
   }, [cat]);
 
   if (pages === null) return <div className={s.loading}>Chargement…</div>;
