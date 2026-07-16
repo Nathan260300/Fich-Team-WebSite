@@ -59,10 +59,10 @@ export default function Header({ categories }) {
         </div>
       </div>
       <nav className={s.nav}>
-        <Link to="/" className={s.nl}><span>🏠</span> Accueil</Link>
+        <Link to="/" className={s.nl}><span className={s.nico}>🏠</span> Accueil</Link>
         {categories?.map(cat => (
           <Link key={cat.id} to={`/categorie/${cat.slug}`} className={s.nl}>
-            <span>{cat.icon}</span> {cat.name}
+            <span className={s.nico}>{cat.icon}</span> {cat.name}
           </Link>
         ))}
       </nav>

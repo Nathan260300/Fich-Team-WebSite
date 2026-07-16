@@ -16,18 +16,29 @@
 }
 .back:hover { border-color: #c8860a; color: #c8860a; }
 
-.bc { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 20px; flex-wrap: wrap; }
-.bcl { color: #6b4418; }
+.bc {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 0.78rem; margin-bottom: 22px;
+  background: rgba(0,0,0,.06); border: 1px solid rgba(90,56,20,.35); border-radius: 4px;
+  padding: 8px 14px;
+}
+.bcl { color: #6b4418; font-weight: 600; }
 .bcl:hover { color: #c8860a; }
-.bcs { color: #8a6030; }
-.bcc { color: #4a2e10; }
+.bcs { color: #c8860a; font-size: 0.9em; }
+.bcc { color: #4a2e10; font-weight: 600; }
 
 .foot {
   display: flex; align-items: center; justify-content: space-between;
-  margin-top: 38px; padding-top: 13px;
+  margin-top: 38px; padding-top: 16px;
   border-top: 2px solid rgba(90,56,20,.4);
   flex-wrap: wrap; gap: 10px;
 }
 .fd { font-size: 0.73rem; color: #8a6030; font-style: italic; }
-.fb { font-size: 0.82rem; color: #6b4418; }
-.fb:hover { color: #c8860a; }
+.fb {
+  display: inline-block; padding: 7px 16px;
+  background: #2e1a08; border: 2px solid #6b4418; border-radius: 3px;
+  color: #d4b87a; font-size: 0.76rem; font-family: var(--fd);
+  text-transform: uppercase; letter-spacing: .06em;
+  transition: border-color .15s, color .15s;
+}
+.fb:hover { border-color: #c8860a; color: #c8860a; }

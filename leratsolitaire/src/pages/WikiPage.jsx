@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { usePage } from '../hooks/useWikiData';
 import WikiContent from '../components/WikiContent';
@@ -7,6 +8,12 @@ import s from './WikiPage.module.css';
 export default function WikiPage() {
   const { pageSlug } = useParams();
   const page = usePage(pageSlug);
+
+  useEffect(() => {
+    if (page) document.title = `${page.title} · Civilisation Céleste II Wiki`;
+    else if (page === null) document.title = 'Page introuvable · Civilisation Céleste II Wiki';
+    return () => { document.title = 'Civilisation Céleste II Wiki'; };
+  }, [page]);
 
   if (page === undefined) return (
     <div className={s.loading}>

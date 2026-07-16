@@ -26,7 +26,7 @@
 
 .sh {
   background: linear-gradient(90deg, #2e1a08, #3e2510, #2e1a08);
-  background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,0,0,.1) 4px, rgba(0,0,0,.1) 5px);
+  background-image: linear-gradient(90deg, #2e1a08, #3e2510, #2e1a08);
   padding: 9px 18px;
   border-top: 1px solid #7a5220;
   border-bottom: 1px solid rgba(0,0,0,.4);

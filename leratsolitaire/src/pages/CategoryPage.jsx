@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { usePagesByCategory, useCategories } from '../hooks/useWikiData';
 import s from './CategoryPage.module.css';
@@ -8,6 +9,11 @@ export default function CategoryPage() {
   const categories = useCategories();
   const pages = usePagesByCategory(categorySlug);
   const cat = categories?.find(c => c.slug === categorySlug);
+
+  useEffect(() => {
+    if (cat) document.title = `${cat.name} · Civilisation Céleste II Wiki`;
+    return () => { document.title = 'Civilisation Céleste II Wiki'; };
+  }, [cat]);
 
   if (pages === null) return <div className={s.loading}>Chargement…</div>;
 

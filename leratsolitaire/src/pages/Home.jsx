@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import s from './Home.module.css';
 
 const MISSIONS = [
-  { icon: '⚒️', label: 'Développer votre civilisation' },
-  { icon: '🛸', label: 'Construisez des vaisseaux' },
-  { icon: '🧭', label: 'Explorez les îles' },
-  { icon: '🤝', label: 'Formez des alliances' },
-  { icon: '⚔️', label: 'Détruisez vos ennemis' },
-  { icon: '👑', label: 'Dominez le ciel' },
+  { icon: '🛸', title: 'Explorez', label: 'Parcourez les articles et découvrez tout l\'univers de l\'événement.' },
+  { icon: '⚙️', title: 'Apprenez', label: 'Comprenez les mécanismes et optimisez vos installations.' },
+  { icon: '🏗️', title: 'Créez', label: 'Inspirez-vous des créations et bâtissez votre civilisation.' },
+  { icon: '🤝', title: 'Participez', label: 'Rejoignez la communauté et partagez vos idées et vos créations.' },
 ];
 
 export default function Home({ categories }) {
+  useEffect(() => { document.title = 'Civilisation Céleste II Wiki'; }, []);
   return (
     <div>
       <motion.div className={s.hero} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.16,1,0.3,1] }}>
@@ -26,7 +26,7 @@ export default function Home({ categories }) {
         {MISSIONS.map((m) => (
           <motion.div key={m.label} className={s.mc} variants={{ h: { opacity: 0, y: 14 }, v: { opacity: 1, y: 0 } }} transition={{ duration: 0.28, ease: [0.16,1,0.3,1] }}>
             <div className={s.mimg}><span className={s.mico}>{m.icon}</span></div>
-            <div className={s.mtbar}>Mission</div>
+            <div className={s.mtbar}>{m.title}</div>
             <p className={s.mdesc}>{m.label}</p>
           </motion.div>
         ))}
