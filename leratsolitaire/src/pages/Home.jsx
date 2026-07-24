@@ -41,7 +41,6 @@ export default function Home({ categories }) {
             {categories.map((cat, i) => (
               <motion.div key={cat.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 + i * 0.05, duration: 0.28, ease: [0.16,1,0.3,1] }}>
                 <Link to={`/categorie/${cat.slug}`} className={s.cc}>
-                  <div className={s.ctl}/><div className={s.ctr}/><div className={s.cbl}/><div className={s.cbr}/>
                   <span className={s.cci}>{cat.icon}</span>
                   <span className={s.ccn}>{cat.name}</span>
                 </Link>

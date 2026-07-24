@@ -6,30 +6,35 @@ import s from './CategoryPage.module.css';
 
 export default function CategoryPage() {
   const { categorySlug } = useParams();
-  const categories = useCategories();
-  const pages = usePagesByCategory(categorySlug);
+  const { data: categories, error: catError } = useCategories();
+  const { data: pages, error: pagesError } = usePagesByCategory(categorySlug);
   const cat = categories?.find(c => c.slug === categorySlug);
 
   useEffect(() => {
     if (cat) document.title = `${cat.name} – Civilisation Céleste II`;
-    return () => { document.title = 'Civilisation Céleste II'; };
   }, [cat]);
 
-  if (pages === null) return <div className={s.loading}>Chargement…</div>;
+  if (categories === null) return <div className={s.loading}>Chargement…</div>;
 
-  if (!cat && categories !== null) return (
+  if (catError || pagesError) return (
+    <div className={s.nf}><h1>Erreur de chargement</h1><p>Impossible de charger cette catégorie pour le moment.</p><Link to="/">← Retour</Link></div>
+  );
+
+  if (!cat) return (
     <div className={s.nf}><h1>Catégorie introuvable</h1><Link to="/">← Retour</Link></div>
   );
+
+  if (pages === null) return <div className={s.loading}>Chargement…</div>;
 
   return (
     <div>
       <motion.div className={s.bc} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }}>
         <Link to="/" className={s.bcl}>Accueil</Link>
         <span className={s.bcs}>›</span>
-        <span className={s.bcc}>{cat?.name}</span>
+        <span className={s.bcc}>{cat.name}</span>
       </motion.div>
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04, duration: 0.3 }}>
-        <h1 className={s.title}><span>{cat?.icon}</span> {cat?.name}</h1>
+        <h1 className={s.title}><span>{cat.icon}</span> {cat.name}</h1>
         <div className={s.sep} />
       </motion.div>
       {pages.length === 0 ? (

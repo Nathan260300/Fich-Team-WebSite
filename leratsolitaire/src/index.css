@@ -1,46 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap');
-
 :root {
-  --wd:   #1c0f05;
-  --wd2:  #2a1808;
-  --wd3:  #3e2410;
-  --wd4:  #5c3818;
-  --wb:   #7a5220;
-  --wbh:  #a07030;
-  --rv:   #917565;
-  --pa:   #d6bc7e;
-  --pah:  #ecdba0;
-  --pal:  #bc9c58;
-  --pab:  #cab660;
-  --ink:  #221505;
-  --td:   #4a2e10;
-  --tm:   #8a6230;
-  --gd:   #c88808;
-  --gdh:  #e8a820;
-  --gdl:  #8a5c04;
-  --fd:   'Cinzel', serif;
-  --fb:   'Crimson Text', serif;
-  --fm:   'Space Mono', monospace;
+  --void: #232b40;
+  --void-deep: #141a2a;
+  --panel: #3a4560;
+  --panel-light: #4a5674;
+  --panel-dark: #2a3348;
+  --slot: #202840;
+  --bevel-light: rgba(255, 255, 255, 0.2);
+  --bevel-dark: rgba(0, 0, 0, 0.55);
+  --border: #10131f;
+  --ink: #f2ede1;
+  --ink-dim: #bcc0d4;
+  --ink-faint: #848ba8;
+  --gold: #fadb4a;
+  --gold-dim: #c79a2e;
+  --emerald: #6bcf70;
+  --emerald-dim: #397a3c;
+  --diamond: #6ec8ec;
+  --redstone: #e0483a;
+  --f-pixel: 'Pixelify Sans', sans-serif;
+  --f-mono: 'VT323', monospace;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important;
+}
+
+html {
+  font-size: 16px;
+}
 
 body {
-  font-family: var(--fb);
+  font-family: var(--f-pixel);
+  background-color: var(--void);
   color: var(--ink);
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
   min-height: 100vh;
-  background: #2a6ab8 url('/leratsolitaire/bg.png') center top / cover fixed;
 }
 
-img { display: block; max-width: 100%; }
-a { color: var(--gdl); text-decoration: none; transition: color .15s; }
-a:hover { color: var(--gd); }
-button { cursor: pointer; font-family: var(--fb); }
+a {
+  color: var(--diamond);
+  text-decoration: none;
+}
 
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--wd); }
-::-webkit-scrollbar-thumb { background: var(--wb); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--wbh); }
+a:hover {
+  color: var(--gold);
+}
+
+button, input, textarea, select {
+  font-family: var(--f-pixel);
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--void-deep);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--void-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--panel-light);
+  border: 2px solid var(--void-deep);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-dim);
+}
+
+#root {
+  min-height: 100vh;
+}

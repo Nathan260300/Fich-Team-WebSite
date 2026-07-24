@@ -6,10 +6,10 @@ import CategoryPage from './pages/CategoryPage';
 import WikiPage from './pages/WikiPage';
 
 export default function App() {
-  const categories = useCategories();
+  const { data: categories } = useCategories();
   return (
     <BrowserRouter basename="/leratsolitaire">
-      <Layout categories={categories}>
+      <Layout>
         <Routes>
           <Route path="/" element={<Home categories={categories} />} />
           <Route path="/categorie/:categorySlug" element={<CategoryPage />} />
