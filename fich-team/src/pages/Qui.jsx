@@ -123,9 +123,17 @@ function PartenairesPanel({ channels, status }) {
       {status === 'error' && <p className={styles.error}>Impossible de charger les partenaires.</p>}
       {status === 'ok' && (
         <>
-          <div className={styles.partnerGrid}>
-            {partners.map((ch, i) => <PartnerCard key={ch.id} ch={ch} i={i} />)}
-          </div>
+          {partners.length > 0 && (
+            <>
+              <motion.div className={styles.partnerSectionHeader} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                <span className={styles.partnerSectionBadge}>PARTENAIRES</span>
+                <span className={styles.partnerSectionLine} />
+              </motion.div>
+              <div className={styles.partnerGrid}>
+                {partners.map((ch, i) => <PartnerCard key={ch.id} ch={ch} i={i} />)}
+              </div>
+            </>
+          )}
           {formers.length > 0 && (
             <>
               <motion.div className={styles.partnerSectionHeader} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
