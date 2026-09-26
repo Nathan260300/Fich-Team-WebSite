@@ -13,18 +13,6 @@ const APPS = [
       </svg>
     ),
   },
-  {
-    id: 'leratsolitaire',
-    label: 'LeRatSolitaire',
-    href: '/app/leratsolitaire',
-    desc: 'Espace LeRatSolitaire',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="4"/>
-        <path d="M9 9h6M9 12h6M9 15h4"/>
-      </svg>
-    ),
-  },
 ];
 
 export default function Home({ session, permissions, logout }) {

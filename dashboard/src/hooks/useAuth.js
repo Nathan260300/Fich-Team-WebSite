@@ -23,10 +23,10 @@ export function useAuth() {
 
     supabase
       .from('user_permissions')
-      .select('fich, leratsolitaire')
+      .select('fich')
       .eq('user_id', session.user.id)
       .single()
-      .then(({ data }) => setPermissions(data ?? { fich: false, leratsolitaire: false }));
+      .then(({ data }) => setPermissions(data ?? { fich: false }));
   }, [session]);
 
   const logout = () => supabase.auth.signOut();
