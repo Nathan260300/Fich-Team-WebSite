@@ -9,6 +9,7 @@ export default function Layout({ children }) {
   const session = useSession();
 
   const [access, setAccess] = useState(undefined);
+  const [centralUser, setCentralUser] = useState(undefined);
   const [scrolled, setScrolled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authError, setAuthError] = useState(null);
@@ -23,6 +24,7 @@ export default function Layout({ children }) {
 
     if (!session) {
       setAccess(false);
+      setCentralUser(null);
 
       const manualLogout =
         sessionStorage.getItem('fich_dashboard_logout') === 'true';
@@ -67,6 +69,7 @@ export default function Layout({ children }) {
 
     checkedUserId.current = userId;
     setAccess(undefined);
+    setCentralUser(undefined);
 
     const checkAccess = async () => {
       const {
@@ -79,15 +82,19 @@ export default function Layout({ children }) {
           'Erreur lors de la récupération de la session centrale :',
           centralSessionError
         );
+        setCentralUser(null);
         setAccess(false);
         return;
       }
 
       if (!centralSession) {
         console.error('Aucune session trouvée dans SUPABASE #1.');
+        setCentralUser(null);
         setAccess(false);
         return;
       }
+
+      setCentralUser(centralSession.user);
 
       const { data, error } = await supabaseCentral
         .from('user_permissions')
@@ -148,7 +155,7 @@ export default function Layout({ children }) {
 
   if (
     session === undefined ||
-    (session && access === undefined)
+    (session && (access === undefined || centralUser === undefined))
   ) {
     return (
       <div className={styles.loader}>
@@ -223,7 +230,7 @@ export default function Layout({ children }) {
     );
   }
 
-  if (access === false) {
+  if (access === false || !centralUser) {
     return (
       <div className={styles.unauth}>
         <p className={styles.unauthText}>
@@ -240,18 +247,16 @@ export default function Layout({ children }) {
     );
   }
 
-  const metadata = session.user.user_metadata ?? {};
+  const centralMetadata = centralUser.user_metadata ?? {};
 
   const username =
-    metadata.custom_claims?.global_name ??
-    metadata.global_name ??
-    metadata.name ??
-    metadata.full_name ??
-   'Utilisateur';
+    centralMetadata.custom_claims?.global_name ??
+    centralMetadata.global_name ??
+    'Utilisateur';
 
   const avatar =
-    metadata.avatar_url ??
-    metadata.picture;
+    centralMetadata.avatar_url ??
+    centralMetadata.picture;
 
   return (
     <div className={styles.root}>
