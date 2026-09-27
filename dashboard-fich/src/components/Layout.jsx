@@ -252,10 +252,7 @@ export default function Layout({ children }) {
   const avatar =
     metadata.avatar_url ??
     metadata.picture;
-  const avatar =
-    metadata.avatar_url ??
-    metadata.picture;
-
+    
   return (
     <div className={styles.root}>
       <Sidebar
