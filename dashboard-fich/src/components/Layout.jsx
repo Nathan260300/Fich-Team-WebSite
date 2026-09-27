@@ -241,8 +241,13 @@ export default function Layout({ children }) {
   }
 
   const metadata = session.user.user_metadata ?? {};
-  const user = session.user;
-  const username = user.user_metadata?.custom_claims?.global_name ?? user.user_metadata?.full_name ?? 'Utilisateur';
+
+  const username =
+    metadata.custom_claims?.global_name ??
+    metadata.global_name ??
+    metadata.name ??
+    metadata.full_name ??
+   'Utilisateur';
 
   const avatar =
     metadata.avatar_url ??
