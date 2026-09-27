@@ -28,3 +28,9 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+console.log('APP MOUNT');
+
+window.addEventListener('beforeunload', () => {
+  console.log('PAGE UNLOAD');
+});
