@@ -242,20 +242,16 @@ export default function Layout({ children }) {
 
   const metadata = session.user.user_metadata ?? {};
 
-  const familyName =
-    [metadata.given_name, metadata.family_name]
-      .filter(Boolean)
-      .join(' ') || null;
-
   const username =
     metadata.custom_claims?.global_name ??
     metadata.global_name ??
     metadata.name ??
     metadata.full_name ??
-    familyName ??
-    session.user.email ??
     'Utilisateur';
 
+  const avatar =
+    metadata.avatar_url ??
+    metadata.picture;
   const avatar =
     metadata.avatar_url ??
     metadata.picture;
