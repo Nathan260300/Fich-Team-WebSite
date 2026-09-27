@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession } from '../hooks/useSession';
 import { supabase } from '../lib/supabase';
 import { supabaseCentral } from '../lib/supabaseCentral';
@@ -6,27 +6,50 @@ import Sidebar from './Sidebar';
 import styles from './Layout.module.css';
 
 export default function Layout({ children }) {
-  // Session du Dashboard → #2
   const session = useSession();
-
-  // Autorisation centrale → #1
   const [access, setAccess] = useState(undefined);
-
   const [scrolled, setScrolled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [authError, setAuthError] = useState(null);
+
+  const loginStarted = useRef(false);
 
   useEffect(() => {
+    if (session === undefined) return;
+
+    if (!session) {
+      setAccess(false);
+
+      if (loginStarted.current) return;
+
+      loginStarted.current = true;
+      setAuthError(null);
+
+      supabase.auth
+        .signInWithOAuth({
+          provider: 'custom:fich-auth',
+          options: {
+            redirectTo: `${window.location.origin}/app/fich`,
+          },
+        })
+        .then(({ error }) => {
+          if (error) {
+            console.error('Erreur FICH Auth :', error);
+
+            setAuthError(error.message);
+            loginStarted.current = false;
+          }
+        });
+
+      return;
+    }
+
+    loginStarted.current = false;
+    setAuthError(null);
+
     const checkAccess = async () => {
-      // On attend que la session #2 soit chargée
-      if (session === undefined) return;
+      setAccess(undefined);
 
-      // Pas de session #2
-      if (!session) {
-        setAccess(false);
-        return;
-      }
-
-      // Récupère la session centrale #1
       const {
         data: { session: centralSession },
         error: centralSessionError,
@@ -34,7 +57,7 @@ export default function Layout({ children }) {
 
       if (centralSessionError) {
         console.error(
-          'Erreur session centrale :',
+          'Erreur lors de la récupération de la session centrale :',
           centralSessionError
         );
 
@@ -42,13 +65,13 @@ export default function Layout({ children }) {
         return;
       }
 
-      // Pas de session centrale
       if (!centralSession) {
+        console.error('Aucune session trouvée dans SUPABASE #1.');
+
         setAccess(false);
         return;
       }
 
-      // Vérifie les permissions dans #1
       const { data, error } = await supabaseCentral
         .from('user_permissions')
         .select('fich')
@@ -57,7 +80,7 @@ export default function Layout({ children }) {
 
       if (error) {
         console.error(
-          'Erreur permissions centrales :',
+          'Erreur lors de la récupération des permissions :',
           error
         );
 
@@ -74,13 +97,19 @@ export default function Layout({ children }) {
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 10);
 
-    window.addEventListener('scroll', fn, { passive: true });
+    window.addEventListener('scroll', fn, {
+      passive: true,
+    });
 
-    return () => window.removeEventListener('scroll', fn);
+    return () => {
+      window.removeEventListener('scroll', fn);
+    };
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? 'hidden' : '';
+    document.body.style.overflow = sidebarOpen
+      ? 'hidden'
+      : '';
 
     return () => {
       document.body.style.overflow = '';
@@ -88,20 +117,24 @@ export default function Layout({ children }) {
   }, [sidebarOpen]);
 
   const logout = async () => {
-    // Déconnexion du Dashboard #2
     await supabase.auth.signOut();
 
     window.location.href = '/app/';
   };
 
-  if (session === undefined || access === undefined) {
+  if (
+    session === undefined ||
+    (session && access === undefined)
+  ) {
     return (
       <div className={styles.loader}>
-        {[0, 1, 2].map(i => (
+        {[0, 1, 2].map((i) => (
           <span
             key={i}
             className={styles.loaderDot}
-            style={{ animationDelay: `${i * 0.15}s` }}
+            style={{
+              animationDelay: `${i * 0.15}s`,
+            }}
           />
         ))}
       </div>
@@ -109,15 +142,38 @@ export default function Layout({ children }) {
   }
 
   if (!session) {
-    return (
-      <div className={styles.unauth}>
-        <p className={styles.unauthText}>
-          Tu n'es pas connecté.
-        </p>
+    if (authError) {
+      return (
+        <div className={styles.unauth}>
+          <p className={styles.unauthText}>
+            Impossible de te connecter.
+          </p>
 
-        <a href="/app/" className={styles.unauthBtn}>
-          ← Retour à la centrale
-        </a>
+          <p className={styles.unauthText}>
+            {authError}
+          </p>
+
+          <a
+            href="/app/"
+            className={styles.unauthBtn}
+          >
+            ← Retour à la centrale
+          </a>
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles.loader}>
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className={styles.loaderDot}
+            style={{
+              animationDelay: `${i * 0.15}s`,
+            }}
+          />
+        ))}
       </div>
     );
   }
@@ -129,7 +185,10 @@ export default function Layout({ children }) {
           Tu n'as pas accès à cet espace.
         </p>
 
-        <a href="/app/" className={styles.unauthBtn}>
+        <a
+          href="/app/"
+          className={styles.unauthBtn}
+        >
           ← Retour à la centrale
         </a>
       </div>
@@ -141,7 +200,8 @@ export default function Layout({ children }) {
     session.user.user_metadata?.full_name ??
     'Utilisateur';
 
-  const avatar = session.user.user_metadata?.avatar_url;
+  const avatar =
+    session.user.user_metadata?.avatar_url;
 
   return (
     <div className={styles.root}>
@@ -166,21 +226,32 @@ export default function Layout({ children }) {
           <button
             className={styles.burger}
             aria-label="Menu"
-            onClick={() => setSidebarOpen(v => !v)}
+            aria-expanded={sidebarOpen}
+            onClick={() =>
+              setSidebarOpen((v) => !v)
+            }
           >
             <span
               className={
-                sidebarOpen ? styles.barOpen1 : styles.bar
+                sidebarOpen
+                  ? styles.barOpen1
+                  : styles.bar
               }
             />
+
             <span
               className={
-                sidebarOpen ? styles.barOpen2 : styles.bar
+                sidebarOpen
+                  ? styles.barOpen2
+                  : styles.bar
               }
             />
+
             <span
               className={
-                sidebarOpen ? styles.barOpen3 : styles.bar
+                sidebarOpen
+                  ? styles.barOpen3
+                  : styles.bar
               }
             />
           </button>
