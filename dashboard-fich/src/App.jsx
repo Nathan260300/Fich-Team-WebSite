@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Members from './pages/Members';
 import Projects from './pages/Projects';
 import FutureProjects from './pages/FutureProjects';
-import OtherProjects from './pages/OtherProjects';
 import NextProject from './pages/NextProject';
 import Videos from './pages/Videos';
 import Channels from './pages/Channels';
@@ -19,7 +18,6 @@ export default function App() {
           <Route path="/members"         element={<Members />} />
           <Route path="/projects"        element={<Projects />} />
           <Route path="/future-projects" element={<FutureProjects />} />
-          <Route path="/other-projects"  element={<OtherProjects />} />
           <Route path="/next-project"    element={<NextProject />} />
           <Route path="/videos"          element={<Videos />} />
           <Route path="/channels"        element={<Channels />} />
