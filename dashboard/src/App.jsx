@@ -2,10 +2,15 @@ import { useEffect } from 'react';
 import { useAuth } from './hooks/useAuth';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import OAuthConsent from './pages/OAuthConsent';
 import styles from './App.module.css';
+
+const isOAuthConsentRoute = () =>
+  window.location.pathname.replace(/\/+$/, '').endsWith('/oauth/consent');
 
 export default function App() {
   const { session, permissions, logout } = useAuth();
+  const oauthConsent = isOAuthConsentRoute();
 
   useEffect(() => {
     if (session && window.opener) {
@@ -15,9 +20,17 @@ export default function App() {
   }, [session]);
 
   useEffect(() => {
+    if (oauthConsent) {
+      document.title = 'Autorisation — FICH Team';
+      return;
+    }
     if (session === undefined) return;
     document.title = session ? 'Dashboard — FICH Team' : 'Connexion — FICH Team';
-  }, [session]);
+  }, [session, oauthConsent]);
+
+  if (oauthConsent) {
+    return <OAuthConsent />;
+  }
 
   if (session === undefined) {
     return (
