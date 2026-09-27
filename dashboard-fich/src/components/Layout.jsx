@@ -240,13 +240,22 @@ export default function Layout({ children }) {
     );
   }
 
+  const metadata = session.user.user_metadata ?? {};
+
   const username =
-    session.user.user_metadata?.custom_claims?.global_name ??
-    session.user.user_metadata?.full_name ??
+    metadata.custom_claims?.global_name ??
+    metadata.global_name ??
+    metadata.name ??
+    metadata.full_name ??
+    [metadata.given_name, metadata.family_name]
+      .filter(Boolean)
+      .join(' ') ||
+    session.user.email ??
     'Utilisateur';
 
   const avatar =
-    session.user.user_metadata?.avatar_url;
+    metadata.avatar_url ??
+    metadata.picture;
 
   return (
     <div className={styles.root}>
