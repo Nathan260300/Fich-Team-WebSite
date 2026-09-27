@@ -29,7 +29,7 @@ export default function OAuthConsent() {
 
       if (!sessionData.session) {
         const redirectTo =
-          `${window.location.origin}/oauth/consent?authorization_id=${encodeURIComponent(
+          `${window.location.origin}/app/oauth/consent?authorization_id=${encodeURIComponent(
             authorizationId
           )}`;
 
