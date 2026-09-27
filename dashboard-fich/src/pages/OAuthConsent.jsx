@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-const FICH_CLIENT_ID = 'TON_CLIENT_ID_FICH';
+const FICH_CLIENT_ID = '5e48d41a-8fc7-4e56-a14d-c5b5b088652d';
 
 export default function OAuthConsent() {
   useEffect(() => {
