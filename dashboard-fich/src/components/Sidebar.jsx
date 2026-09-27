@@ -7,7 +7,6 @@ const NAV = [
   { to: '/members',         label: 'Membres',            icon: '👥' },
   { to: '/projects',        label: 'Projets & Photos',   icon: '📸' },
   { to: '/future-projects', label: 'Futurs projets',     icon: '🗓️' },
-  { to: '/other-projects',  label: 'Autres projets',     icon: '📋' },
   { to: '/next-project',    label: 'Prochain event',     icon: '🎯' },
   { to: '/videos',          label: 'Vidéos',             icon: '🎬' },
   { to: '/channels',        label: 'Relations',          icon: '🤝' },
