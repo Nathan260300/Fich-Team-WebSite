@@ -108,7 +108,14 @@ export default function Home({ session, permissions, logout }) {
         ) : (
           <div className={styles.grid}>
             {visible.map(app => (
-              <a key={app.id} href={app.href} className={styles.card}>
+              <a
+                key={app.id}
+                href={app.href}
+                className={styles.card}
+                onClick={() => {
+                  sessionStorage.removeItem('fich_dashboard_logout');
+                }}
+              >
                 <div className={styles.cardAccent} />
                 <div className={styles.cardIcon}>{app.icon}</div>
                 <div className={styles.cardBody}>

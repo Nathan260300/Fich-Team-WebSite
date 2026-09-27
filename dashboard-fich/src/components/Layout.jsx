@@ -7,6 +7,7 @@ import styles from './Layout.module.css';
 
 export default function Layout({ children }) {
   const session = useSession();
+
   const [access, setAccess] = useState(undefined);
   const [scrolled, setScrolled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -22,6 +23,13 @@ export default function Layout({ children }) {
 
     if (!session) {
       setAccess(false);
+
+      const manualLogout =
+        sessionStorage.getItem('fich_dashboard_logout') === 'true';
+
+      if (manualLogout) {
+        return;
+      }
 
       if (loginStarted.current) {
         return;
@@ -40,7 +48,6 @@ export default function Layout({ children }) {
         .then(({ error }) => {
           if (error) {
             console.error('Erreur FICH Auth :', error);
-
             setAuthError(error.message);
             loginStarted.current = false;
           }
@@ -59,7 +66,6 @@ export default function Layout({ children }) {
     }
 
     checkedUserId.current = userId;
-
     setAccess(undefined);
 
     const checkAccess = async () => {
@@ -73,16 +79,12 @@ export default function Layout({ children }) {
           'Erreur lors de la récupération de la session centrale :',
           centralSessionError
         );
-
         setAccess(false);
         return;
       }
 
       if (!centralSession) {
-        console.error(
-          'Aucune session trouvée dans SUPABASE #1.'
-        );
-
+        console.error('Aucune session trouvée dans SUPABASE #1.');
         setAccess(false);
         return;
       }
@@ -98,7 +100,6 @@ export default function Layout({ children }) {
           'Erreur lors de la récupération des permissions :',
           error
         );
-
         setAccess(false);
         return;
       }
@@ -124,9 +125,7 @@ export default function Layout({ children }) {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen
-      ? 'hidden'
-      : '';
+    document.body.style.overflow = sidebarOpen ? 'hidden' : '';
 
     return () => {
       document.body.style.overflow = '';
@@ -134,6 +133,8 @@ export default function Layout({ children }) {
   }, [sidebarOpen]);
 
   const logout = async () => {
+    sessionStorage.setItem('fich_dashboard_logout', 'true');
+
     await supabase.auth.signOut();
 
     checkedUserId.current = null;
@@ -178,6 +179,25 @@ export default function Layout({ children }) {
             className={styles.unauthBtn}
           >
             ← Retour à la centrale
+          </a>
+        </div>
+      );
+    }
+
+    if (
+      sessionStorage.getItem('fich_dashboard_logout') === 'true'
+    ) {
+      return (
+        <div className={styles.unauth}>
+          <p className={styles.unauthText}>
+            Tu es déconnecté de FICH Dashboard.
+          </p>
+
+          <a
+            href="/app/"
+            className={styles.unauthBtn}
+          >
+            ← Retour au portail
           </a>
         </div>
       );
