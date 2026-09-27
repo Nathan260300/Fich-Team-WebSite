@@ -13,14 +13,19 @@ export default function Layout({ children }) {
   const [authError, setAuthError] = useState(null);
 
   const loginStarted = useRef(false);
+  const checkedUserId = useRef(null);
 
   useEffect(() => {
-    if (session === undefined) return;
+    if (session === undefined) {
+      return;
+    }
 
     if (!session) {
       setAccess(false);
 
-      if (loginStarted.current) return;
+      if (loginStarted.current) {
+        return;
+      }
 
       loginStarted.current = true;
       setAuthError(null);
@@ -47,9 +52,17 @@ export default function Layout({ children }) {
     loginStarted.current = false;
     setAuthError(null);
 
-    const checkAccess = async () => {
-      setAccess(undefined);
+    const userId = session.user.id;
 
+    if (checkedUserId.current === userId) {
+      return;
+    }
+
+    checkedUserId.current = userId;
+
+    setAccess(undefined);
+
+    const checkAccess = async () => {
       const {
         data: { session: centralSession },
         error: centralSessionError,
@@ -66,7 +79,9 @@ export default function Layout({ children }) {
       }
 
       if (!centralSession) {
-        console.error('Aucune session trouvée dans SUPABASE #1.');
+        console.error(
+          'Aucune session trouvée dans SUPABASE #1.'
+        );
 
         setAccess(false);
         return;
@@ -92,10 +107,12 @@ export default function Layout({ children }) {
     };
 
     checkAccess();
-  }, [session]);
+  }, [session?.user?.id, session]);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 10);
+    const fn = () => {
+      setScrolled(window.scrollY > 10);
+    };
 
     window.addEventListener('scroll', fn, {
       passive: true,
@@ -118,6 +135,9 @@ export default function Layout({ children }) {
 
   const logout = async () => {
     await supabase.auth.signOut();
+
+    checkedUserId.current = null;
+    loginStarted.current = false;
 
     window.location.href = '/app/';
   };
@@ -189,7 +209,7 @@ export default function Layout({ children }) {
           href="/app/"
           className={styles.unauthBtn}
         >
-          ← Retour à la centrale
+          ← Retour au portail
         </a>
       </div>
     );
@@ -227,9 +247,7 @@ export default function Layout({ children }) {
             className={styles.burger}
             aria-label="Menu"
             aria-expanded={sidebarOpen}
-            onClick={() =>
-              setSidebarOpen((v) => !v)
-            }
+            onClick={() => setSidebarOpen((v) => !v)}
           >
             <span
               className={
