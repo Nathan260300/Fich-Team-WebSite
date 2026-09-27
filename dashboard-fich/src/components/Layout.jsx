@@ -133,7 +133,10 @@ export default function Layout({ children }) {
   }, [sidebarOpen]);
 
   const logout = async () => {
-    sessionStorage.setItem('fich_dashboard_logout', 'true');
+    sessionStorage.setItem(
+      'fich_dashboard_logout',
+      'true'
+    );
 
     await supabase.auth.signOut();
 
@@ -185,7 +188,9 @@ export default function Layout({ children }) {
     }
 
     if (
-      sessionStorage.getItem('fich_dashboard_logout') === 'true'
+      sessionStorage.getItem(
+        'fich_dashboard_logout'
+      ) === 'true'
     ) {
       return (
         <div className={styles.unauth}>
@@ -267,7 +272,9 @@ export default function Layout({ children }) {
             className={styles.burger}
             aria-label="Menu"
             aria-expanded={sidebarOpen}
-            onClick={() => setSidebarOpen((v) => !v)}
+            onClick={() =>
+              setSidebarOpen((v) => !v)
+            }
           >
             <span
               className={

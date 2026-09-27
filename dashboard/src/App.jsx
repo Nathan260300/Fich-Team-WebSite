@@ -6,7 +6,9 @@ import OAuthConsent from './pages/OAuthConsent';
 import styles from './App.module.css';
 
 const isOAuthConsentRoute = () =>
-  window.location.pathname.replace(/\/+$/, '').endsWith('/oauth/consent');
+  window.location.pathname
+    .replace(/\/+$/, '')
+    .endsWith('/app/oauth/consent');
 
 export default function App() {
   const { session, permissions, logout } = useAuth();
@@ -24,8 +26,12 @@ export default function App() {
       document.title = 'Autorisation — FICH Team';
       return;
     }
+
     if (session === undefined) return;
-    document.title = session ? 'Dashboard — FICH Team' : 'Connexion — FICH Team';
+
+    document.title = session
+      ? 'Portail — FICH Team'
+      : 'Connexion — FICH Team';
   }, [session, oauthConsent]);
 
   if (oauthConsent) {
@@ -42,7 +48,15 @@ export default function App() {
     );
   }
 
-  if (!session) return <Login />;
+  if (!session) {
+    return <Login />;
+  }
 
-  return <Home session={session} permissions={permissions} logout={logout} />;
+  return (
+    <Home
+      session={session}
+      permissions={permissions}
+      logout={logout}
+    />
+  );
 }
