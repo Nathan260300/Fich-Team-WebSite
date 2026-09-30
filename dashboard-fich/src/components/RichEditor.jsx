@@ -163,12 +163,6 @@ function Toolbar({ editor, mode, onToggleMode }) {
   );
 }
 
-/**
- * Éditeur Markdown visuel.
- * - initialMarkdown : contenu de départ (Markdown)
- * - onChange(md)    : appelé à chaque modification
- * - onReady(md)     : appelé une fois, avec le Markdown normalisé de départ
- */
 export default function RichEditor({ initialMarkdown, onChange, onReady }) {
   const [mode, setMode] = useState('visual');
   const [source, setSource] = useState('');

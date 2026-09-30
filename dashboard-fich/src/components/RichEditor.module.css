@@ -68,7 +68,6 @@
 }
 .source:focus { box-shadow: none; }
 
-/* ---------- Contenu ProseMirror ---------- */
 .content :global(.ProseMirror) {
   outline: none; min-height: 380px;
   color: var(--c-muted); font-size: .94rem; line-height: 1.78;
@@ -114,7 +113,6 @@
   color: var(--c-dim); pointer-events: none;
 }
 
-/* Tableaux */
 .content :global(.ProseMirror .tableWrapper) { overflow-x: auto; margin: 0 0 18px; }
 .content :global(.ProseMirror table) {
   width: 100%; border-collapse: collapse; table-layout: fixed; font-size: .86rem;

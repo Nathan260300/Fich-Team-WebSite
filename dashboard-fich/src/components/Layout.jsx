@@ -44,7 +44,7 @@ export default function Layout({ children }) {
         .signInWithOAuth({
           provider: 'custom:fich-auth',
           options: {
-            redirectTo: `${window.location.origin}/app/fich`,
+            redirectTo: `${window.location.origin}/app`,
           },
         })
         .then(({ error }) => {
