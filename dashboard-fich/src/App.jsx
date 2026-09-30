@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -8,6 +9,7 @@ import NextProject from './pages/NextProject';
 import Videos from './pages/Videos';
 import Channels from './pages/Channels';
 import HeroSlideshow from './pages/HeroSlideshow';
+const LegalPages = lazy(() => import('./pages/LegalPages'));
 
 export default function App() {
   return (
@@ -22,6 +24,7 @@ export default function App() {
           <Route path="/videos"          element={<Videos />} />
           <Route path="/channels"        element={<Channels />} />
           <Route path="/hero-slideshow"  element={<HeroSlideshow />} />
+          <Route path="/legal"           element={<Suspense fallback={<div style={{ color: 'var(--c-muted)', fontSize: '.875rem', padding: '24px 0' }}>Chargement…</div>}><LegalPages /></Suspense>} />
           <Route path="*"                element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

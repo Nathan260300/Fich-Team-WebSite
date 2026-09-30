@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { LEGAL_PAGES } from '../data/legalPages';
 
 const TITLES = {
   '/':          'Accueil — FICH Team',
@@ -6,6 +7,7 @@ const TITLES = {
   '/projets':   'Projets & Médias — FICH Team',
   '/reseaux':   'Réseaux — FICH Team',
   '/rejoindre': 'Rejoindre — FICH Team',
+  ...Object.fromEntries(LEGAL_PAGES.map(p => [p.path, `${p.label} — FICH Team`])),
 };
 
 export function usePageTitle(pathname) {

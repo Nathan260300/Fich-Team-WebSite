@@ -11,6 +11,7 @@ const SECTIONS = [
   { to: '/videos',          icon: '🎬', label: 'Vidéos',            desc: 'Ajouter ou supprimer des vidéos YouTube.' },
   { to: '/channels',        icon: '🤝', label: 'Relations',         desc: 'Gérer les relations.' },
   { to: '/hero-slideshow',  icon: '🖼️', label: 'Page Accueil',      desc: 'Choisir les images du carrousel.' },
+  { to: '/legal',           icon: '⚖️', label: 'Pages légales',     desc: 'Modifie les mentions légales, CGU, politique de confidentialité et de cookies affichées sur le site.' },
 ];
 
 export default function Home() {

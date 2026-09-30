@@ -44,7 +44,7 @@ export default function NotFound() {
             </p>
             <div className={styles.actions}>
               <Btn href="/" variant="primary">← Retour à l'accueil</Btn>
-              <Btn href="/partenaires" variant="ghost">Partenaires</Btn>
+              <Btn href="/qui" variant="ghost">Qui sommes-nous</Btn>
             </div>
           </div>
 

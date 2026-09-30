@@ -1,0 +1,140 @@
+.wrap {
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-md);
+  background: var(--c-surface-2);
+  overflow: clip;
+}
+.wrap:focus-within { border-color: rgba(61,158,255,.45); box-shadow: 0 0 0 3px rgba(61,158,255,.08); }
+.loading { color: var(--c-muted); font-size: .875rem; padding: 24px; }
+
+.toolbarWrap {
+  position: sticky; top: var(--header-h); z-index: 20;
+  background: var(--c-surface-3);
+  border-bottom: 1px solid var(--c-border-hi);
+}
+.toolbar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 3px;
+  padding: 8px 10px;
+}
+.grow { flex: 1; }
+.sep { width: 1px; height: 20px; background: var(--c-border-hi); margin: 0 5px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 32px; height: 32px; padding: 0 8px;
+  background: transparent; border: 1px solid transparent;
+  border-radius: var(--r-xs); color: var(--c-muted);
+  font-size: .82rem; font-family: var(--f-body);
+  transition: background .15s, color .15s, border-color .15s;
+}
+.btnWide { padding: 0 11px; font-size: .76rem; font-weight: 600; }
+.btn:hover:not(:disabled) { background: rgba(255,255,255,.07); color: var(--c-text); }
+.btn:disabled { opacity: .3; cursor: not-allowed; }
+.btnActive, .btnActive:hover:not(:disabled) {
+  background: rgba(61,158,255,.15); color: var(--c-accent);
+  border-color: rgba(61,158,255,.3);
+}
+
+.subbar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  padding: 8px 10px; border-top: 1px solid var(--c-border);
+  background: rgba(0,0,0,.14);
+}
+.subbar input { flex: 1; min-width: 200px; padding: 7px 11px; font-size: .82rem; }
+.subLabel {
+  font-family: var(--f-mono); font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--c-dim); margin-right: 4px;
+}
+.miniPrimary, .miniGhost, .miniDanger {
+  border-radius: var(--r-xs); padding: 6px 11px; font-size: .74rem;
+  font-weight: 600; border: 1px solid transparent; white-space: nowrap;
+  transition: background .15s, border-color .15s, color .15s, filter .15s;
+}
+.miniPrimary { background: var(--c-accent); color: #060c18; }
+.miniPrimary:hover { filter: brightness(1.12); }
+.miniGhost { background: transparent; border-color: var(--c-border-hi); color: var(--c-muted); }
+.miniGhost:hover { color: var(--c-text); border-color: var(--c-text); }
+.miniDanger { background: transparent; border-color: rgba(255,77,109,.25); color: var(--c-red); }
+.miniDanger:hover { background: rgba(255,77,109,.1); }
+
+.hidden { display: none; }
+.area { padding: 26px 30px 34px; min-height: 440px; cursor: text; }
+
+.source {
+  display: block; width: 100%; min-height: 480px; border: 0; border-radius: 0;
+  background: var(--c-surface-2); padding: 22px 26px;
+  font-family: var(--f-mono); font-size: .82rem; line-height: 1.7;
+  color: var(--c-text); resize: vertical;
+}
+.source:focus { box-shadow: none; }
+
+/* ---------- Contenu ProseMirror ---------- */
+.content :global(.ProseMirror) {
+  outline: none; min-height: 380px;
+  color: var(--c-muted); font-size: .94rem; line-height: 1.78;
+}
+.content :global(.ProseMirror > *:first-child) { margin-top: 0; }
+.content :global(.ProseMirror p) { margin: 0 0 14px; }
+.content :global(.ProseMirror h2) {
+  font-family: var(--f-display); font-weight: 700; font-size: 1.2rem;
+  color: var(--c-text); margin: 30px 0 12px; letter-spacing: -.02em;
+}
+.content :global(.ProseMirror h3) {
+  font-family: var(--f-display); font-weight: 600; font-size: 1rem;
+  color: var(--c-text); margin: 22px 0 8px;
+}
+.content :global(.ProseMirror strong) { color: var(--c-text); font-weight: 600; }
+.content :global(.ProseMirror a) { color: var(--c-accent); border-bottom: 1px solid rgba(61,158,255,.35); cursor: pointer; }
+.content :global(.ProseMirror ul), .content :global(.ProseMirror ol) { margin: 0 0 16px; padding-left: 24px; }
+.content :global(.ProseMirror ul) { list-style: disc; }
+.content :global(.ProseMirror ol) { list-style: decimal; }
+.content :global(.ProseMirror li) { margin-bottom: 6px; }
+.content :global(.ProseMirror li > p) { margin-bottom: 4px; }
+.content :global(.ProseMirror li::marker) { color: var(--c-accent-dim); }
+.content :global(.ProseMirror hr) { border: 0; border-top: 1px solid var(--c-border-hi); margin: 26px 0; }
+.content :global(.ProseMirror hr.ProseMirror-selectednode) { border-top-color: var(--c-accent); }
+.content :global(.ProseMirror blockquote) {
+  margin: 0 0 16px; padding: 10px 16px;
+  border-left: 3px solid var(--c-accent-dim);
+  background: rgba(61,158,255,.06); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+.content :global(.ProseMirror blockquote p:last-child) { margin-bottom: 0; }
+.content :global(.ProseMirror code) {
+  font-family: var(--f-mono); font-size: .82em; color: var(--c-text);
+  background: rgba(255,255,255,.07); padding: 2px 6px; border-radius: 5px;
+}
+.content :global(.ProseMirror pre) {
+  background: rgba(0,0,0,.3); border: 1px solid var(--c-border); border-radius: var(--r-sm);
+  padding: 12px 14px; margin: 0 0 16px; overflow-x: auto;
+}
+.content :global(.ProseMirror pre code) { background: none; padding: 0; }
+
+.content :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder); float: left; height: 0;
+  color: var(--c-dim); pointer-events: none;
+}
+
+/* Tableaux */
+.content :global(.ProseMirror .tableWrapper) { overflow-x: auto; margin: 0 0 18px; }
+.content :global(.ProseMirror table) {
+  width: 100%; border-collapse: collapse; table-layout: fixed; font-size: .86rem;
+}
+.content :global(.ProseMirror th), .content :global(.ProseMirror td) {
+  position: relative; text-align: left; vertical-align: top;
+  padding: 9px 12px; border: 1px solid var(--c-border-hi);
+  min-width: 90px; overflow-wrap: anywhere;
+}
+.content :global(.ProseMirror th) {
+  background: rgba(255,255,255,.05); color: var(--c-text);
+  font-family: var(--f-display); font-weight: 600;
+}
+.content :global(.ProseMirror td p), .content :global(.ProseMirror th p) { margin: 0; }
+.content :global(.ProseMirror .selectedCell::after) {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: rgba(61,158,255,.18);
+}
+
+@media (max-width: 640px) {
+  .area { padding: 18px 16px 24px; }
+  .source { padding: 16px; }
+}

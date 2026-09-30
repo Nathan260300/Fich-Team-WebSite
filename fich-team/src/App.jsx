@@ -11,7 +11,9 @@ import Qui from './pages/Qui';
 import Projets from './pages/Projets';
 import Rejoindre from './pages/Rejoindre';
 import Reseaux from './pages/Reseaux';
+import Legal from './pages/Legal';
 import NotFound from './pages/NotFound';
+import { LEGAL_PAGES } from './data/legalPages';
 import { usePageTitle } from './hooks/usePageTitle';
 import styles from './App.module.css';
 
@@ -90,6 +92,9 @@ function AppContent({ ready }) {
             <Route path="/projets"     element={<Projets />} />
             <Route path="/reseaux"     element={<Reseaux />} />
             <Route path="/rejoindre"   element={<Rejoindre />} />
+            {LEGAL_PAGES.map(({ slug, path }) => (
+              <Route key={slug} path={path} element={<Legal slug={slug} />} />
+            ))}
             <Route path="*"            element={<NotFound />} />
           </Routes>
         </AnimatePresence>

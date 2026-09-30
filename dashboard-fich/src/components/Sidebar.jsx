@@ -11,6 +11,7 @@ const NAV = [
   { to: '/videos',          label: 'Vidéos',             icon: '🎬' },
   { to: '/channels',        label: 'Relations',          icon: '🤝' },
   { to: '/hero-slideshow',  label: 'Page Accueil',       icon: '🖼️' },
+  { to: '/legal',           label: 'Pages légales',      icon: '⚖️' },
 ];
 
 export default function Sidebar({ onClose, mobileOpen }) {
