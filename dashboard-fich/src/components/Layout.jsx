@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from '../hooks/useSession';
 import { supabase } from '../lib/supabase';
 import { supabaseCentral } from '../lib/supabaseCentral';
@@ -12,9 +12,7 @@ export default function Layout({ children }) {
   const [centralUser, setCentralUser] = useState(undefined);
   const [scrolled, setScrolled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [authError, setAuthError] = useState(null);
 
-  const loginStarted = useRef(false);
   const checkedUserId = useRef(null);
 
   useEffect(() => {
@@ -33,33 +31,9 @@ export default function Layout({ children }) {
         return;
       }
 
-      if (loginStarted.current) {
-        return;
-      }
-
-      loginStarted.current = true;
-      setAuthError(null);
-
-      supabase.auth
-        .signInWithOAuth({
-          provider: 'custom:fich-auth',
-          options: {
-            redirectTo: `${window.location.origin}/app/fich`,
-          },
-        })
-        .then(({ error }) => {
-          if (error) {
-            console.error('Erreur FICH Auth :', error);
-            setAuthError(error.message);
-            loginStarted.current = false;
-          }
-        });
-
+      window.location.href = '/app/';
       return;
     }
-
-    loginStarted.current = false;
-    setAuthError(null);
 
     const userId = session.user.id;
 
@@ -148,7 +122,6 @@ export default function Layout({ children }) {
     await supabase.auth.signOut();
 
     checkedUserId.current = null;
-    loginStarted.current = false;
 
     window.location.href = '/app/';
   };
@@ -173,27 +146,6 @@ export default function Layout({ children }) {
   }
 
   if (!session) {
-    if (authError) {
-      return (
-        <div className={styles.unauth}>
-          <p className={styles.unauthText}>
-            Impossible de te connecter.
-          </p>
-
-          <p className={styles.unauthText}>
-            {authError}
-          </p>
-
-          <a
-            href="/app/"
-            className={styles.unauthBtn}
-          >
-            ← Retour à la centrale
-          </a>
-        </div>
-      );
-    }
-
     if (
       sessionStorage.getItem(
         'fich_dashboard_logout'
@@ -215,19 +167,7 @@ export default function Layout({ children }) {
       );
     }
 
-    return (
-      <div className={styles.loader}>
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            className={styles.loaderDot}
-            style={{
-              animationDelay: `${i * 0.15}s`,
-            }}
-          />
-        ))}
-      </div>
-    );
+    return null;
   }
 
   if (access === false || !centralUser) {
