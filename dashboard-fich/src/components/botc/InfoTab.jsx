@@ -44,23 +44,6 @@ export default function InfoTab({ info, reload }) {
   return (
     <div>
       <div className={s.card}>
-        <h2 className={s.sectionTitle}>Victoires d’avant le site</h2>
-        <div className={s.formGrid}>
-          <div className={s.field}>
-            <label className={s.label}>🟥 Victoires des Démons</label>
-            <input type="number" min="0" value={demons} onChange={e => setDemons(e.target.value)} />
-          </div>
-          <div className={s.field}>
-            <label className={s.label}>🟦 Victoires des Citadins</label>
-            <input type="number" min="0" value={citadins} onChange={e => setCitadins(e.target.value)} />
-          </div>
-        </div>
-        <p className={s.hint} style={{ marginTop: 10 }}>
-          Ajoutées aux parties enregistrées pour les statistiques générales.
-        </p>
-      </div>
-
-      <div className={s.card}>
         <h2 className={s.sectionTitle}>Description du jeu</h2>
         <RichEditor initialMarkdown={info.description ?? ''} onChange={value => { setDescription(value); setSaved(false); }} />
       </div>
