@@ -98,30 +98,6 @@ export default function PlayerModal({ player, gameCount, onClose, onSave }) {
         <label className={s.label}>Fait d’armes</label>
         <input value={form.highlight} onChange={e => set('highlight', e.target.value)} placeholder="Citation affichée sous son pseudo" />
       </div>
-
-      <p className={s.label} style={{ marginTop: 4 }}>Valeurs d’avant le site</p>
-      <div className={s.row2}>
-        <div className={s.field}>
-          <label className={s.label}>Points</label>
-          <input type="number" value={form.base_points} onChange={e => set('base_points', e.target.value)} />
-        </div>
-        <div className={s.field}>
-          <label className={s.label}>Derniers points</label>
-          <input type="number" value={form.base_last_points} onChange={e => set('base_last_points', e.target.value)} placeholder="Aucun" />
-        </div>
-        <div className={s.field}>
-          <label className={s.label}>Victoires</label>
-          <input type="number" min="0" value={form.base_wins} onChange={e => set('base_wins', e.target.value)} />
-        </div>
-        <div className={s.field}>
-          <label className={s.label}>Défaites</label>
-          <input type="number" min="0" value={form.base_losses} onChange={e => set('base_losses', e.target.value)} />
-        </div>
-      </div>
-      <div className={s.field}>
-        <label className={s.label}>Parties menées en tant que MJ</label>
-        <input type="number" min="0" value={form.base_mj_games} onChange={e => set('base_mj_games', e.target.value)} />
-      </div>
     </FormModal>
   );
 }
