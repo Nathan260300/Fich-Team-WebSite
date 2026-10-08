@@ -9,6 +9,8 @@ import NextProject from './pages/NextProject';
 import Videos from './pages/Videos';
 import Channels from './pages/Channels';
 import HeroSlideshow from './pages/HeroSlideshow';
+import Activities from './pages/Activities';
+import Botc from './pages/Botc';
 const LegalPages = lazy(() => import('./pages/LegalPages'));
 
 export default function App() {
@@ -21,6 +23,10 @@ export default function App() {
           <Route path="/projects"        element={<Projects />} />
           <Route path="/future-projects" element={<FutureProjects />} />
           <Route path="/next-project"    element={<NextProject />} />
+          <Route path="/activites"       element={<Activities />} />
+          <Route path="/activites/botc"  element={<Botc />} />
+          <Route path="/activities"      element={<Activities />} />
+          <Route path="/activities/botc" element={<Botc />} />
           <Route path="/videos"          element={<Videos />} />
           <Route path="/channels"        element={<Channels />} />
           <Route path="/hero-slideshow"  element={<HeroSlideshow />} />

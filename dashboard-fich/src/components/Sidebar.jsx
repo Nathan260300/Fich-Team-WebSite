@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { NavLink, useLocation } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
 const NAV = [
@@ -8,11 +9,85 @@ const NAV = [
   { to: '/projects',        label: 'Projets & Photos',   icon: '📸' },
   { to: '/future-projects', label: 'Futurs projets',     icon: '🗓️' },
   { to: '/next-project',    label: 'Prochain event',     icon: '🎯' },
+  {
+    to: '/activities',
+    label: 'Activités',
+    icon: '🎮',
+    children: [
+      { to: '/activities/botc', label: 'BOTC', icon: '🩸' },
+    ],
+  },
   { to: '/videos',          label: 'Vidéos',             icon: '🎬' },
   { to: '/channels',        label: 'Relations',          icon: '🤝' },
   { to: '/hero-slideshow',  label: 'Page Accueil',       icon: '🖼️' },
   { to: '/legal',           label: 'Pages légales',      icon: '⚖️' },
 ];
+
+const ITEM_EASE = [0.16, 1, 0.3, 1];
+
+function NavGroup({ item, onClose }) {
+  const { pathname } = useLocation();
+  const inside = pathname === item.to || pathname.startsWith(`${item.to}/`);
+  const [open, setOpen] = useState(inside);
+
+  useEffect(() => {
+    if (inside) setOpen(true);
+  }, [inside]);
+
+  return (
+    <div>
+      <div className={styles.groupHead}>
+        <NavLink
+          to={item.to}
+          end
+          className={({ isActive }) =>
+            `${styles.link} ${styles.groupLink} ${isActive ? styles.active : inside ? styles.groupInside : ''}`
+          }
+          onClick={onClose}
+        >
+          <span className={styles.linkIcon}>{item.icon}</span>
+          <span className={styles.linkLabel}>{item.label}</span>
+        </NavLink>
+        <button
+          type="button"
+          className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
+          onClick={() => setOpen(v => !v)}
+          aria-expanded={open}
+          aria-label={open ? `Replier ${item.label}` : `Déplier ${item.label}`}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            className={styles.sub}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: ITEM_EASE }}
+          >
+            {item.children.map(child => (
+              <NavLink
+                key={child.to}
+                to={child.to}
+                end
+                className={({ isActive }) => `${styles.link} ${styles.subLink} ${isActive ? styles.active : ''}`}
+                onClick={onClose}
+              >
+                <span className={styles.linkIcon}>{child.icon}</span>
+                <span className={styles.linkLabel}>{child.label}</span>
+              </NavLink>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export default function Sidebar({ onClose, mobileOpen }) {
   return (
@@ -26,17 +101,26 @@ export default function Sidebar({ onClose, mobileOpen }) {
       </div>
 
       <nav className={styles.nav}>
-        {NAV.map(({ to, label, icon, end }, i) => (
-          <motion.div key={to} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05, duration: 0.3, ease: [0.16,1,0.3,1] }}>
-          <NavLink
-            to={to}
-            end={end}
-            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
-            onClick={onClose}
+        {NAV.map((item, i) => (
+          <motion.div
+            key={item.to}
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.05, duration: 0.3, ease: ITEM_EASE }}
           >
-            <span className={styles.linkIcon}>{icon}</span>
-            <span className={styles.linkLabel}>{label}</span>
-          </NavLink>
+            {item.children ? (
+              <NavGroup item={item} onClose={onClose} />
+            ) : (
+              <NavLink
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+                onClick={onClose}
+              >
+                <span className={styles.linkIcon}>{item.icon}</span>
+                <span className={styles.linkLabel}>{item.label}</span>
+              </NavLink>
+            )}
           </motion.div>
         ))}
       </nav>

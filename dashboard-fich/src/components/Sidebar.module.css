@@ -97,6 +97,53 @@
 
 .linkLabel { flex: 1; overflow: hidden; text-overflow: ellipsis; }
 
+.groupHead {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.groupLink { flex: 1; min-width: 0; }
+
+.groupInside { color: var(--c-text); }
+
+.chevron {
+  width: 30px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--r-sm);
+  color: var(--c-dim);
+  flex-shrink: 0;
+  transition: color .18s, background .18s;
+}
+
+.chevron:hover {
+  color: var(--c-text);
+  background: rgba(255,255,255,.05);
+}
+
+.chevron svg { transition: transform .22s var(--ease); }
+.chevronOpen svg { transform: rotate(180deg); }
+
+.sub {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  margin-left: 20px;
+  padding-left: 8px;
+  border-left: 1px solid var(--c-border);
+}
+
+.subLink {
+  padding: 7px 11px;
+  font-size: 0.8rem;
+}
+
 .footer {
   padding: 10px 8px 14px;
   border-top: 1px solid var(--c-border);

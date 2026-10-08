@@ -1,0 +1,262 @@
+.skin,
+.skinFallback {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-xs);
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  background: var(--c-surface-3);
+}
+
+.skinFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-display);
+  font-weight: 800;
+  color: var(--c-muted);
+}
+
+.headerTools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.search { width: 220px; }
+.filter { width: 190px; }
+
+.saveBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.savedText {
+  color: var(--c-green);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.ruleNum {
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  color: var(--c-dim);
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.badgeNeg {
+  background: rgba(255,77,109,.1);
+  color: var(--c-red);
+  border: 1px solid rgba(255,77,109,.2);
+}
+
+.teamColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.teamColumn {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-top: 3px solid var(--team);
+  border-radius: var(--r-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.teamHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--f-display);
+  font-weight: 800;
+  color: var(--team);
+  margin-bottom: 6px;
+}
+
+.teamCount {
+  background: rgba(255,255,255,.06);
+  color: var(--c-muted);
+  border-radius: 20px;
+  padding: 1px 9px;
+  font-size: 0.72rem;
+}
+
+.roleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  padding: 9px 12px;
+  color: var(--c-text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-align: left;
+  transition: border-color .15s, background .15s;
+}
+
+.roleItem:hover {
+  border-color: var(--team);
+  background: var(--c-surface-3);
+}
+
+.roleItem small {
+  color: var(--c-dim);
+  font-weight: 500;
+  font-size: 0.72rem;
+}
+
+.winnerBadge {
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.winDemons {
+  background: rgba(255,77,109,.1);
+  color: var(--c-red);
+  border: 1px solid rgba(255,77,109,.25);
+}
+
+.winCitadins {
+  background: rgba(61,158,255,.1);
+  color: var(--c-accent);
+  border: 1px solid rgba(61,158,255,.25);
+}
+
+.gameTop {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 12px;
+}
+
+.rowsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.gameRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) auto 90px 32px;
+  gap: 8px;
+  align-items: center;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  padding: 8px;
+}
+
+.versus {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.versusLabel {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--c-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.versusNum {
+  font-family: var(--f-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.versusMiddle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  color: var(--c-muted);
+}
+
+.versusBar {
+  display: flex;
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--c-surface-3);
+}
+
+.versusBar span { display: block; height: 100%; }
+
+.tableWrap { overflow-x: auto; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--c-dim);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--c-border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-muted);
+  white-space: nowrap;
+}
+
+.table td strong { color: var(--c-text); }
+
+.table tbody tr:hover td { background: rgba(255,255,255,.025); }
+
+.cellPlayer {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+.cellPlayer .skin,
+.cellPlayer .skinFallback {
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 900px) {
+  .teamColumns { grid-template-columns: 1fr; }
+  .gameTop { grid-template-columns: 1fr; }
+  .versus { grid-template-columns: 1fr 1fr; }
+  .versusMiddle { grid-column: 1 / -1; grid-row: 2; }
+}
+
+@media (max-width: 640px) {
+  .gameRow { grid-template-columns: 1fr 1fr; }
+  .search, .filter { width: 100%; }
+  .headerTools { width: 100%; }
+}
