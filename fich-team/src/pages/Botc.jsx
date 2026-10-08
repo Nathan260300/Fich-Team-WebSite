@@ -108,7 +108,7 @@ export default function Botc() {
         badgeColor="red"
         title="Le"
         accentTitle="BOTC"
-        desc="Parties, règles, classement et statistiques de chaque joueur de la FICH Family."
+        desc="Parties, règles, classement et statistiques de chaque joueur."
       />
 
       {status === 'loading' && <div className={styles.loading}><span /><span /><span /></div>}
