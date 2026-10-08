@@ -33,6 +33,7 @@ const EXPLORE = [
   { to: '/',          label: 'Accueil' },
   { to: '/qui',       label: 'Qui' },
   { to: '/projets',   label: 'Projets & Médias' },
+  { to: '/activites', label: 'Activités' },
   { to: '/reseaux',   label: 'Réseaux' },
 ];
 

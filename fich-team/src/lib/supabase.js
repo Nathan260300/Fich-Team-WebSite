@@ -11,3 +11,9 @@ export function storageUrl(path) {
   if (!path) return null;
   return `${SUPABASE_URL}/storage/v1/object/public/media/${path}`;
 }
+
+export function mediaUrl(value) {
+  if (!value) return null;
+  if (/^https?:\/\//i.test(value)) return value;
+  return storageUrl(value);
+}

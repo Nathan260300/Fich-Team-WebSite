@@ -11,6 +11,8 @@ import Qui from './pages/Qui';
 import Projets from './pages/Projets';
 import Rejoindre from './pages/Rejoindre';
 import Reseaux from './pages/Reseaux';
+import Activites from './pages/Activites';
+import Botc from './pages/Botc';
 import Legal from './pages/Legal';
 import NotFound from './pages/NotFound';
 import { LEGAL_PAGES } from './data/legalPages';
@@ -91,6 +93,8 @@ function AppContent({ ready }) {
             <Route path="/qui"         element={<Qui />} />
             <Route path="/projets"     element={<Projets />} />
             <Route path="/reseaux"     element={<Reseaux />} />
+            <Route path="/activites"   element={<Activites />} />
+            <Route path="/activites/botc" element={<Botc />} />
             <Route path="/rejoindre"   element={<Rejoindre />} />
             {LEGAL_PAGES.map(({ slug, path }) => (
               <Route key={slug} path={path} element={<Legal slug={slug} />} />

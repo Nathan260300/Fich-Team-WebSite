@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import styles from './UI.module.css';
 
@@ -23,6 +24,21 @@ export function Btn({ children, href, to, onClick, variant = 'primary', size = '
 
 export function SectionLabel({ children }) {
   return <p className={styles.sectionLabel}>{children}</p>;
+}
+
+export function SectionTitle({ children }) {
+  return (
+    <motion.div
+      className={styles.partnerSectionHeader}
+      initial={{ opacity: 0, x: -14 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <h2 className={styles.partnerSectionBadge}>{children}</h2>
+      <span className={styles.partnerSectionLine} />
+    </motion.div>
+  );
 }
 
 export function SectionHeading({ children }) {

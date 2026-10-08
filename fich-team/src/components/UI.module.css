@@ -42,6 +42,17 @@
   color: var(--c-dim); letter-spacing: .18em;
   text-transform: uppercase; margin-bottom: 18px; padding-left: 2px;
 }
+.partnerSectionHeader { display: flex; align-items: center; gap: 16px; margin: 8px 0 26px; }
+.partnerSectionBadge {
+  font-family: var(--f-mono); font-size: .7rem; font-weight: 700;
+  color: var(--c-muted); letter-spacing: .12em;
+  background: var(--c-surface-2); border: 1px solid var(--c-border-hi);
+  border-radius: 99px; padding: 5px 14px; white-space: nowrap; flex-shrink: 0;
+}
+.partnerSectionLine {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--c-border-hi) 0%, transparent 100%);
+}
 .sectionHeading {
   font-family: var(--f-display); font-weight: 700;
   font-size: 1.1rem; color: var(--c-text);
