@@ -14,13 +14,28 @@ import { useModal } from '../hooks/useModal';
 import { useBotc } from '../hooks/useBotc';
 import styles from './Botc.module.css';
 
+const mdComponents = {
+  a({ href = '', children }) {
+    if (href.startsWith('/')) return <Link to={href}>{children}</Link>;
+    const external = /^https?:\/\//.test(href);
+    return (
+      <a href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+        {children}
+      </a>
+    );
+  },
+  table({ children }) {
+    return <div className={styles.tableWrap}><table>{children}</table></div>;
+  },
+};
+
 function Presentation({ description }) {
   const hasDescription = description.trim().length > 0;
 
   return (
     <div className={styles.description}>
       {hasDescription
-        ? <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
+        ? <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>{description}</ReactMarkdown>
         : <p className={styles.muted}>La description du jeu sera bientôt disponible.</p>}
     </div>
   );

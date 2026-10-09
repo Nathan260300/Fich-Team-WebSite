@@ -36,25 +36,48 @@
 
 .description {
   background: var(--c-surface); border: 1px solid var(--c-border);
-  border-radius: var(--r-lg); padding: 26px 28px;
-  font-size: .94rem; line-height: 1.75; color: var(--c-muted);
+  border-radius: var(--r-lg); padding: 34px 38px 40px;
+  font-size: .94rem; line-height: 1.78; color: var(--c-muted);
 }
-.description p { margin-bottom: 12px; }
-.description p:last-child { margin-bottom: 0; }
-.description strong { color: var(--c-text); }
-.description ul, .description ol { padding-left: 20px; margin-bottom: 12px; }
+.description > *:first-child { margin-top: 0; }
+.description > *:last-child { margin-bottom: 0; }
+.description h1, .description h2 {
+  font-family: var(--f-display); font-weight: 700; font-size: 1.15rem;
+  color: var(--c-text); letter-spacing: -.02em; margin: 34px 0 12px;
+}
+.description h3 {
+  font-family: var(--f-display); font-weight: 600; font-size: .98rem;
+  color: var(--c-text); margin: 24px 0 8px;
+}
+.description p { margin: 0 0 14px; }
+.description strong { color: var(--c-text); font-weight: 600; }
+.description a { border-bottom: 1px solid rgba(61,158,255,.35); }
+.description a:hover { border-bottom-color: #fff; }
+.description ul, .description ol { margin: 0 0 16px; padding-left: 22px; }
 .description ul { list-style: disc; }
 .description ol { list-style: decimal; }
-.description > :first-child { margin-top: 0; }
-.description h2 { font-size: 1.5rem; }
-.description h3 { font-size: 1.1rem; }
+.description li { margin-bottom: 6px; }
+.description li::marker { color: var(--c-accent-dim); }
+.description hr { border: 0; border-top: 1px solid var(--c-border); margin: 28px 0; }
 .description blockquote {
-  margin: 14px 0; padding: 12px 16px; border-left: 3px solid var(--c-gold);
+  margin: 0 0 16px; padding: 12px 16px; border-left: 3px solid var(--c-gold);
   background: rgba(240,192,64,.07); border-radius: 0 var(--r-sm) var(--r-sm) 0; color: var(--c-text);
 }
-.description blockquote p { margin-bottom: 0; }
-.description h1, .description h2, .description h3 {
-  font-family: var(--f-display); color: var(--c-text); margin: 16px 0 8px; letter-spacing: -.02em;
+.description blockquote p:last-child { margin-bottom: 0; }
+.description code {
+  font-family: var(--f-mono); font-size: .82em;
+  background: rgba(255,255,255,.06); padding: 2px 6px; border-radius: 5px;
+  color: var(--c-text);
+}
+.tableWrap { overflow-x: auto; margin: 0 0 18px; }
+.description table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.description th, .description td {
+  text-align: left; padding: 10px 12px;
+  border: 1px solid var(--c-border); vertical-align: top;
+}
+.description th {
+  background: rgba(255,255,255,.04); color: var(--c-text);
+  font-family: var(--f-display); font-weight: 600;
 }
 
 .book {
@@ -314,3 +337,7 @@
   .versusNum { font-size: 2.6rem; }
 }
 @media (max-width: 760px) { .tabs { width: 100%; } .tab { flex: 1; font-size: .75rem; padding: 7px 10px; } }
+
+@media (max-width: 520px) {
+  .description { padding: 24px 18px 28px; border-radius: var(--r-md); }
+}
