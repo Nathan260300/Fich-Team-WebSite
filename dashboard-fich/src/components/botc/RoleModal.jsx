@@ -72,7 +72,7 @@ export default function RoleModal({ role, usage, onClose, onSave }) {
       </div>
       <div className={s.field}>
         <label className={s.label}>Description</label>
-        <RichEditor initialMarkdown={role.description ?? ''} onChange={setDescription} />
+        <RichEditor stickyTop="auto" initialMarkdown={role.description ?? ''} onChange={setDescription} />
         <span className={s.hint}>Affichée dans la fenêtre du rôle, sur l’onglet Rôles du site.</span>
       </div>
     </FormModal>

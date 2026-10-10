@@ -63,7 +63,7 @@ export default function RuleModal({ rule, onClose, onSave }) {
       </div>
       <div className={s.field}>
         <label className={s.label}>Contenu</label>
-        <RichEditor initialMarkdown={rule.content ?? ''} onChange={setContent} />
+        <RichEditor stickyTop="auto" initialMarkdown={rule.content ?? ''} onChange={setContent} />
       </div>
     </FormModal>
   );

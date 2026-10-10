@@ -55,7 +55,7 @@ function normalizeUrl(v) {
   return `https://${u}`;
 }
 
-function Toolbar({ editor, mode, onToggleMode }) {
+function Toolbar({ editor, mode, onToggleMode, stickyTop }) {
   const [linkOpen, setLinkOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
 
@@ -97,7 +97,7 @@ function Toolbar({ editor, mode, onToggleMode }) {
   };
 
   return (
-    <div className={css.toolbarWrap}>
+    <div className={css.toolbarWrap} style={stickyTop === undefined ? undefined : { top: stickyTop }}>
       <div className={css.toolbar} role="toolbar" aria-label="Mise en forme">
         {visual && (
           <>
@@ -163,7 +163,7 @@ function Toolbar({ editor, mode, onToggleMode }) {
   );
 }
 
-export default function RichEditor({ initialMarkdown, onChange, onReady }) {
+export default function RichEditor({ initialMarkdown, onChange, onReady, stickyTop }) {
   const [mode, setMode] = useState('visual');
   const [source, setSource] = useState('');
 
@@ -207,7 +207,7 @@ export default function RichEditor({ initialMarkdown, onChange, onReady }) {
 
   return (
     <div className={css.wrap}>
-      <Toolbar editor={editor} mode={mode} onToggleMode={toggleMode} />
+      <Toolbar editor={editor} mode={mode} onToggleMode={toggleMode} stickyTop={stickyTop} />
 
       <div className={mode === 'visual' ? css.area : css.hidden}>
         <EditorContent editor={editor} className={css.content} />
