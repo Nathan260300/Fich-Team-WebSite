@@ -35,7 +35,13 @@ export default function RolesTab({ roles, gamePlayers, reload }) {
               {list.length === 0 && <p className={s.empty}>Aucun rôle.</p>}
               {list.map(role => (
                 <button key={role.id} type="button" className={styles.roleItem} onClick={() => setModal(role)}>
-                  <span>{role.name}</span>
+                  <span className={styles.roleName}>
+                    {role.name}
+                    <span
+                      className={`${styles.descDot} ${role.description?.trim() ? styles.descDotOn : ''}`}
+                      title={role.description?.trim() ? 'Description renseignée' : 'Pas de description'}
+                    />
+                  </span>
                   <small>{usage.get(role.id) ?? 0} jouée(s)</small>
                 </button>
               ))}

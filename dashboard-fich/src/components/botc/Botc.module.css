@@ -260,3 +260,22 @@
   .search, .filter { width: 100%; }
   .headerTools { width: 100%; }
 }
+
+.roleName {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.descDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-dim);
+  opacity: .5;
+}
+
+.descDotOn {
+  background: var(--c-green);
+  opacity: 1;
+}

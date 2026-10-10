@@ -3,22 +3,12 @@ import { supabase } from '../../lib/supabase';
 import FormModal from '../FormModal';
 import s from '../../pages/shared.module.css';
 
-function toInt(value, fallback = 0) {
-  const n = parseInt(value, 10);
-  return Number.isNaN(n) ? fallback : n;
-}
-
 export default function PlayerModal({ player, gameCount, onClose, onSave }) {
   const isNew = !player.id;
   const [form, setForm] = useState({
     pseudo: player.pseudo ?? '',
     minecraft_username: player.minecraft_username ?? '',
     highlight: player.highlight ?? '',
-    base_points: String(player.base_points ?? 0),
-    base_wins: String(player.base_wins ?? 0),
-    base_losses: String(player.base_losses ?? 0),
-    base_last_points: player.base_last_points === null || player.base_last_points === undefined ? '' : String(player.base_last_points),
-    base_mj_games: String(player.base_mj_games ?? 0),
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -31,21 +21,12 @@ export default function PlayerModal({ player, gameCount, onClose, onSave }) {
       setError('Le pseudo est requis.');
       return;
     }
-    if (form.base_last_points.trim() !== '' && Number.isNaN(parseInt(form.base_last_points, 10))) {
-      setError('Les derniers points doivent être un nombre entier.');
-      return;
-    }
     setSaving(true);
     setError(null);
     const payload = {
       pseudo,
       minecraft_username: form.minecraft_username.trim() || null,
       highlight: form.highlight.trim() || null,
-      base_points: toInt(form.base_points),
-      base_wins: Math.max(0, toInt(form.base_wins)),
-      base_losses: Math.max(0, toInt(form.base_losses)),
-      base_last_points: form.base_last_points.trim() === '' ? null : toInt(form.base_last_points),
-      base_mj_games: Math.max(0, toInt(form.base_mj_games)),
     };
     const result = isNew
       ? await supabase.from('botc_players').insert(payload)
