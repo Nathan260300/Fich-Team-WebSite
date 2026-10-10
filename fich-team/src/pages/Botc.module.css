@@ -341,3 +341,36 @@
 @media (max-width: 520px) {
   .description { padding: 24px 18px 28px; border-radius: var(--r-md); }
 }
+
+.rolesCatalog { display: flex; flex-direction: column; gap: 30px; }
+.roleGroup { --team: var(--c-accent); }
+.roleGroupHead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding-bottom: 10px; margin-bottom: 14px; border-bottom: 2px solid var(--team);
+}
+.roleGroupTitle { font-family: var(--f-display); font-weight: 800; font-size: 1.15rem; color: var(--team); }
+.roleGroupCount { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--c-dim); }
+.roleGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.roleCard {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--c-surface); border: 1px solid var(--c-border); border-left: 3px solid var(--team);
+  border-radius: var(--r-md); padding: 14px 16px; text-align: left; color: var(--c-text);
+  transition: border-color .18s, background .18s, box-shadow .18s;
+}
+.roleCard:hover { border-color: var(--team); background: var(--c-surface-2); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.roleCardName { font-family: var(--f-display); font-weight: 700; font-size: .95rem; }
+.roleCardMore { font-size: .74rem; color: var(--c-dim); white-space: nowrap; transition: color .18s; }
+.roleCard:hover .roleCardMore { color: var(--team); }
+
+.roleDetails { --team: var(--c-accent); padding: 34px 34px 30px; }
+.roleDetailsTeam {
+  display: inline-block; font-family: var(--f-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--team); border: 1px solid var(--team); border-radius: 99px; padding: 4px 12px; margin-bottom: 14px;
+}
+.roleDetailsName { font-family: var(--f-display); font-weight: 800; font-size: 1.7rem; color: var(--c-text); letter-spacing: -.02em; margin-bottom: 18px; }
+.roleProse { background: none; border: 0; border-radius: 0; padding: 0; }
+
+@media (max-width: 520px) {
+  .roleDetails { padding: 28px 20px 24px; }
+  .roleGrid { grid-template-columns: 1fr 1fr; }
+}

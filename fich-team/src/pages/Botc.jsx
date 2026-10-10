@@ -10,24 +10,12 @@ import Leaderboard from '../components/botc/Leaderboard';
 import PlayerProfile from '../components/botc/PlayerProfile';
 import RulesBook from '../components/botc/RulesBook';
 import MasterRanking from '../components/botc/MasterRanking';
+import RolesCatalog from '../components/botc/RolesCatalog';
+import RoleDetails from '../components/botc/RoleDetails';
+import { mdComponents } from '../components/botc/markdown';
 import { useModal } from '../hooks/useModal';
 import { useBotc } from '../hooks/useBotc';
 import styles from './Botc.module.css';
-
-const mdComponents = {
-  a({ href = '', children }) {
-    if (href.startsWith('/')) return <Link to={href}>{children}</Link>;
-    const external = /^https?:\/\//.test(href);
-    return (
-      <a href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-        {children}
-      </a>
-    );
-  },
-  table({ children }) {
-    return <div className={styles.tableWrap}><table>{children}</table></div>;
-  },
-};
 
 function Presentation({ description }) {
   const hasDescription = description.trim().length > 0;
@@ -102,6 +90,7 @@ function GeneralStats({ summary }) {
 const TABS = [
   { id: 'presentation', label: '🩸 Présentation' },
   { id: 'regles', label: '📖 Règles' },
+  { id: 'roles', label: '🎭 Rôles' },
   { id: 'stats', label: '📊 Statistiques' },
 ];
 
@@ -114,6 +103,10 @@ export default function Botc() {
     ? data.ranking.find(r => `joueur-${r.player.id}` === activeModal) ?? null
     : null;
 
+  const activeRole = data && activeModal?.startsWith('role-')
+    ? data.roles.find(r => `role-${r.id}` === activeModal) ?? null
+    : null;
+
   return (
     <PageWrapper>
       <Link to="/activites" className={styles.back}>← Activités</Link>
@@ -123,7 +116,7 @@ export default function Botc() {
         badgeColor="red"
         title="Le"
         accentTitle="BOTC"
-        desc="Parties, règles, classement et statistiques de chaque joueur."
+        desc="Parties, règles, classement et statistiques de chaque joueur de la FICH Family."
       />
 
       {status === 'loading' && <div className={styles.loading}><span /><span /><span /></div>}
@@ -177,6 +170,12 @@ export default function Botc() {
                 </section>
               )}
 
+              {tab === 'roles' && (
+                <section className={styles.section}>
+                  <RolesCatalog roles={data.roles} onSelect={id => openModal(`role-${id}`)} />
+                </section>
+              )}
+
               {tab === 'stats' && (
                 <>
                   <section className={styles.section}>
@@ -202,6 +201,10 @@ export default function Botc() {
 
       <Modal isOpen={!!activeEntry} onClose={closeModal} maxWidth={1080}>
         {activeEntry && <PlayerProfile entry={activeEntry} />}
+      </Modal>
+
+      <Modal isOpen={!!activeRole} onClose={closeModal} maxWidth={720}>
+        {activeRole && <RoleDetails role={activeRole} />}
       </Modal>
     </PageWrapper>
   );

@@ -33,6 +33,7 @@ export function useBotc() {
         data: {
           ...computed,
           rules: rules.data ?? [],
+          roles: roles.data ?? [],
           description: info.data?.description ?? '',
         },
       });
