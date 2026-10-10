@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { TEAM_BY_ID } from '../../lib/botc';
-import { mdComponents } from './Markdown';
+import { mdComponents } from './markdown';
 import styles from '../../pages/Botc.module.css';
 
 export default function RoleDetails({ role }) {

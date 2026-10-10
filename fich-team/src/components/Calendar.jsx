@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Modal from './Modal';
-import MonthPicker from './MonthPicker';
+import MonthPicker from './Monthpicker';
 import { useModal } from '../hooks/useModal';
 import { useEvents } from '../hooks/useEvents';
 import { tagColor, dayKey, formatTime, formatLongDate, formatMonth, buildGrid } from '../lib/events';
