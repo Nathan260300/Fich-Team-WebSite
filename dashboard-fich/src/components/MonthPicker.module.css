@@ -1,0 +1,120 @@
+.nav {
+  display: grid;
+  grid-template-columns: 34px 210px 34px;
+  align-items: center;
+  gap: 12px;
+}
+
+.navBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--c-border-hi);
+  color: var(--c-muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .18s, color .18s, background .18s;
+}
+
+.navBtn:hover { border-color: var(--c-accent); color: var(--c-accent); background: rgba(61,158,255,.07); }
+
+.titleWrap { position: relative; width: 100%; }
+
+.title {
+  width: 100%;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  color: var(--c-text);
+  font-family: var(--f-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+}
+
+.title:hover, .titleOpen { background: rgba(255,255,255,.05); border-color: var(--c-border-hi); }
+
+.titleText { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+.caret { flex-shrink: 0; color: var(--c-muted); transition: transform .22s var(--ease); }
+.titleOpen .caret { transform: rotate(180deg); color: var(--c-accent); }
+
+.panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+  z-index: 40;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.55);
+}
+
+.yearRow {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.year { text-align: center; font-family: var(--f-display); font-weight: 800; font-size: 1.05rem; color: var(--c-text); }
+
+.yearBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--c-border-hi);
+  color: var(--c-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+
+.yearBtn:hover { color: var(--c-accent); border-color: var(--c-accent); background: rgba(61,158,255,.1); }
+
+.months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+
+.month {
+  padding: 10px 4px;
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--c-border);
+  color: var(--c-muted);
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: .86rem;
+  cursor: pointer;
+  transition: color .15s, background .15s, border-color .15s;
+}
+
+.month:hover { color: var(--c-text); background: rgba(255,255,255,.07); border-color: var(--c-border-hi); }
+
+.monthActive,
+.monthActive:hover {
+  color: var(--c-accent);
+  background: rgba(61,158,255,.14);
+  border-color: rgba(61,158,255,.45);
+}
+
+@media (max-width: 720px) {
+  .nav { grid-template-columns: 32px 150px 32px; gap: 6px; }
+  .navBtn { width: 32px; height: 32px; }
+  .title { font-size: .95rem; height: 36px; }
+  .panel { width: 272px; margin-left: -136px; }
+}

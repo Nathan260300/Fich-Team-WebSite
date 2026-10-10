@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase';
 import { tagColor, dayKey, formatTime, formatMonth, buildGrid } from '../../lib/events';
 import { dayInputValue } from '../../lib/dates';
 import EventModal from './EventModal';
+import MonthPicker from '../MonthPicker';
 import s from '../../pages/shared.module.css';
 import styles from './Activities.module.css';
 
@@ -57,9 +58,9 @@ export default function PlanningManager() {
   }, [events]);
 
   const todayKey = dayKey(new Date());
-  const shift = delta => {
+  const changeMonth = date => {
     setExpanded(null);
-    setCursor(c => new Date(c.getFullYear(), c.getMonth() + delta, 1));
+    setCursor(date);
   };
   const goToday = () => {
     const now = new Date();
@@ -85,11 +86,7 @@ export default function PlanningManager() {
 
       <div className={styles.calendar}>
         <div className={styles.toolbar}>
-          <div className={styles.nav}>
-            <button type="button" className={styles.navBtn} onClick={() => shift(-1)} aria-label="Mois précédent">‹</button>
-            <h3 className={styles.month}>{formatMonth(cursor)}</h3>
-            <button type="button" className={styles.navBtn} onClick={() => shift(1)} aria-label="Mois suivant">›</button>
-          </div>
+          <MonthPicker cursor={cursor} label={formatMonth(cursor)} onChange={changeMonth} />
           <button type="button" className={s.btnGhost} onClick={goToday}>Aujourd’hui</button>
         </div>
 

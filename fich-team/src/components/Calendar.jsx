@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Modal from './Modal';
+import MonthPicker from './MonthPicker';
 import { useModal } from '../hooks/useModal';
 import { useEvents } from '../hooks/useEvents';
 import { tagColor, dayKey, formatTime, formatLongDate, formatMonth, buildGrid } from '../lib/events';
@@ -54,7 +55,6 @@ export default function Calendar() {
     ? events.find(ev => `event-${ev.id}` === activeModal) ?? null
     : null;
 
-  const shift = delta => setCursor(c => new Date(c.getFullYear(), c.getMonth() + delta, 1));
   const goToday = () => {
     const now = new Date();
     setCursor(new Date(now.getFullYear(), now.getMonth(), 1));
@@ -63,11 +63,7 @@ export default function Calendar() {
   return (
     <div className={styles.calendar}>
       <div className={styles.toolbar}>
-        <div className={styles.nav}>
-          <button className={styles.navBtn} onClick={() => shift(-1)} aria-label="Mois précédent">‹</button>
-          <h3 className={styles.month} aria-live="polite">{formatMonth(cursor)}</h3>
-          <button className={styles.navBtn} onClick={() => shift(1)} aria-label="Mois suivant">›</button>
-        </div>
+        <MonthPicker cursor={cursor} label={formatMonth(cursor)} onChange={setCursor} />
         <div className={styles.toolbarActions}>
           <button className={styles.todayBtn} onClick={goToday}>Aujourd'hui</button>
         </div>

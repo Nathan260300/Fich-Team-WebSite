@@ -42,39 +42,6 @@
   flex-wrap: wrap;
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.navBtn {
-  width: 34px;
-  height: 34px;
-  border-radius: var(--r-sm);
-  background: transparent;
-  border: 1px solid var(--c-border-hi);
-  color: var(--c-muted);
-  font-size: 1.2rem;
-  line-height: 1;
-  transition: border-color .18s, color .18s, background .18s;
-}
-
-.navBtn:hover {
-  border-color: var(--c-accent);
-  color: var(--c-accent);
-  background: rgba(61,158,255,.07);
-}
-
-.month {
-  font-family: var(--f-display);
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--c-text);
-  min-width: 170px;
-  text-align: center;
-}
-
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -209,6 +176,5 @@
   .calendar { padding: 10px; }
   .cell { min-height: 74px; padding: 4px; }
   .chipTime { display: none; }
-  .month { min-width: 130px; font-size: 0.95rem; }
   .addDay { opacity: 1; }
 }

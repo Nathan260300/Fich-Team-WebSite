@@ -12,7 +12,7 @@ import RulesBook from '../components/botc/RulesBook';
 import MasterRanking from '../components/botc/MasterRanking';
 import RolesCatalog from '../components/botc/RolesCatalog';
 import RoleDetails from '../components/botc/RoleDetails';
-import { mdComponents } from '../components/botc/markdown';
+import { mdComponents } from '../components/botc/Markdown';
 import { useModal } from '../hooks/useModal';
 import { useBotc } from '../hooks/useBotc';
 import styles from './Botc.module.css';
