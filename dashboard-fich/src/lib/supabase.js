@@ -5,6 +5,8 @@ const SUPABASE_ANON = 'sb_publishable_gpLLhYlCJy8CQjMecJUT6g_CGVziGwL';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
+export const EDGE_SKIN = `${SUPABASE_URL}/functions/v1/get-minecraft-skin`;
+
 export const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/media`;
 
 export function storageUrl(path) {

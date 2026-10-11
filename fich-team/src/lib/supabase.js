@@ -3,7 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = 'https://unhfpfhsidmyxwcfdnek.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_gpLLhYlCJy8CQjMecJUT6g_CGVziGwL';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
+  auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+});
+
+export const EDGE_SKIN = `${SUPABASE_URL}/functions/v1/get-minecraft-skin`;
 
 export const EDGE_AVATAR = `${SUPABASE_URL}/functions/v1/get-discord-avatar`;
 
