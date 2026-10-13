@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Modal from './Modal';
+import NotFoundModal from './NotFoundModal';
 import MonthPicker from './Monthpicker';
-import { useModal } from '../hooks/useModal';
-import { useEvents } from '../hooks/useEvents';
+import { useModals } from '../hooks/useModal';
+import { useEvents, useEventById } from '../hooks/useEvents';
 import { tagColor, dayKey, formatTime, formatLongDate, formatMonth, buildGrid } from '../lib/events';
 import styles from './Calendar.module.css';
 
@@ -38,7 +39,8 @@ export default function Calendar() {
 
   const { gridStart, gridEnd, cells } = useMemo(() => buildGrid(cursor), [cursor]);
   const { events, status } = useEvents(gridStart, gridEnd);
-  const { activeModal, openModal, closeModal } = useModal();
+  const { value: eventId, open, close: closeModal } = useModals(['event']);
+  const openModal = id => open('event', id);
 
   const byDay = useMemo(() => {
     const map = new Map();
@@ -51,9 +53,17 @@ export default function Calendar() {
   }, [events]);
 
   const todayKey = dayKey(new Date());
-  const activeEvent = activeModal?.startsWith('event-')
-    ? events.find(ev => `event-${ev.id}` === activeModal) ?? null
-    : null;
+  const listed = eventId ? events.find(ev => String(ev.id) === eventId) ?? null : null;
+  const lookup = useEventById(eventId && !listed ? eventId : null);
+  const activeEvent = listed ?? lookup.event;
+  const eventMissing = Boolean(eventId) && !activeEvent && (status === 'ok' || status === 'error') && lookup.settled;
+
+  const lookupStart = lookup.event?.starts_at;
+  useEffect(() => {
+    if (!lookupStart) return;
+    const date = new Date(lookupStart);
+    setCursor(new Date(date.getFullYear(), date.getMonth(), 1));
+  }, [lookupStart]);
 
   const goToday = () => {
     const now = new Date();
@@ -93,7 +103,7 @@ export default function Calendar() {
                     key={ev.id}
                     className={styles.chip}
                     style={{ '--tag': tagColor(ev.tag) }}
-                    onClick={() => openModal(`event-${ev.id}`)}
+                    onClick={() => openModal(ev.id)}
                     title={`${formatTime(ev.starts_at)} — ${ev.title}`}
                   >
                     <span className={styles.chipTime}>{formatTime(ev.starts_at)}</span>
@@ -101,7 +111,7 @@ export default function Calendar() {
                   </button>
                 ))}
                 {extra > 0 && (
-                  <button className={styles.more} onClick={() => openModal(`event-${list[MAX_VISIBLE].id}`)}>+{extra}</button>
+                  <button className={styles.more} onClick={() => openModal(list[MAX_VISIBLE].id)}>+{extra}</button>
                 )}
               </div>
             </div>
@@ -119,6 +129,13 @@ export default function Calendar() {
       <Modal isOpen={!!activeEvent} onClose={closeModal} maxWidth={520}>
         {activeEvent && <EventDetails event={activeEvent} />}
       </Modal>
+
+      <NotFoundModal
+        isOpen={eventMissing}
+        onClose={closeModal}
+        title="Événement introuvable"
+        message="Cet événement n'existe pas ou a été supprimé."
+      />
     </div>
   );
 }

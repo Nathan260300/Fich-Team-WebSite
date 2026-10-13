@@ -19,6 +19,7 @@ function percent(part, total) {
 export function computeBotc({ players, roles, games, gamePlayers, info }) {
   const roleMap = new Map(roles.map(r => [r.id, r]));
   const gameMap = new Map(games.map(g => [g.id, g]));
+  const playerMap = new Map(players.map(p => [p.id, p]));
 
   const baseDemons = info?.base_demon_wins ?? 0;
   const baseCitadins = info?.base_citadin_wins ?? 0;
@@ -34,7 +35,7 @@ export function computeBotc({ players, roles, games, gamePlayers, info }) {
     const role = roleMap.get(gp.role_id);
     const list = entriesByPlayer.get(gp.player_id);
     if (!game || !role || !list) return;
-    list.push({ ...gp, role, playedAt: game.played_at });
+    list.push({ ...gp, role, playedAt: game.played_at, winner: game.winner, storyteller: playerMap.get(game.storyteller_id) ?? null });
   });
 
   const stats = players.map(player => {
@@ -89,6 +90,9 @@ export function computeBotc({ players, roles, games, gamePlayers, info }) {
       teams,
       mjGames: (player.base_mj_games ?? 0) + mjRecorded.length,
       mjRecorded,
+      history: entries,
+      basePoints: player.base_points ?? 0,
+      mjBonus: mjRecorded.length * MJ_POINTS,
     };
   });
 

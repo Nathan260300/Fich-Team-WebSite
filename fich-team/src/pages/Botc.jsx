@@ -1,19 +1,19 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import PageWrapper from '../components/PageWrapper';
 import Modal from '../components/Modal';
+import NotFoundModal from '../components/NotFoundModal';
 import { PageHero, SectionTitle } from '../components/UI';
 import Leaderboard from '../components/botc/Leaderboard';
-import PlayerProfile from '../components/botc/PlayerProfile';
 import RulesBook from '../components/botc/RulesBook';
 import MasterRanking from '../components/botc/MasterRanking';
 import RolesCatalog from '../components/botc/RolesCatalog';
 import RoleDetails from '../components/botc/RoleDetails';
 import { mdComponents } from '../components/botc/markdown';
-import { useModal } from '../hooks/useModal';
+import { useModals, useTab } from '../hooks/useModal';
+import { playerPath } from '../lib/botcRoutes';
 import { useBotc } from '../hooks/useBotc';
 import styles from './Botc.module.css';
 
@@ -94,18 +94,25 @@ const TABS = [
   { id: 'stats', label: '📊 Statistiques' },
 ];
 
+const TAB_IDS = TABS.map(t => t.id);
+
 export default function Botc() {
-  const [tab, setTab] = useState('presentation');
+  const [tab, setTab] = useTab(TAB_IDS, params => (params.get('role') ? 'roles' : 'presentation'));
+  const navigate = useNavigate();
   const { status, data } = useBotc();
-  const { activeModal, openModal, closeModal } = useModal();
+  const { value: roleSlug, open: openModal, close: closeModal } = useModals(['role']);
 
-  const activeEntry = data && activeModal?.startsWith('joueur-')
-    ? data.ranking.find(r => `joueur-${r.player.id}` === activeModal) ?? null
+  const requestedRole = tab === 'roles' ? roleSlug : null;
+  const activeRole = data && requestedRole
+    ? data.roles.find(r => r.slug === requestedRole) ?? null
     : null;
+  const roleMissing = Boolean(requestedRole) && status !== 'loading' && !activeRole;
 
-  const activeRole = data && activeModal?.startsWith('role-')
-    ? data.roles.find(r => `role-${r.id}` === activeModal) ?? null
-    : null;
+  const openPlayer = id => {
+    const entry = data?.ranking.find(r => r.player.id === id);
+    const username = entry?.player.minecraft_username;
+    if (username) navigate(playerPath(username));
+  };
 
   return (
     <PageWrapper>
@@ -172,7 +179,7 @@ export default function Botc() {
 
               {tab === 'roles' && (
                 <section className={styles.section}>
-                  <RolesCatalog roles={data.roles} onSelect={id => openModal(`role-${id}`)} />
+                  <RolesCatalog roles={data.roles} onSelect={slug => openModal('role', slug)} />
                 </section>
               )}
 
@@ -185,12 +192,12 @@ export default function Botc() {
 
                   <section className={styles.section}>
                     <SectionTitle>CLASSEMENT DES JOUEURS</SectionTitle>
-                    <Leaderboard ranking={data.ranking} onSelect={id => openModal(`joueur-${id}`)} />
+                    <Leaderboard ranking={data.ranking} onSelect={openPlayer} />
                   </section>
 
                   <section className={styles.section}>
                     <SectionTitle>CLASSEMENT DES MJ</SectionTitle>
-                    <MasterRanking ranking={data.storytellerRanking} onSelect={id => openModal(`joueur-${id}`)} />
+                    <MasterRanking ranking={data.storytellerRanking} onSelect={openPlayer} />
                   </section>
                 </>
               )}
@@ -199,13 +206,16 @@ export default function Botc() {
         </>
       )}
 
-      <Modal isOpen={!!activeEntry} onClose={closeModal} maxWidth={1080}>
-        {activeEntry && <PlayerProfile entry={activeEntry} />}
-      </Modal>
-
       <Modal isOpen={!!activeRole} onClose={closeModal} maxWidth={720}>
         {activeRole && <RoleDetails role={activeRole} />}
       </Modal>
+
+      <NotFoundModal
+        isOpen={roleMissing}
+        onClose={closeModal}
+        title="Rôle introuvable"
+        message="Ce rôle n'existe pas ou a été supprimé."
+      />
     </PageWrapper>
   );
 }

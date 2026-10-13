@@ -5,6 +5,7 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from 
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { supabase } from '../lib/supabase';
+import { useSlugField, SLUG_CONFLICT } from '../lib/slug';
 import PageHeader from '../components/PageHeader';
 import styles from './Members.module.css';
 
@@ -55,6 +56,7 @@ function MemberModal({ member, onClose, onSave }) {
   const [uploadingBanner, setUploadingBanner] = useState(false);
   const [error, setError] = useState(null);
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  const slugField = useSlugField(member.slug, form.pseudo);
 
   const handleUploadAvatar = async (file) => {
     if (!form.pseudo.trim()) { setError('Saisis le pseudo avant d\'uploader l\'avatar.'); return; }
@@ -85,8 +87,9 @@ function MemberModal({ member, onClose, onSave }) {
 
   const handleSave = async () => {
     if (!form.pseudo.trim()) { setError('Le pseudo est requis.'); return; }
+    if (!slugField.clean) { setError('Le slug est requis.'); return; }
     setSaving(true); setError(null);
-    const payload = { pseudo: form.pseudo.trim(), avatar: form.avatar.trim() || null, banner: form.banner.trim() || null, description: form.description.trim() || null };
+    const payload = { pseudo: form.pseudo.trim(), slug: slugField.clean, avatar: form.avatar.trim() || null, banner: form.banner.trim() || null, description: form.description.trim() || null };
     let err;
     if (isNew) {
       const { data: maxRow } = await supabase.from('members').select('sort_order').order('sort_order', { ascending: false }).limit(1).single();
@@ -96,7 +99,7 @@ function MemberModal({ member, onClose, onSave }) {
       ({ error: err } = await supabase.from('members').update(payload).eq('id', member.id));
     }
     setSaving(false);
-    if (err) { setError(err.message); return; }
+    if (err) { setError(err.code === '23505' ? SLUG_CONFLICT : err.message); return; }
     onSave();
   };
 
@@ -120,6 +123,11 @@ function MemberModal({ member, onClose, onSave }) {
           <div className={styles.field}>
             <label className={styles.label}>Pseudo *</label>
             <input value={form.pseudo} onChange={e => set('pseudo', e.target.value)} placeholder="Pseudo du membre" />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Slug (URL) *</label>
+            <input value={slugField.slug} onChange={e => slugField.setSlug(e.target.value)} placeholder="nathan" />
+            <span className={styles.hint}>Lien : /qui?tab=membres&membre={slugField.clean || '…'}</span>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Bannière</label>

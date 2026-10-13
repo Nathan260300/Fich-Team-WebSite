@@ -1,0 +1,48 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 44px 32px 36px;
+}
+
+.code {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 3.2rem;
+  letter-spacing: -.04em;
+  color: var(--c-accent);
+  line-height: 1;
+}
+
+.title {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -.02em;
+}
+
+.message {
+  color: var(--c-muted);
+  font-size: .92rem;
+  line-height: 1.6;
+  max-width: 340px;
+}
+
+.button {
+  margin-top: 12px;
+  padding: 9px 22px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--c-border-hi);
+  background: rgba(255, 255, 255, .05);
+  color: var(--c-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, .1);
+  border-color: var(--c-accent);
+}

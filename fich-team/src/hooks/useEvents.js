@@ -29,3 +29,26 @@ export function useEvents(gridStart, gridEnd) {
 
   return { events: result.events, status };
 }
+
+export function useEventById(id) {
+  const [result, setResult] = useState({ id: null, event: null });
+
+  useEffect(() => {
+    if (!id) return undefined;
+    let cancelled = false;
+
+    supabase
+      .from('events')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!cancelled) setResult({ id, event: data ?? null });
+      });
+
+    return () => { cancelled = true; };
+  }, [id]);
+
+  const settled = Boolean(id) && result.id === id;
+  return { event: settled ? result.event : null, settled };
+}

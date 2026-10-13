@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { TEAMS } from '../../lib/botc';
+import { useSlugField, SLUG_CONFLICT } from '../../lib/slug';
 import FormModal from '../FormModal';
 import RichEditor from '../RichEditor';
 import s from '../../pages/shared.module.css';
@@ -12,21 +13,26 @@ export default function RoleModal({ role, usage, onClose, onSave }) {
   const [description, setDescription] = useState(role.description ?? '');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const slugField = useSlugField(role.slug, name);
 
   const save = async () => {
     if (!name.trim()) {
       setError('Le nom est requis.');
       return;
     }
+    if (!slugField.clean) {
+      setError('Le slug est requis.');
+      return;
+    }
     setSaving(true);
     setError(null);
-    const payload = { name: name.trim(), team, description };
+    const payload = { name: name.trim(), slug: slugField.clean, team, description };
     const result = isNew
       ? await supabase.from('botc_roles').insert(payload)
       : await supabase.from('botc_roles').update(payload).eq('id', role.id);
     setSaving(false);
     if (result.error) {
-      setError(result.error.code === '23505' ? 'Ce rôle existe déjà.' : result.error.message);
+      setError(result.error.code === '23505' ? (/slug/.test(result.error.message) ? SLUG_CONFLICT : 'Ce rôle existe déjà.') : result.error.message);
       return;
     }
     onSave();
@@ -69,6 +75,11 @@ export default function RoleModal({ role, usage, onClose, onSave }) {
             {TEAMS.map(t => <option key={t.id} value={t.id}>{t.icon} {t.label}</option>)}
           </select>
         </div>
+      </div>
+      <div className={s.field}>
+        <label className={s.label}>Slug (URL) *</label>
+        <input value={slugField.slug} onChange={e => slugField.setSlug(e.target.value)} placeholder="vierge" />
+        <span className={s.hint}>Lien : /activites/botc?tab=roles&role={slugField.clean || '…'}</span>
       </div>
       <div className={s.field}>
         <label className={s.label}>Description</label>

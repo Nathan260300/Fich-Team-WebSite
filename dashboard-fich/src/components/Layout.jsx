@@ -188,7 +188,7 @@ export default function Layout({ children }) {
             href="/app/"
             className={styles.unauthBtn}
           >
-            ← Retour au portail
+            ← Retour à la centrale
           </a>
         </div>
       );

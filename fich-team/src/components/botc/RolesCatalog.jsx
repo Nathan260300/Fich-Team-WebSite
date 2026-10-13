@@ -28,7 +28,7 @@ export default function RolesCatalog({ roles, onSelect }) {
                   key={role.id}
                   type="button"
                   className={styles.roleCard}
-                  onClick={() => onSelect(role.id)}
+                  onClick={() => onSelect(role.slug)}
                   initial={{ opacity: 0, y: 14 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-30px' }}

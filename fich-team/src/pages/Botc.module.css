@@ -374,3 +374,30 @@
   .roleDetails { padding: 28px 20px 24px; }
   .roleGrid { grid-template-columns: 1fr 1fr; }
 }
+
+.playerPage {
+  max-width: 1080px;
+  margin: 28px auto 64px;
+  border-radius: var(--r-lg);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-hi);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .45);
+}
+
+.notFound {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 10px; padding: 90px 16px 110px;
+}
+.notFoundCode {
+  font-family: var(--f-display); font-weight: 800; font-size: 4.5rem;
+  letter-spacing: -.04em; line-height: 1; color: var(--c-accent);
+}
+.notFoundTitle { font-family: var(--f-display); font-weight: 800; font-size: 1.7rem; letter-spacing: -.02em; }
+.notFoundText { color: var(--c-muted); max-width: 420px; line-height: 1.6; }
+.notFoundLink {
+  margin-top: 14px; padding: 10px 22px; border-radius: var(--r-sm);
+  border: 1px solid var(--c-border-hi); background: rgba(255, 255, 255, .05);
+  font-weight: 600; color: var(--c-text);
+  transition: background .18s, border-color .18s;
+}
+.notFoundLink:hover { background: rgba(255, 255, 255, .1); border-color: var(--c-accent); }

@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageWrapper from '../components/PageWrapper';
 import Modal, { ModalNav } from '../components/Modal';
+import NotFoundModal from '../components/NotFoundModal';
 import { PageHero } from '../components/UI';
-import { useModal } from '../hooks/useModal';
+import { useModals, useTab } from '../hooks/useModal';
 import { useSupabase } from '../hooks/useSupabase';
 import { storageUrl } from '../lib/supabase';
 import { staggerDelay, getYouTubeThumbnail, getYouTubeEmbedUrl } from '../utils/helpers';
@@ -290,13 +291,13 @@ function PhotosPanel({ folders, openModal }) {
           viewport={{ once: true, margin: '-40px' }}
           whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.22 } }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => openModal(`folder_${folder.id}`)}
+          onClick={() => openModal('folder', folder.slug)}
           role="button"
           tabIndex={0}
-          onKeyDown={e => e.key === 'Enter' && openModal(`folder_${folder.id}`)}
+          onKeyDown={e => e.key === 'Enter' && openModal('folder', folder.slug)}
         >
           <div className={styles.folderCover}>
-            <img src={folder.images[0]} alt={folder.name} loading="lazy" />
+            <img src={folder.images[0]?.src} alt={folder.name} loading="lazy" />
             <div className={styles.folderOverlay}>
               <span className={styles.folderCount}>{folder.images.length} photos</span>
             </div>
@@ -329,10 +330,10 @@ function VideosPanel({ openModal }) {
           viewport={{ once: true, margin: '-40px' }}
           whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.22 } }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => openModal(`video_${video.id}`)}
+          onClick={() => openModal('video', video.id)}
           role="button"
           tabIndex={0}
-          onKeyDown={e => e.key === 'Enter' && openModal(`video_${video.id}`)}
+          onKeyDown={e => e.key === 'Enter' && openModal('video', video.id)}
         >
           <div className={styles.videoThumb}>
             <img src={getYouTubeThumbnail(video.id)} alt={video.title} loading="lazy" />
@@ -359,10 +360,19 @@ function VideosPanel({ openModal }) {
   );
 }
 
+const TAB_IDS = ['photos', 'videos'];
+
+function parseImageParam(value) {
+  if (!value) return { slug: null, id: null };
+  const cut = value.lastIndexOf('_');
+  if (cut < 1) return { slug: null, id: null };
+  return { slug: value.slice(0, cut), id: value.slice(cut + 1) };
+}
+
 export default function Projets() {
-  const [tab, setTab] = useState('photos');
+  const [tab, setTab] = useTab(TAB_IDS, params => (params.get('video') ? 'videos' : 'photos'));
   const [formOpen, setFormOpen] = useState(false);
-  const { activeModal, openModal, closeModal } = useModal();
+  const { active, value, open: openModal, swap, close: closeModal } = useModals(['folder', 'img', 'video']);
   const { data: projectsRaw } = useSupabase('projects');
   const { data: projectImages } = useSupabase('project_images');
   const { data: nextProject } = useSupabase('next_project', { single: true, order: null });
@@ -371,32 +381,34 @@ export default function Projets() {
   const folders = projectsRaw && projectImages
     ? projectsRaw.map(p => ({
         ...p,
-        images: projectImages.filter(img => img.project_id === p.id).map(img => storageUrl(img.path)),
+        images: projectImages
+          .filter(img => img.project_id === p.id)
+          .map(img => ({ id: String(img.id), src: storageUrl(img.path) })),
       }))
     : null;
 
-  const isFolderModal = activeModal?.startsWith('folder_');
-  const isPhotoModal  = activeModal?.startsWith('photo_');
-  const isVideoModal  = activeModal?.startsWith('video_');
+  const photosTab = tab === 'photos';
+  const isFolderModal = photosTab && active === 'folder';
+  const isPhotoModal  = photosTab && active === 'img';
+  const isVideoModal  = tab === 'videos' && active === 'video';
 
-  const activeFolderId = isFolderModal ? activeModal.replace('folder_', '') : null;
-  const activeFolder   = folders?.find(f => f.id === activeFolderId);
+  const activeFolder = isFolderModal ? folders?.find(f => f.slug === value) ?? null : null;
 
-  let photoFolderId = null, photoIndex = -1;
-  if (isPhotoModal) {
-    const parts = activeModal.replace('photo_', '').split('_');
-    photoFolderId = parts[0];
-    photoIndex    = parseInt(parts[1], 10);
-  }
-  const photoFolder = folders?.find(f => f.id === photoFolderId);
-  const activePhoto = photoFolder?.images[photoIndex];
+  const photoRef = isPhotoModal ? parseImageParam(value) : { slug: null, id: null };
+  const photoFolder = isPhotoModal ? folders?.find(f => f.slug === photoRef.slug) ?? null : null;
+  const photoIndex = photoFolder ? photoFolder.images.findIndex(img => img.id === photoRef.id) : -1;
+  const activePhoto = photoIndex >= 0 ? photoFolder.images[photoIndex] : null;
 
-  const activeVideoId = isVideoModal ? activeModal.replace('video_', '') : null;
-  const activeVideo   = videos?.find(v => v.id === activeVideoId);
+  const activeVideo = isVideoModal ? videos?.find(v => String(v.id) === value) ?? null : null;
 
-  const openPhoto = (folderId, idx) => openModal(`photo_${folderId}_${idx}`);
-  const prevPhoto = () => photoIndex > 0 && openPhoto(photoFolderId, photoIndex - 1);
-  const nextPhoto = () => photoFolder && photoIndex < photoFolder.images.length - 1 && openPhoto(photoFolderId, photoIndex + 1);
+  const folderMissing = isFolderModal && folders !== null && !activeFolder;
+  const photoMissing = isPhotoModal && folders !== null && !activePhoto;
+  const videoMissing = isVideoModal && videos !== null && !activeVideo;
+
+  const photoValue = (folder, idx) => `${folder.slug}_${folder.images[idx].id}`;
+  const openPhoto = (folder, idx) => openModal('img', photoValue(folder, idx));
+  const prevPhoto = () => photoIndex > 0 && swap('img', photoValue(photoFolder, photoIndex - 1));
+  const nextPhoto = () => photoFolder && photoIndex < photoFolder.images.length - 1 && swap('img', photoValue(photoFolder, photoIndex + 1));
 
   return (
     <PageWrapper>
@@ -452,7 +464,7 @@ export default function Projets() {
         </motion.div>
       </AnimatePresence>
 
-      <Modal isOpen={!!activeFolder && isFolderModal} onClose={closeModal}>
+      <Modal isOpen={!!activeFolder} onClose={closeModal}>
         {activeFolder && (
           <div className={styles.folderModal}>
             <div className={styles.folderModalHeader}>
@@ -461,17 +473,17 @@ export default function Projets() {
               <span className={styles.folderCount2}>{activeFolder.images.length} photos</span>
             </div>
             <div className={styles.folderModalGrid}>
-              {activeFolder.images.map((src, idx) => (
+              {activeFolder.images.map((img, idx) => (
                 <motion.div
-                  key={idx}
+                  key={img.id}
                   className={styles.photoItem}
                   initial={{ opacity: 0, scale: 0.94 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.03, duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
-                  onClick={() => openPhoto(activeFolder.id, idx)}
+                  onClick={() => openPhoto(activeFolder, idx)}
                 >
-                  <img src={src} alt={`Photo ${idx + 1}`} loading="lazy" />
+                  <img src={img.src} alt={`Photo ${idx + 1}`} loading="lazy" />
                 </motion.div>
               ))}
             </div>
@@ -479,13 +491,13 @@ export default function Projets() {
         )}
       </Modal>
 
-      <Modal isOpen={!!activePhoto && isPhotoModal} onClose={closeModal} maxWidth={900}>
+      <Modal isOpen={!!activePhoto} onClose={closeModal} maxWidth={900}>
         {activePhoto && photoFolder && (
           <>
             <div className={styles.photoWrap}>
               <motion.img
-                key={activePhoto}
-                src={activePhoto}
+                key={activePhoto.id}
+                src={activePhoto.src}
                 alt=""
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -505,7 +517,7 @@ export default function Projets() {
         )}
       </Modal>
 
-      <Modal isOpen={!!activeVideo && isVideoModal} onClose={closeModal}>
+      <Modal isOpen={!!activeVideo} onClose={closeModal}>
         {activeVideo && (
           <motion.div
             style={{ padding: '20px' }}
@@ -528,6 +540,25 @@ export default function Projets() {
           </motion.div>
         )}
       </Modal>
+
+      <NotFoundModal
+        isOpen={folderMissing}
+        onClose={closeModal}
+        title="Dossier introuvable"
+        message="Ce dossier photo n'existe pas ou a été supprimé."
+      />
+      <NotFoundModal
+        isOpen={photoMissing}
+        onClose={closeModal}
+        title="Photo introuvable"
+        message="Cette photo n'existe pas ou a été supprimée."
+      />
+      <NotFoundModal
+        isOpen={videoMissing}
+        onClose={closeModal}
+        title="Vidéo introuvable"
+        message="Cette vidéo n'existe pas ou a été supprimée."
+      />
 
       <Modal isOpen={formOpen} onClose={() => setFormOpen(false)} maxWidth={740}>
         {nextProject && (

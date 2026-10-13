@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageWrapper from '../components/PageWrapper';
 import Modal, { ModalNav } from '../components/Modal';
+import NotFoundModal from '../components/NotFoundModal';
 import { PageHero } from '../components/UI';
-import { useModal } from '../hooks/useModal';
+import { useModals, useTab } from '../hooks/useModal';
 import { useSupabase } from '../hooks/useSupabase';
 import { useAvatar } from '../hooks/useAvatar';
 import { storageUrl } from '../lib/supabase';
@@ -43,10 +43,10 @@ function MembresPanel({ members, status, openModal }) {
                 transition={{ delay: staggerDelay(i, 0.07), duration: 0.5, ease: [0.16,1,0.3,1] }}
                 whileHover={{ y: -6, scale: 1.03, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => openModal(String(i))}
+                onClick={() => openModal('membre', member.slug)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={e => e.key === 'Enter' && openModal(String(i))}
+                onKeyDown={e => e.key === 'Enter' && openModal('membre', member.slug)}
               >
                 <div className={styles.accentBar} />
                 <motion.div
@@ -162,15 +162,19 @@ function PartenairesPanel({ channels, status }) {
   );
 }
 
+const TAB_IDS = ['membres', 'relations'];
+
 export default function Qui() {
-  const [tab, setTab] = useState('membres');
+  const [tab, setTab] = useTab(TAB_IDS, () => 'membres');
   const { data: members, status: membersStatus } = useSupabase('members');
   const { data: channels, status: channelsStatus } = useSupabase('channels');
-  const { activeModal, openModal, closeModal } = useModal();
+  const { value: memberSlug, open: openModal, swap, close: closeModal } = useModals(['membre']);
 
-  const activeIndex  = members ? members.findIndex((_, i) => String(i) === activeModal) : -1;
+  const requested = tab === 'membres' ? memberSlug : null;
+  const activeIndex  = members && requested ? members.findIndex(m => m.slug === requested) : -1;
   const activeMember = activeIndex >= 0 ? members[activeIndex] : null;
-  const goTo = (idx) => openModal(String(idx));
+  const memberMissing = Boolean(requested) && membersStatus !== 'loading' && !activeMember;
+  const goTo = (idx) => swap('membre', members[idx].slug);
 
   return (
     <PageWrapper>
@@ -188,7 +192,7 @@ export default function Qui() {
         viewport={{ once: true }}
         transition={{ duration: 0.35 }}
       >
-        {[{ id: 'membres', label: '👥 Membres' }, { id: 'partenaires', label: '🤝 Relations' }].map(t => (
+        {[{ id: 'membres', label: '👥 Membres' }, { id: 'relations', label: '🤝 Relations' }].map(t => (
           <motion.button
             key={t.id}
             className={`${styles.tab} ${tab === t.id ? styles.tabActive : ''}`}
@@ -252,6 +256,13 @@ export default function Qui() {
           </>
         )}
       </Modal>
+
+      <NotFoundModal
+        isOpen={memberMissing}
+        onClose={closeModal}
+        title="Membre introuvable"
+        message="Ce membre n'existe pas ou n'est plus dans la FICH Team."
+      />
     </PageWrapper>
   );
 }

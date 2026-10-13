@@ -2,6 +2,7 @@ import { usePageTitle } from '../hooks/usePageTitle';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
+import { useSlugField, SLUG_CONFLICT } from '../lib/slug';
 import PageHeader from '../components/PageHeader';
 import s from './shared.module.css';
 import ps from './Projects.module.css';
@@ -28,22 +29,24 @@ function ProjectModal({ project, onClose, onSave }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  const slugField = useSlugField(project.slug, form.name);
 
   const handleSave = async () => {
     if (!form.id.trim()) { setError("L'ID est requis."); return; }
     if (!form.name.trim()) { setError('Le nom est requis.'); return; }
+    if (!slugField.clean) { setError('Le slug est requis.'); return; }
     setSaving(true); setError(null);
-    const payload = { id: form.id.trim(), name: form.name.trim(), icon: form.icon.trim() || null };
+    const payload = { id: form.id.trim(), name: form.name.trim(), slug: slugField.clean, icon: form.icon.trim() || null };
     let err;
     if (isNew) {
       const { data: maxRow } = await supabase.from('projects').select('sort_order').order('sort_order', { ascending: false }).limit(1).single();
       payload.sort_order = (maxRow?.sort_order ?? -1) + 1;
       ({ error: err } = await supabase.from('projects').insert(payload));
     } else {
-      ({ error: err } = await supabase.from('projects').update({ name: payload.name, icon: payload.icon }).eq('id', project.id));
+      ({ error: err } = await supabase.from('projects').update({ name: payload.name, slug: payload.slug, icon: payload.icon }).eq('id', project.id));
     }
     setSaving(false);
-    if (err) { setError(err.message); return; }
+    if (err) { setError(err.code === '23505' && /slug/.test(err.message) ? SLUG_CONFLICT : err.message); return; }
     onSave();
   };
 
@@ -68,6 +71,11 @@ function ProjectModal({ project, onClose, onSave }) {
           <div className={s.field}>
             <label className={s.label}>Nom *</label>
             <input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Nom du projet" />
+          </div>
+          <div className={s.field}>
+            <label className={s.label}>Slug (URL) *</label>
+            <input value={slugField.slug} onChange={e => slugField.setSlug(e.target.value)} placeholder="mon-dossier" />
+            <span className={s.hint}>Lien : /projets?tab=photos&folder={slugField.clean || '…'}</span>
           </div>
           {error && <motion.p className={s.error} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>{error}</motion.p>}
         </div>

@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import PageWrapper from '../components/PageWrapper';
 import Modal from '../components/Modal';
+import NotFoundModal from '../components/NotFoundModal';
 import { Badge, Btn, SectionLabel } from '../components/UI';
-import { useModal } from '../hooks/useModal';
+import { useModals } from '../hooks/useModal';
 import { useSupabase } from '../hooks/useSupabase';
 import { staggerDelay } from '../utils/helpers';
 import { useAppReady } from '../App';
@@ -104,13 +105,16 @@ function CardNormal({ card, index, openModal, ready }) {
 
 export default function Home() {
   const ready = useAppReady();
-  const { activeModal, openModal, closeModal } = useModal();
+  const { value: cardId, open, close: closeModal } = useModals(['accueil']);
+  const openModal = id => open('accueil', id);
   const { data: cards } = useSupabase('home_cards');
 
   const allCards = cards ?? [];
   const wideCard  = allCards.find(c => c.wide);
   const normCards = allCards.filter(c => !c.wide);
-  const activeCard = allCards.find(c => c.id === activeModal);
+  const foundCard = cardId ? allCards.find(c => String(c.id) === cardId) ?? null : null;
+  const activeCard = foundCard?.full_text ? foundCard : null;
+  const cardMissing = Boolean(cardId) && cards !== null && !activeCard;
 
   return (
     <PageWrapper>
@@ -223,6 +227,13 @@ export default function Home() {
           </div>
         )}
       </Modal>
+
+      <NotFoundModal
+        isOpen={cardMissing}
+        onClose={closeModal}
+        title="Contenu introuvable"
+        message="Cette carte n'existe pas ou n'a pas de détail à afficher."
+      />
     </PageWrapper>
   );
 }
