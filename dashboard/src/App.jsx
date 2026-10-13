@@ -11,7 +11,7 @@ const isOAuthConsentRoute = () =>
     .endsWith('/app/oauth/consent');
 
 export default function App() {
-  const { session, permissions, logout } = useAuth();
+  const { session, permissions, logout, accessDenied } = useAuth();
   const oauthConsent = isOAuthConsentRoute();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function App() {
   }
 
   if (!session) {
-    return <Login />;
+    return <Login accessDenied={accessDenied} />;
   }
 
   return (

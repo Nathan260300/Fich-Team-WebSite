@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 export function useAuth() {
   const [session, setSession] = useState(undefined);
   const [permissions, setPermissions] = useState(null);
+  const [accessDenied, setAccessDenied] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -21,15 +22,42 @@ export function useAuth() {
   useEffect(() => {
     if (!session) return;
 
-    supabase
-      .from('user_permissions')
-      .select('fich')
-      .eq('user_id', session.user.id)
-      .single()
-      .then(({ data }) => setPermissions(data ?? { fich: false }));
+    let cancelled = false;
+
+    const checkPermissions = async () => {
+      const { data, error } = await supabase
+        .from('user_permissions')
+        .select('fich')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (cancelled) return;
+
+      if (error || !data) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('accessDenied');
+        window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+        setAccessDenied(true);
+        setPermissions(null);
+        await supabase.auth.signOut();
+        return;
+      }
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('accessDenied');
+      window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+      setAccessDenied(false);
+      setPermissions(data);
+    };
+
+    checkPermissions();
+
+    return () => {
+      cancelled = true;
+    };
   }, [session]);
 
   const logout = () => supabase.auth.signOut();
 
-  return { session, permissions, logout };
+  return { session, permissions, logout, accessDenied };
 }

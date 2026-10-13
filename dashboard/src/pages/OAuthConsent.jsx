@@ -145,7 +145,7 @@ export default function OAuthConsent() {
               <strong className={styles.clientName}>
                 {details.client_name}
               </strong>{' '}
-              souhaite accéder à ton compte Nathan.
+              Pour accéder à cet espace, veuillez autoriser la connexion.
             </p>
 
             {scopes.length > 0 && (

@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase';
 import styles from './Login.module.css';
 
-export default function Login() {
+export default function Login({ accessDenied = false }) {
   const login = async () => {
     const popup = window.open(
       'about:blank',
@@ -17,7 +17,7 @@ export default function Login() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
-        redirectTo: `${window.location.origin}/app`,
+        redirectTo: `${window.location.origin}/app/`,
         skipBrowserRedirect: true,
       },
     });
@@ -80,6 +80,10 @@ export default function Login() {
 
           Connexion avec Discord
         </button>
+
+        {accessDenied && (
+          <p className={styles.error} role="alert">Tu n’as pas accès à cet espace. Si cela est une erreur, contacte Nathan.</p>
+        )}
 
         <p className={styles.note}>
           Accès réservé aux membres autorisés.
