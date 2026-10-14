@@ -150,15 +150,70 @@
   margin-top: 6px;
 }
 
-.gameRow {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) auto 90px 32px;
-  gap: 8px;
-  align-items: center;
+.gameCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   background: var(--c-surface-2);
   border: 1px solid var(--c-border);
   border-radius: var(--r-sm);
-  padding: 8px;
+  padding: 10px;
+}
+
+.gameRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) auto 76px 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.totalBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  border-radius: var(--r-sm);
+  background: rgba(94, 224, 138, .12);
+  border: 1px solid rgba(94, 224, 138, .35);
+  color: #5ee08a;
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: .85rem;
+}
+
+.totalNegative {
+  background: rgba(255, 107, 132, .12);
+  border-color: rgba(255, 107, 132, .35);
+  color: #ff6b84;
+}
+
+.pointsGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pointField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pointLabel {
+  font-family: var(--f-mono);
+  font-size: .56rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--c-dim);
+  line-height: 1.2;
+  min-height: 2.4em;
+}
+
+.legacyNote {
+  font-size: .76rem;
+  color: var(--c-muted);
+  font-style: italic;
 }
 
 .versus {
@@ -257,6 +312,7 @@
 
 @media (max-width: 640px) {
   .gameRow { grid-template-columns: 1fr 1fr; }
+  .pointsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .search, .filter { width: 100%; }
   .headerTools { width: 100%; }
 }

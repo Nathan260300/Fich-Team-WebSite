@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { TEAMS } from '../../lib/botc';
+import { TEAMS, POINT_FIELDS, DEFAULT_POINTS, hasPointDetail, sumPointDetail } from '../../lib/botc';
 import { toInputValue, fromInputValue, nowInputValue } from '../../lib/dates';
 import FormModal from '../FormModal';
 import s from '../../pages/shared.module.css';
@@ -12,6 +12,39 @@ const newKey = () => `row-${rowCounter++}`;
 function expectedWin(role, winner) {
   if (!role) return true;
   return role.team === 'demon' ? winner === 'demons' : winner === 'citadins';
+}
+
+function pickVictoryDefeat(won) {
+  const detail = defaultDetail(won);
+  return { pts_victoire: detail.pts_victoire, pts_defaite: detail.pts_defaite };
+}
+
+const EMPTY_DETAIL = Object.fromEntries(POINT_FIELDS.map(f => [f.key, '']));
+
+function defaultDetail(won) {
+  return {
+    ...EMPTY_DETAIL,
+    pts_victoire: String(won ? DEFAULT_POINTS.victory : 0),
+    pts_defaite: String(won ? 0 : DEFAULT_POINTS.defeat),
+    pts_participation: String(DEFAULT_POINTS.participation),
+    pts_mj: '0',
+    pts_implication: '0',
+    pts_rattrapage: '0',
+    pts_malus: '0',
+  };
+}
+
+function detailFromEntry(entry) {
+  if (!hasPointDetail(entry)) return { ...EMPTY_DETAIL };
+  return Object.fromEntries(POINT_FIELDS.map(f => [f.key, String(entry[f.key] ?? 0)]));
+}
+
+function rowTotal(row) {
+  return hasPointDetail(row.detail) ? sumPointDetail(row.detail) : row.legacy ?? 0;
+}
+
+function formatTotal(value) {
+  return value > 0 ? `+${value}` : String(value);
 }
 
 export default function GameModal({ game, entries, players, roles, onClose, onSave }) {
@@ -28,7 +61,9 @@ export default function GameModal({ game, entries, players, roles, onClose, onSa
       playerId: String(e.player_id),
       roleId: String(e.role_id),
       won: e.won,
-      points: String(e.points),
+      detail: detailFromEntry(e),
+      legacy: hasPointDetail(e) ? null : e.points,
+      auto: false,
       touched: true,
     }))
   );
@@ -37,7 +72,13 @@ export default function GameModal({ game, entries, players, roles, onClose, onSa
 
   const changeWinner = value => {
     setWinner(value);
-    setRows(list => list.map(r => (r.touched || !r.roleId ? r : { ...r, won: expectedWin(roleMap.get(r.roleId), value) })));
+    setRows(list =>
+      list.map(r => {
+        if (r.touched || !r.roleId) return r;
+        const won = expectedWin(roleMap.get(r.roleId), value);
+        return { ...r, won, detail: r.auto ? { ...r.detail, ...pickVictoryDefeat(won) } : r.detail };
+      })
+    );
   };
 
   const updateRow = (key, patch) => setRows(list => list.map(r => (r.key === key ? { ...r, ...patch } : r)));
@@ -47,14 +88,35 @@ export default function GameModal({ game, entries, players, roles, onClose, onSa
       list.map(r => {
         if (r.key !== key) return r;
         const next = { ...r, roleId };
-        if (!r.touched) next.won = expectedWin(roleMap.get(roleId), winner);
+        if (!r.touched) {
+          next.won = expectedWin(roleMap.get(roleId), winner);
+          if (r.auto) next.detail = { ...r.detail, ...pickVictoryDefeat(next.won) };
+        }
         return next;
       })
     );
   };
 
+  const toggleWon = (key, won) =>
+    setRows(list =>
+      list.map(r => {
+        if (r.key !== key) return r;
+        const next = { ...r, won, touched: true };
+        if (r.auto) next.detail = { ...r.detail, ...pickVictoryDefeat(won) };
+        return next;
+      })
+    );
+
+  const updateDetail = (key, field, value) =>
+    setRows(list =>
+      list.map(r => (r.key === key ? { ...r, detail: { ...r.detail, [field]: value }, auto: false } : r))
+    );
+
   const addRow = () =>
-    setRows(list => [...list, { key: newKey(), playerId: '', roleId: '', won: true, points: '', touched: false }]);
+    setRows(list => [
+      ...list,
+      { key: newKey(), playerId: '', roleId: '', won: true, detail: defaultDetail(true), legacy: null, auto: true, touched: false },
+    ]);
 
   const removeRow = key => setRows(list => list.filter(r => r.key !== key));
 
@@ -70,8 +132,19 @@ export default function GameModal({ game, entries, players, roles, onClose, onSa
         setError(`Ligne ${index + 1} : joueur et rôle requis.`);
         return;
       }
-      if (row.points.trim() === '' || Number.isNaN(parseInt(row.points, 10))) {
-        setError(`Ligne ${index + 1} : points manquants.`);
+      const filled = hasPointDetail(row.detail);
+      if (!filled && row.legacy === null) {
+        setError(`Ligne ${index + 1} : renseigne le détail des points.`);
+        return;
+      }
+      const invalid = POINT_FIELDS.find(f => {
+        const raw = String(row.detail[f.key]).trim();
+        if (raw === '') return false;
+        const value = Number(raw);
+        return !Number.isInteger(value) || (f.key === 'pts_malus' && value < 0);
+      });
+      if (invalid) {
+        setError(`Ligne ${index + 1} : « ${invalid.label} » doit être un nombre entier${invalid.key === 'pts_malus' ? ' positif (il sera soustrait)' : ''}.`);
         return;
       }
     }
@@ -108,13 +181,20 @@ export default function GameModal({ game, entries, players, roles, onClose, onSa
       }
     }
 
-    const payload = rows.map(r => ({
-      game_id: gameId,
-      player_id: Number(r.playerId),
-      role_id: Number(r.roleId),
-      won: r.won,
-      points: parseInt(r.points, 10),
-    }));
+    const payload = rows.map(r => {
+      const filled = hasPointDetail(r.detail);
+      const details = Object.fromEntries(
+        POINT_FIELDS.map(f => [f.key, filled ? parseInt(r.detail[f.key] === '' ? '0' : r.detail[f.key], 10) : null])
+      );
+      return {
+        game_id: gameId,
+        player_id: Number(r.playerId),
+        role_id: Number(r.roleId),
+        won: r.won,
+        ...details,
+        points: rowTotal(r),
+      };
+    });
 
     if (payload.length > 0) {
       const { error: upsertError } = await supabase
@@ -196,46 +276,65 @@ export default function GameModal({ game, entries, players, roles, onClose, onSa
 
       {rows.length === 0 && <p className={s.empty}>Aucun joueur sur cette partie.</p>}
 
-      {rows.map(row => (
-        <div key={row.key} className={styles.gameRow}>
-          <select value={row.playerId} onChange={e => updateRow(row.key, { playerId: e.target.value })}>
-            <option value="">Joueur…</option>
-            {players
-              .filter(p => String(p.id) === row.playerId || !usedIds.has(String(p.id)))
-              .map(p => <option key={p.id} value={p.id}>{p.pseudo}</option>)}
-          </select>
-          <select value={row.roleId} onChange={e => changeRole(row.key, e.target.value)}>
-            <option value="">Rôle…</option>
-            {TEAMS.map(team => (
-              <optgroup key={team.id} label={`${team.icon} ${team.label}`}>
-                {roles.filter(r => r.team === team.id).map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-              </optgroup>
-            ))}
-          </select>
-          <label className={s.checkRow}>
-            <input
-              type="checkbox"
-              checked={row.won}
-              onChange={e => updateRow(row.key, { won: e.target.checked, touched: true })}
-            />
-            Victoire
-          </label>
-          <input
-            type="number"
-            value={row.points}
-            onChange={e => updateRow(row.key, { points: e.target.value })}
-            placeholder="Points"
-          />
-          <button
-            type="button"
-            className={`${s.iconBtn} ${s.iconBtnDanger}`}
-            onClick={() => removeRow(row.key)}
-            title="Retirer"
-          >
-            ✕
-          </button>
-        </div>
-      ))}
+      {rows.map(row => {
+        const total = rowTotal(row);
+        return (
+          <div key={row.key} className={styles.gameCard}>
+            <div className={styles.gameRow}>
+              <select value={row.playerId} onChange={e => updateRow(row.key, { playerId: e.target.value })}>
+                <option value="">Joueur…</option>
+                {players
+                  .filter(p => String(p.id) === row.playerId || !usedIds.has(String(p.id)))
+                  .map(p => <option key={p.id} value={p.id}>{p.pseudo}</option>)}
+              </select>
+              <select value={row.roleId} onChange={e => changeRole(row.key, e.target.value)}>
+                <option value="">Rôle…</option>
+                {TEAMS.map(team => (
+                  <optgroup key={team.id} label={`${team.icon} ${team.label}`}>
+                    {roles.filter(r => r.team === team.id).map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+                  </optgroup>
+                ))}
+              </select>
+              <label className={s.checkRow}>
+                <input type="checkbox" checked={row.won} onChange={e => toggleWon(row.key, e.target.checked)} />
+                Victoire
+              </label>
+              <span className={`${styles.totalBadge} ${total < 0 ? styles.totalNegative : ''}`} title="Total de la partie">
+                {formatTotal(total)}
+              </span>
+              <button
+                type="button"
+                className={`${s.iconBtn} ${s.iconBtnDanger}`}
+                onClick={() => removeRow(row.key)}
+                title="Retirer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className={styles.pointsGrid}>
+              {POINT_FIELDS.map(f => (
+                <label key={f.key} className={styles.pointField}>
+                  <span className={styles.pointLabel}>{f.sign < 0 ? `${f.label} (−)` : f.label}</span>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    value={row.detail[f.key]}
+                    onChange={e => updateDetail(row.key, f.key, e.target.value)}
+                    placeholder="0"
+                  />
+                </label>
+              ))}
+            </div>
+
+            {row.legacy !== null && !hasPointDetail(row.detail) && (
+              <span className={styles.legacyNote}>
+                Ancien total conservé : {formatTotal(row.legacy)} pts. Remplis le détail pour le remplacer.
+              </span>
+            )}
+          </div>
+        );
+      })}
     </FormModal>
   );
 }

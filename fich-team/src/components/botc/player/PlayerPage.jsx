@@ -1,5 +1,6 @@
 import Hero from './Hero';
 import KeyStats from './KeyStats';
+import RecentBreakdown from './RecentBreakdown';
 import ProgressChart from './ProgressChart';
 import TeamBreakdown from './TeamBreakdown';
 import GameHistory from './GameHistory';
@@ -22,6 +23,7 @@ export default function PlayerPage({ entry, data }) {
     <div className={styles.page}>
       <Hero entry={entry} total={data.ranking.length} tone={dominantTone(entry.teams)} />
       <KeyStats entry={entry} />
+      <RecentBreakdown history={entry.history} />
       <ProgressChart entry={entry} />
       <TeamBreakdown teams={entry.teams} />
       <GameHistory history={entry.history} />

@@ -8,6 +8,29 @@ export const TEAMS = [
 
 export const TEAM_BY_ID = Object.fromEntries(TEAMS.map(t => [t.id, t]));
 
+export const POINT_FIELDS = [
+  { key: 'pts_victoire', label: 'Victoire', sign: 1 },
+  { key: 'pts_defaite', label: 'Défaite', sign: 1 },
+  { key: 'pts_participation', label: 'Participer', sign: 1 },
+  { key: 'pts_mj', label: 'Être MJ', sign: 1 },
+  { key: 'pts_implication', label: 'Bonne implication / bons coups', sign: 1 },
+  { key: 'pts_rattrapage', label: 'Rattrapage', sign: 1 },
+  { key: 'pts_malus', label: 'Malus', sign: -1 },
+];
+
+export const DEFAULT_POINTS = { victory: 25, defeat: 15, participation: 15 };
+
+export function hasPointDetail(entry) {
+  return POINT_FIELDS.some(f => entry[f.key] !== null && entry[f.key] !== undefined && entry[f.key] !== '');
+}
+
+export function sumPointDetail(entry) {
+  return POINT_FIELDS.reduce((sum, f) => {
+    const value = parseInt(entry[f.key], 10);
+    return sum + (Number.isNaN(value) ? 0 : value * f.sign);
+  }, 0);
+}
+
 function byDateDesc(a, b) {
   return new Date(b.playedAt) - new Date(a.playedAt);
 }

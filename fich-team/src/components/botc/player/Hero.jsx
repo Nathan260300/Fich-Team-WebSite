@@ -53,7 +53,9 @@ export default function Hero({ entry, total, tone }) {
           {entry.mjGames > 0 && <span className={styles.mjBadge}>🎙 MJ · {entry.mjGames}</span>}
         </div>
 
-        <h1 className={styles.heroName}>{player.pseudo}</h1>
+        <h1 className={styles.heroName} style={{ '--chars': Math.max(player.pseudo.length, 6) }}>
+          {player.pseudo}
+        </h1>
         <span className={styles.heroMc}>⛏ {player.minecraft_username}</span>
 
         {player.highlight && <p className={styles.heroQuote}>« {player.highlight} »</p>}

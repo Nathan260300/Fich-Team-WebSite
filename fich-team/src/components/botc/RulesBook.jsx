@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { mdComponents } from './markdown';
 import styles from '../../pages/Botc.module.css';
 
 function formatPoints(points) {
@@ -31,7 +32,7 @@ export default function RulesBook({ rules }) {
               )}
             </header>
             <div className={styles.ruleBody}>
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{rule.content}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>{rule.content}</ReactMarkdown>
             </div>
           </article>
         ))}

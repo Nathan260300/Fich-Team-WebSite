@@ -119,12 +119,15 @@
 }
 
 .heroName {
+  max-width: 100%;
   font-family: var(--f-display);
-  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-size: min(4.4rem, calc(600px / (var(--chars) * .8)), calc((100vw - 96px) / (var(--chars) * .8)));
   font-weight: 800;
   letter-spacing: -.04em;
-  line-height: 1;
-  overflow-wrap: anywhere;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .heroMc {
@@ -427,6 +430,86 @@
 .meter { height: 5px; border-radius: 99px; background: rgba(255, 255, 255, .07); overflow: hidden; }
 .meter span { display: block; height: 100%; border-radius: 99px; background: var(--team); }
 
+.breakGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.breakCard {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px;
+  border-radius: var(--r-lg);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-top: 3px solid var(--team);
+}
+
+.breakHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.breakDate {
+  flex-basis: 100%;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: var(--c-dim);
+}
+
+.breakRole {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -.02em;
+  color: var(--c-text);
+  margin-right: auto;
+}
+
+.breakRole:hover { color: var(--team); }
+
+.breakList { display: flex; flex-direction: column; padding: 8px 0; }
+
+.breakItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: .85rem;
+  color: var(--c-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.breakItem span:last-child { font-family: var(--f-mono); font-weight: 700; }
+.breakZero { color: var(--c-dim); opacity: .6; }
+.breakLegacy { padding: 18px 0; font-size: .85rem; font-style: italic; color: var(--c-dim); }
+
+.breakTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-border);
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.breakTotal strong {
+  font-family: var(--f-display);
+  font-size: 1.4rem;
+  letter-spacing: -.03em;
+  text-transform: none;
+}
+
 .timeline {
   display: flex;
   flex-direction: column;
@@ -610,6 +693,7 @@
   .bigGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .smallGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .teamGrid { grid-template-columns: 1fr; }
+  .breakGrid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
