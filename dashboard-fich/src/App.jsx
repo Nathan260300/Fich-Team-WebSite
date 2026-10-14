@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/videos"          element={<Videos />} />
           <Route path="/channels"        element={<Channels />} />
           <Route path="/hero-slideshow"  element={<HeroSlideshow />} />
-          <Route path="/legal"           element={<Suspense fallback={<div style={{ color: 'var(--c-muted)', fontSize: '.875rem', padding: '24px 0' }}>Chargement…</div>}><LegalPages /></Suspense>} />
+          <Route path="/legal"           element={<LegalPages />} />
           <Route path="*"                element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>
