@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useAsync } from '../hooks';
-import { getMaintenanceState, listAuditLog, probeCentralProject, probeDataProject } from '../api';
-import { describeAuditEntry, formatDateTime } from '../format';
-import { Button, ErrorState, LoadingBlock, PageHeader, Pill } from '../ui';
-import styles from './pages.module.css';
+import { useAsync } from '../hooks/useAsync';
+import { getMaintenanceState, listAuditLog, probeCentralProject, probeDataProject } from '../lib/api';
+import { describeAuditEntry, formatDateTime } from '../lib/format';
+import { Button, ErrorState, LoadingBlock, PageHeader, Pill } from '../components/UI';
+import styles from './shared.module.css';
 
 async function loadOverview() {
   const [state, audit, central, data] = await Promise.all([

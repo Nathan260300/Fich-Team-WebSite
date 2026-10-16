@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useAsync } from '../hooks';
-import { listPermissions, setPermission } from '../api';
-import { formatDateTime, shortId } from '../format';
-import { Button, ConfirmDialog, ErrorState, LoadingBlock, PageHeader, Pill, Switch } from '../ui';
-import { useToast } from '../toast';
-import styles from './pages.module.css';
+import { useAsync } from '../hooks/useAsync';
+import { listPermissions, setPermission } from '../lib/api';
+import { formatDateTime, shortId } from '../lib/format';
+import { Button, ConfirmDialog, ErrorState, LoadingBlock, PageHeader, Pill, Switch } from '../components/UI';
+import { useToast } from '../hooks/useToast';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import styles from './shared.module.css';
 
 const PERMISSION_LABELS = { fich: 'FICH', admin: 'ADMIN' };
 
@@ -42,7 +43,8 @@ function describeChange(change, currentUserId) {
   };
 }
 
-export default function Users({ currentUserId }) {
+export default function Users() {
+  const currentUserId = useCurrentUser();
   const toast = useToast();
   const { data, failure, loading, reload } = useAsync(listPermissions);
   const [change, setChange] = useState(null);

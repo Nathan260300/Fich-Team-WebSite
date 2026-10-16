@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useAsync } from '../hooks';
-import { listSettings } from '../api';
-import { findSettingDefinition } from '../settingsRegistry';
-import { formatDateTime } from '../format';
-import { Button, ErrorState, LoadingBlock, PageHeader, Pill } from '../ui';
-import styles from './pages.module.css';
+import { useAsync } from '../hooks/useAsync';
+import { listSettings } from '../lib/api';
+import { findSettingDefinition } from '../lib/settingsRegistry';
+import { formatDateTime } from '../lib/format';
+import { Button, ErrorState, LoadingBlock, PageHeader, Pill } from '../components/UI';
+import styles from './shared.module.css';
 
 function summarize(value) {
   if (value && typeof value === 'object' && 'enabled' in value) {

@@ -1,8 +1,8 @@
-import { useAsync } from '../hooks';
-import { listAuditLog } from '../api';
-import { describeAuditEntry, formatDateTime } from '../format';
-import { Button, ErrorState, LoadingBlock, PageHeader, Pill } from '../ui';
-import styles from './pages.module.css';
+import { useAsync } from '../hooks/useAsync';
+import { listAuditLog } from '../lib/api';
+import { describeAuditEntry, formatDateTime } from '../lib/format';
+import { Button, ErrorState, LoadingBlock, PageHeader, Pill } from '../components/UI';
+import styles from './shared.module.css';
 
 const loadLogs = () => listAuditLog(100);
 

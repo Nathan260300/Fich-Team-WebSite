@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ToastContext } from './toast';
-import styles from './ui.module.css';
+import { ToastContext } from '../hooks/useToast';
+import styles from './UI.module.css';
 
 export function Spinner({ size = 16 }) {
   return <span className={styles.spinner} style={{ width: size, height: size }} aria-hidden="true" />;

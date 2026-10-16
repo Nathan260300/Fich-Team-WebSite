@@ -1,14 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
-import { REQUEST_TIMEOUT_MS } from '../lib/access';
-import { classifySupabaseError, describeError, ERROR_CODES } from '../lib/supabaseErrors';
-
-const DATA_PROJECT_URL = 'https://unhfpfhsidmyxwcfdnek.supabase.co';
-const DATA_PROJECT_KEY = 'sb_publishable_5cDdiGYwiRn619gA9shx0A_tuyM1ipK';
-
-const dataProbeClient = createClient(DATA_PROJECT_URL, DATA_PROJECT_KEY, {
-  auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'fich-admin-data-probe' },
-});
+import { supabase } from './supabase';
+import { supabaseCentral } from './supabaseCentral';
+import { REQUEST_TIMEOUT_MS } from './access';
+import { classifySupabaseError, describeError, ERROR_CODES } from './supabaseErrors';
 
 const SPECIFIC_MESSAGES = [
   [/last_admin/i, 'Impossible de retirer le dernier administrateur : au moins un compte ADMIN doit rester actif.'],
@@ -35,20 +28,20 @@ async function run(builder) {
   return { data, failure: null };
 }
 
-export const getMaintenanceState = () => run(supabase.rpc('admin_get_state'));
+export const getMaintenanceState = () => run(supabaseCentral.rpc('admin_get_state'));
 
 export const setMaintenance = (mode, enabled, message) =>
-  run(supabase.rpc('admin_set_maintenance', { p_mode: mode, p_enabled: enabled, p_message: message }));
+  run(supabaseCentral.rpc('admin_set_maintenance', { p_mode: mode, p_enabled: enabled, p_message: message }));
 
-export const listPermissions = () => run(supabase.rpc('admin_list_permissions'));
+export const listPermissions = () => run(supabaseCentral.rpc('admin_list_permissions'));
 
 export const setPermission = (userId, permission, value) =>
-  run(supabase.rpc('admin_set_permission', { p_user_id: userId, p_permission: permission, p_value: value }));
+  run(supabaseCentral.rpc('admin_set_permission', { p_user_id: userId, p_permission: permission, p_value: value }));
 
-export const listSettings = () => run(supabase.rpc('admin_list_settings'));
+export const listSettings = () => run(supabaseCentral.rpc('admin_list_settings'));
 
 export const listAuditLog = (limit = 100) =>
-  run(supabase.from('admin_audit_log').select('id, created_at, actor_id, actor_label, action, target, details').order('created_at', { ascending: false }).limit(limit));
+  run(supabaseCentral.from('admin_audit_log').select('id, created_at, actor_id, actor_label, action, target, details').order('created_at', { ascending: false }).limit(limit));
 
 async function timedProbe(execute) {
   const startedAt = performance.now();
@@ -61,9 +54,9 @@ async function timedProbe(execute) {
 }
 
 export const probeCentralProject = () =>
-  timedProbe(() => supabase.rpc('get_site_state').abortSignal(AbortSignal.timeout(REQUEST_TIMEOUT_MS)));
+  timedProbe(() => supabaseCentral.rpc('get_site_state').abortSignal(AbortSignal.timeout(REQUEST_TIMEOUT_MS)));
 
 export const probeDataProject = () =>
-  timedProbe(() => dataProbeClient.from('members').select('*', { head: true }).limit(1).abortSignal(AbortSignal.timeout(REQUEST_TIMEOUT_MS)));
+  timedProbe(() => supabase.from('members').select('*', { head: true }).limit(1).abortSignal(AbortSignal.timeout(REQUEST_TIMEOUT_MS)));
 
 export const isPermissionFailure = (failure) => failure?.code === ERROR_CODES.SUPABASE_PERMISSION_DENIED;

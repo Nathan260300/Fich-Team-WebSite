@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useAsync } from '../hooks';
-import { getMaintenanceState, setMaintenance } from '../api';
-import { formatDateTime } from '../format';
-import { Button, ConfirmDialog, ErrorState, LoadingBlock, PageHeader, Pill, Switch } from '../ui';
-import { useToast } from '../toast';
-import styles from './pages.module.css';
+import { useAsync } from '../hooks/useAsync';
+import { getMaintenanceState, setMaintenance } from '../lib/api';
+import { formatDateTime } from '../lib/format';
+import { Button, ConfirmDialog, ErrorState, LoadingBlock, PageHeader, Pill, Switch } from '../components/UI';
+import { useToast } from '../hooks/useToast';
+import styles from './shared.module.css';
 
 const MODES = [
   {
