@@ -166,7 +166,7 @@ const TAB_IDS = ['membres', 'relations'];
 
 export default function Qui() {
   const [tab, setTab] = useTab(TAB_IDS, () => 'membres');
-  const { data: members, status: membersStatus } = useSupabase('members');
+  const { data: members, status: membersStatus } = useSupabase('members', { essential: true });
   const { data: channels, status: channelsStatus } = useSupabase('channels');
   const { value: memberSlug, open: openModal, swap, close: closeModal } = useModals(['membre']);
 

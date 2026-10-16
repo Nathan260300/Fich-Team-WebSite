@@ -1,0 +1,263 @@
+.stack { display: flex; flex-direction: column; gap: 18px; }
+
+.card {
+  padding: 22px 24px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.cardActive {
+  border-color: rgba(240,192,64,.4);
+  box-shadow: 0 0 0 1px rgba(240,192,64,.08), 0 10px 40px rgba(240,192,64,.05);
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.cardTitle {
+  font-family: var(--f-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--c-text);
+  letter-spacing: -.01em;
+}
+
+.cardSub {
+  margin-top: 4px;
+  font-size: .84rem;
+  line-height: 1.6;
+  color: var(--c-muted);
+  max-width: 520px;
+}
+
+.switchBox { display: flex; align-items: center; gap: 14px; }
+
+.effects {
+  margin: 16px 0 4px 18px;
+  font-size: .83rem;
+  line-height: 1.7;
+  color: var(--c-muted);
+}
+
+.field { display: block; margin-top: 18px; }
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--c-muted);
+}
+
+.textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 11px 14px;
+  font-family: var(--f-body);
+  font-size: .85rem;
+  line-height: 1.6;
+  color: var(--c-text);
+  background: var(--c-bg);
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-sm);
+  transition: border-color .18s;
+}
+
+.textarea:focus { border-color: var(--c-accent); }
+.textarea::placeholder { color: var(--c-dim); }
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.meta { font-size: .76rem; color: var(--c-dim); }
+
+.code {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: .72rem;
+  color: var(--c-muted);
+}
+
+.linkBtn {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--c-accent);
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(61,158,255,.08), rgba(61,158,255,.02));
+  border: 1px solid rgba(61,158,255,.18);
+  border-radius: var(--r-lg);
+}
+
+.bannerText { font-size: .86rem; line-height: 1.6; color: var(--c-muted); max-width: 520px; }
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 18px 20px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+}
+
+.statWide { grid-column: 1 / -1; }
+
+.statLabel {
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-dim);
+}
+
+.statMeta { font-size: .8rem; color: var(--c-muted); line-height: 1.5; }
+.statHint { font-size: .72rem; color: var(--c-dim); }
+
+.sectionTitle {
+  margin: 34px 0 14px;
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.shortcutGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.shortcut {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  transition: border-color .2s, transform .2s var(--ease), background .2s;
+}
+
+.shortcut:hover {
+  border-color: rgba(61,158,255,.4);
+  background: var(--c-surface-2);
+  transform: translateY(-2px);
+}
+
+.shortcutTitle { font-weight: 700; font-size: .92rem; color: var(--c-text); }
+.shortcutDesc { font-size: .78rem; color: var(--c-muted); line-height: 1.5; }
+
+.events { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.event {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 11px 14px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+}
+
+.eventMeta { font-size: .76rem; color: var(--c-dim); }
+
+.empty {
+  padding: 26px;
+  text-align: center;
+  font-size: .85rem;
+  color: var(--c-dim);
+  background: var(--c-surface);
+  border: 1px dashed var(--c-border-hi);
+  border-radius: var(--r-md);
+}
+
+.tableWrap {
+  overflow-x: auto;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+}
+
+.table { width: 100%; border-collapse: collapse; min-width: 560px; }
+
+.table th {
+  padding: 13px 18px;
+  text-align: left;
+  font-size: .66rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-dim);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.table td {
+  padding: 14px 18px;
+  font-size: .84rem;
+  color: var(--c-text);
+  border-bottom: 1px solid var(--c-border);
+  vertical-align: middle;
+}
+
+.table tr:last-child td { border-bottom: none; }
+
+.center { text-align: center !important; }
+.center > button { margin: 0 auto; display: block; }
+.muted { color: var(--c-muted) !important; font-size: .78rem !important; white-space: nowrap; }
+.detail { color: var(--c-muted) !important; max-width: 320px; white-space: pre-line; word-break: break-word; }
+
+.userCell { display: flex; align-items: center; gap: 12px; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--c-border-hi); }
+
+.avatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--c-accent);
+  background: rgba(61,158,255,.1);
+  border: 1px solid rgba(61,158,255,.2);
+}
+
+.userName { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.userId { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-size: .68rem; color: var(--c-dim); }
+
+@media (max-width: 600px) {
+  .card { padding: 18px 16px; }
+  .switchBox { width: 100%; justify-content: space-between; }
+  .cardFoot { flex-direction: column; align-items: stretch; }
+}

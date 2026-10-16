@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { reportSupabaseError } from '../lib/serviceStatus';
 import { computeBotc } from '../lib/botc';
 
 export function useBotc() {
@@ -17,8 +18,12 @@ export function useBotc() {
       supabase.from('botc_info').select('*').eq('id', 1).maybeSingle(),
     ]).then(([players, roles, games, gamePlayers, rules, info]) => {
       if (cancelled) return;
-      const failed = [players, roles, games, gamePlayers, rules, info].some(r => r.error);
-      if (failed) { setState({ status: 'error', data: null }); return; }
+      const failed = [players, roles, games, gamePlayers, rules, info].find(r => r.error);
+      if (failed) {
+        reportSupabaseError(failed.error, { status: failed.status, essential: true, source: 'botc' });
+        setState({ status: 'error', data: null });
+        return;
+      }
 
       const computed = computeBotc({
         players: players.data ?? [],

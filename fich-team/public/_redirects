@@ -1,3 +1,5 @@
 /app/fich/*             /app/fich/index.html            200
+/app/admin              /app/admin/index.html           200
+/app/admin/*            /app/admin/index.html           200
 /app/*                  /app/index.html                 200
 /*                      /index.html                     200

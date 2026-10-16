@@ -1,0 +1,38 @@
+.banner {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(12,21,37,.92);
+  border: 1px solid rgba(240,192,64,.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  color: var(--c-text);
+  font-size: .78rem;
+  line-height: 1.4;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-gold);
+  box-shadow: 0 0 10px rgba(240,192,64,.7);
+}
+
+@media (max-width: 520px) {
+  .banner {
+    border-radius: var(--r-md);
+    bottom: 12px;
+    font-size: .72rem;
+  }
+}

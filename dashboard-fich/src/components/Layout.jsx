@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useSession } from '../hooks/useSession';
 import { supabase } from '../lib/supabase';
 import { supabaseCentral } from '../lib/supabaseCentral';
+import { fetchMyAccess } from '../lib/access';
 import Sidebar from './Sidebar';
+import StatusScreen from './StatusScreen';
 import styles from './Layout.module.css';
 
 export default function Layout({ children }) {
@@ -13,6 +15,9 @@ export default function Layout({ children }) {
   const [scrolled, setScrolled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authError, setAuthError] = useState(null);
+  const [accessFailure, setAccessFailure] = useState(null);
+  const [maintenance, setMaintenance] = useState(null);
+  const [attempt, setAttempt] = useState(0);
 
   const loginStarted = useRef(false);
   const checkedUserId = useRef(null);
@@ -96,26 +101,71 @@ export default function Layout({ children }) {
 
       setCentralUser(centralSession.user);
 
-      const { data, error } = await supabaseCentral
-        .from('user_permissions')
-        .select('fich')
-        .eq('user_id', centralSession.user.id)
-        .single();
+      const result = await fetchMyAccess();
 
-      if (error) {
+      if (!result.ok) {
         console.error(
           'Erreur lors de la récupération des permissions :',
-          error
+          result.failure
         );
+        setAccessFailure(result.failure);
         setAccess(false);
         return;
       }
 
-      setAccess(data?.fich === true);
+      setAccessFailure(null);
+
+      if (!result.access.fich) {
+        setAccess(false);
+        return;
+      }
+
+      if (result.access.dashboards_blocked) {
+        setMaintenance({ message: result.access.dashboards_maintenance.message });
+        setAccess(false);
+        return;
+      }
+
+      setMaintenance(null);
+      setAccess(true);
     };
 
     checkAccess();
-  }, [session?.user?.id, session]);
+  }, [session?.user?.id, session, attempt]);
+
+  useEffect(() => {
+    if (access !== true) return undefined;
+
+    const poll = async () => {
+      if (document.visibilityState !== 'visible') return;
+      const result = await fetchMyAccess();
+      if (!result.ok) return;
+      if (!result.access.fich) {
+        setAccess(false);
+        return;
+      }
+      if (result.access.dashboards_blocked) {
+        setMaintenance({ message: result.access.dashboards_maintenance.message });
+        setAccess(false);
+      }
+    };
+
+    const interval = setInterval(poll, 60000);
+    document.addEventListener('visibilitychange', poll);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', poll);
+    };
+  }, [access]);
+
+  const retryAccess = () => {
+    checkedUserId.current = null;
+    setAccessFailure(null);
+    setMaintenance(null);
+    setAccess(undefined);
+    setAttempt((value) => value + 1);
+  };
 
   useEffect(() => {
     const fn = () => {
@@ -227,6 +277,29 @@ export default function Layout({ children }) {
           />
         ))}
       </div>
+    );
+  }
+
+  if (accessFailure) {
+    return (
+      <StatusScreen
+        kind="error"
+        failure={accessFailure}
+        retried={attempt > 0}
+        onRetry={retryAccess}
+        onLogout={logout}
+      />
+    );
+  }
+
+  if (maintenance) {
+    return (
+      <StatusScreen
+        kind="maintenance"
+        message={maintenance.message}
+        onRetry={retryAccess}
+        onLogout={logout}
+      />
     );
   }
 

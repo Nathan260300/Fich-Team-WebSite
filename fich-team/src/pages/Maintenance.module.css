@@ -1,0 +1,126 @@
+.wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 44px 36px 32px;
+  background: rgba(12,21,37,.78);
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-xl);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 80px rgba(0,0,0,.45);
+}
+
+.logoWrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  box-shadow: 0 0 0 1px rgba(61,158,255,.18), 0 0 40px rgba(61,158,255,.16);
+}
+
+.logoWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title {
+  margin: 18px 0 14px;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4.6vw, 2.3rem);
+  letter-spacing: -.03em;
+  line-height: 1.15;
+  color: var(--c-text);
+}
+
+.desc {
+  font-size: .95rem;
+  line-height: 1.75;
+  color: var(--c-muted);
+  max-width: 440px;
+}
+
+.reason {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px 18px;
+  text-align: left;
+  font-size: .9rem;
+  line-height: 1.6;
+  color: var(--c-text);
+  white-space: pre-line;
+  background: rgba(240,192,64,.06);
+  border: 1px solid rgba(240,192,64,.22);
+  border-left: 3px solid var(--c-gold);
+  border-radius: var(--r-sm);
+}
+
+.reasonLabel {
+  font-family: var(--f-mono);
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+
+.progress {
+  width: 120px;
+  height: 3px;
+  margin: 28px 0 14px;
+  border-radius: 99px;
+  overflow: hidden;
+  background: rgba(255,255,255,.06);
+}
+
+.progressFill {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #1a6fcc, #3d9eff, #7ec8ff);
+  animation: slide 1.6s ease-in-out infinite;
+}
+
+@keyframes slide {
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(300%); }
+}
+
+.hint {
+  font-size: .75rem;
+  color: var(--c-dim);
+}
+
+.team {
+  margin-top: 22px;
+  font-size: .75rem;
+  color: var(--c-dim);
+  border-bottom: 1px dashed var(--c-border-hi);
+}
+
+.team:hover {
+  color: var(--c-accent);
+}
+
+@media (max-width: 520px) {
+  .card { padding: 34px 22px 26px; }
+}

@@ -1,10 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
+import { fetchMyAccess, isSessionFailure } from '../lib/access';
+
+const POLL_INTERVAL_MS = 60000;
+
+function clearAccessDeniedParam() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete('accessDenied');
+  window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+}
 
 export function useAuth() {
   const [session, setSession] = useState(undefined);
-  const [permissions, setPermissions] = useState(null);
+  const [access, setAccess] = useState(null);
+  const [accessFailure, setAccessFailure] = useState(null);
   const [accessDenied, setAccessDenied] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -13,51 +24,78 @@ export function useAuth() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s ?? null);
-      if (!s) setPermissions(null);
+      if (!s) {
+        setAccess(null);
+        setAccessFailure(null);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (!session) return;
+    if (!session) return undefined;
 
     let cancelled = false;
 
-    const checkPermissions = async () => {
-      const { data, error } = await supabase
-        .from('user_permissions')
-        .select('fich')
-        .eq('user_id', session.user.id)
-        .maybeSingle();
+    const run = async (silent) => {
+      const result = await fetchMyAccess();
 
       if (cancelled) return;
 
-      if (error || !data) {
-        const url = new URL(window.location.href);
-        url.searchParams.delete('accessDenied');
-        window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+      if (!result.ok) {
+        if (silent) return;
+        if (isSessionFailure(result.failure)) {
+          await supabase.auth.signOut();
+          return;
+        }
+        setAccess(null);
+        setAccessFailure(result.failure);
+        return;
+      }
+
+      const allowed = result.access.has_row;
+
+      clearAccessDeniedParam();
+
+      if (!allowed) {
         setAccessDenied(true);
-        setPermissions(null);
+        setAccess(null);
+        setAccessFailure(null);
         await supabase.auth.signOut();
         return;
       }
 
-      const url = new URL(window.location.href);
-      url.searchParams.delete('accessDenied');
-      window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
       setAccessDenied(false);
-      setPermissions(data);
+      setAccessFailure(null);
+      setAccess(result.access);
     };
 
-    checkPermissions();
+    run(false);
+
+    const poll = () => {
+      if (document.visibilityState === 'visible') run(true);
+    };
+
+    const interval = setInterval(poll, POLL_INTERVAL_MS);
+    document.addEventListener('visibilitychange', poll);
 
     return () => {
       cancelled = true;
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', poll);
     };
-  }, [session]);
+  }, [session, attempt]);
+
+  const retry = useCallback(() => {
+    setAccess(null);
+    setAccessFailure(null);
+    setAttempt(value => value + 1);
+  }, []);
 
   const logout = () => supabase.auth.signOut();
 
-  return { session, permissions, logout, accessDenied };
+  const permissions = access ? { fich: access.fich, admin: access.admin } : null;
+
+  return { session, access, permissions, accessFailure, accessDenied, attempt, retry, logout };
 }

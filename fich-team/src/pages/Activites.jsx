@@ -44,7 +44,7 @@ function ActivityCard({ activity, index }) {
 }
 
 export default function Activites() {
-  const { data: activities, status } = useSupabase('activities');
+  const { data: activities, status } = useSupabase('activities', { essential: true });
 
   return (
     <PageWrapper>

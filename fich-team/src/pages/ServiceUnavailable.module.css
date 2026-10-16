@@ -1,0 +1,53 @@
+.http {
+  padding-left: 8px;
+  border-left: 1px solid rgba(255,77,109,.3);
+  color: var(--c-muted);
+}
+
+.retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 200px;
+  padding: 12px 26px;
+  border: none;
+  border-radius: var(--r-sm);
+  background: var(--c-accent);
+  color: #060c18;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: filter .18s, transform .15s, opacity .18s;
+}
+
+.retry:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.retry:disabled {
+  opacity: .75;
+  cursor: progress;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(6,12,24,.25);
+  border-top-color: #060c18;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.feedback {
+  min-height: 1.4em;
+  margin-top: 14px;
+  font-size: .8rem;
+  color: #ff6b84;
+}

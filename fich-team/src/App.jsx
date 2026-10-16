@@ -18,6 +18,8 @@ import Legal from './pages/Legal';
 import NotFound from './pages/NotFound';
 import { LEGAL_PAGES } from './data/legalPages';
 import { usePageTitle } from './hooks/usePageTitle';
+import ServiceStatusBoundary from './components/ServiceStatusBoundary';
+import SiteGate from './components/SiteGate';
 import styles from './App.module.css';
 
 export const AppReadyCtx = createContext(false);
@@ -114,7 +116,11 @@ export default function App() {
   const [ready, setReady] = useState(false);
   return (
     <>
-      <AppContent ready={ready} />
+      <ServiceStatusBoundary>
+        <SiteGate>
+          <AppContent ready={ready} />
+        </SiteGate>
+      </ServiceStatusBoundary>
       <PageLoader onStart={() => setReady(true)} onDone={() => {}} />
     </>
   );

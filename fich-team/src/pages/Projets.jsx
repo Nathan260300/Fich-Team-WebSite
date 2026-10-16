@@ -373,7 +373,7 @@ export default function Projets() {
   const [tab, setTab] = useTab(TAB_IDS, params => (params.get('video') ? 'videos' : 'photos'));
   const [formOpen, setFormOpen] = useState(false);
   const { active, value, open: openModal, swap, close: closeModal } = useModals(['folder', 'img', 'video']);
-  const { data: projectsRaw } = useSupabase('projects');
+  const { data: projectsRaw } = useSupabase('projects', { essential: true });
   const { data: projectImages } = useSupabase('project_images');
   const { data: nextProject } = useSupabase('next_project', { single: true, order: null });
   const { data: videos } = useSupabase('videos', { select: '*, channel:channels!creator_id(name, avatar)' });

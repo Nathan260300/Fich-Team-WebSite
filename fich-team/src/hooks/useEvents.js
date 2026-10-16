@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { reportSupabaseError } from '../lib/serviceStatus';
 
 export function useEvents(gridStart, gridEnd) {
   const [result, setResult] = useState({ key: '', events: [], error: false });
@@ -17,8 +18,9 @@ export function useEvents(gridStart, gridEnd) {
       .gte('starts_at', from)
       .lt('starts_at', to)
       .order('starts_at', { ascending: true })
-      .then(({ data, error }) => {
+      .then(({ data, error, status: httpStatus }) => {
         if (cancelled) return;
+        if (error) reportSupabaseError(error, { status: httpStatus, essential: true, source: 'events' });
         setResult({ key: `${from}|${to}`, events: error ? [] : data ?? [], error: !!error });
       });
 
