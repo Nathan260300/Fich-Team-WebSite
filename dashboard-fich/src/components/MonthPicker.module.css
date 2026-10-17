@@ -21,7 +21,7 @@
   transition: border-color .18s, color .18s, background .18s;
 }
 
-.navBtn:hover { border-color: var(--c-accent); color: var(--c-accent); background: rgba(61,158,255,.07); }
+.navBtn:hover { border-color: var(--c-accent); color: var(--c-accent); background: rgba(var(--rgb-accent),.07); }
 
 .titleWrap { position: relative; width: 100%; }
 
@@ -86,7 +86,7 @@
   transition: color .15s, border-color .15s, background .15s;
 }
 
-.yearBtn:hover { color: var(--c-accent); border-color: var(--c-accent); background: rgba(61,158,255,.1); }
+.yearBtn:hover { color: var(--c-accent); border-color: var(--c-accent); background: rgba(var(--rgb-accent),.1); }
 
 .months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 
@@ -108,8 +108,8 @@
 .monthActive,
 .monthActive:hover {
   color: var(--c-accent);
-  background: rgba(61,158,255,.14);
-  border-color: rgba(61,158,255,.45);
+  background: rgba(var(--rgb-accent),.14);
+  border-color: rgba(var(--rgb-accent),.45);
 }
 
 @media (max-width: 720px) {

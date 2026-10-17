@@ -5,8 +5,8 @@
   margin: 22px 0 72px;
 }
 
-.gain { color: #5ee08a; }
-.loss { color: #ff6b84; }
+.gain { color: var(--c-green); }
+.loss { color: var(--c-red-soft); }
 
 .hero {
   position: relative;
@@ -85,8 +85,8 @@
   gap: 6px;
   padding: 6px 14px;
   border-radius: 99px;
-  background: rgba(240, 192, 64, .12);
-  border: 1px solid rgba(240, 192, 64, .4);
+  background: rgba(var(--rgb-gold),.12);
+  border: 1px solid rgba(var(--rgb-gold),.4);
   color: var(--c-gold);
   font-family: var(--f-display);
   font-weight: 800;
@@ -211,8 +211,8 @@
 }
 
 .bigGold {
-  border-color: rgba(240, 192, 64, .35);
-  background: linear-gradient(160deg, rgba(240, 192, 64, .1), transparent 70%), var(--c-surface);
+  border-color: rgba(var(--rgb-gold),.35);
+  background: linear-gradient(160deg, rgba(var(--rgb-gold),.1), transparent 70%), var(--c-surface);
 }
 
 .bigRing { flex-direction: row; align-items: center; gap: 16px; }
@@ -338,7 +338,7 @@
   min-width: 130px;
   padding: 9px 12px;
   border-radius: var(--r-sm);
-  background: rgba(7, 13, 26, .96);
+  background: rgba(var(--rgb-bg),.96);
   border: 1px solid var(--c-border-hi);
   box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
   pointer-events: none;
@@ -554,8 +554,8 @@
   text-transform: uppercase;
 }
 
-.resultWin { background: rgba(94, 224, 138, .14); color: #5ee08a; }
-.resultLoss { background: rgba(255, 107, 132, .13); color: #ff6b84; }
+.resultWin { background: rgba(var(--rgb-green),.14); color: var(--c-green); }
+.resultLoss { background: rgba(255, 107, 132, .13); color: var(--c-red-soft); }
 
 .gamePoints {
   text-align: right;
@@ -622,8 +622,8 @@
   font-weight: 700;
 }
 
-.mjBar { height: 10px; border-radius: 99px; background: #3d9eff; overflow: hidden; }
-.mjBarDemon { display: block; height: 100%; background: #ff4d6d; }
+.mjBar { height: 10px; border-radius: 99px; background: var(--c-accent); overflow: hidden; }
+.mjBarDemon { display: block; height: 100%; background: var(--c-red); }
 .mjHint { font-size: .78rem; color: var(--c-dim); }
 
 .nav {

@@ -2,14 +2,14 @@ import styles from './Background.module.css';
 
 export default function Background({ variant = 'default' }) {
   const orb1Color = variant === 'error'
-    ? 'radial-gradient(circle,#3a1010 0%,transparent 70%)'
-    : 'radial-gradient(circle,#0a3060 0%,transparent 70%)';
+    ? 'radial-gradient(circle,var(--orb-1-err) 0%,transparent 70%)'
+    : 'radial-gradient(circle,var(--orb-1) 0%,transparent 70%)';
   const orb2Color = variant === 'error'
-    ? 'radial-gradient(circle,#1a0808 0%,transparent 70%)'
-    : 'radial-gradient(circle,#061535 0%,transparent 70%)';
+    ? 'radial-gradient(circle,var(--orb-2-err) 0%,transparent 70%)'
+    : 'radial-gradient(circle,var(--orb-2) 0%,transparent 70%)';
   const gridColor = variant === 'error'
-    ? 'rgba(255,77,109,.03)'
-    : 'rgba(61,158,255,.03)';
+    ? 'rgba(var(--rgb-red),.03)'
+    : 'rgba(var(--rgb-accent),.03)';
 
   return (
     <div className={styles.layer} aria-hidden="true">

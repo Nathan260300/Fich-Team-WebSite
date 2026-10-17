@@ -17,7 +17,7 @@
 }
 .item:hover { border-color: var(--c-border-hi); background: var(--c-surface-2); }
 .itemActive, .itemActive:hover {
-  border-color: rgba(61,158,255,.4); background: rgba(61,158,255,.08);
+  border-color: rgba(var(--rgb-accent),.4); background: rgba(var(--rgb-accent),.08);
 }
 .itemTitle {
   font-family: var(--f-display); font-size: .86rem; font-weight: 700; color: var(--c-text);

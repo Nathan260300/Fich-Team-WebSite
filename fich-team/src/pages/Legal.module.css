@@ -11,8 +11,8 @@
 }
 .tab:hover { color: var(--c-text); border-color: var(--c-border-hi); }
 .tabActive {
-  color: var(--c-accent); border-color: rgba(61,158,255,.35);
-  background: rgba(61,158,255,.09);
+  color: var(--c-accent); border-color: rgba(var(--rgb-accent),.35);
+  background: rgba(var(--rgb-accent),.09);
 }
 
 .card {
@@ -66,7 +66,7 @@
 }
 .prose p { margin: 0 0 14px; }
 .prose strong { color: var(--c-text); font-weight: 600; }
-.prose a { border-bottom: 1px solid rgba(61,158,255,.35); }
+.prose a { border-bottom: 1px solid rgba(var(--rgb-accent),.35); }
 .prose a:hover { border-bottom-color: #fff; }
 .prose ul, .prose ol { margin: 0 0 16px; padding-left: 22px; }
 .prose ul { list-style: disc; }
@@ -77,7 +77,7 @@
 .prose blockquote {
   margin: 0 0 16px; padding: 12px 16px;
   border-left: 3px solid var(--c-accent-dim);
-  background: rgba(61,158,255,.05); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: rgba(var(--rgb-accent),.05); border-radius: 0 var(--r-sm) var(--r-sm) 0;
 }
 .prose blockquote p:last-child { margin-bottom: 0; }
 .prose code {

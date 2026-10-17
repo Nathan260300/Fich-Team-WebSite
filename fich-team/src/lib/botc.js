@@ -1,8 +1,8 @@
 export const MJ_POINTS = 45;
 
 export const TEAMS = [
-  { id: 'demon', label: 'Démons', icon: '😈', color: '#ff4d6d' },
-  { id: 'citadin', label: 'Citadins', icon: '🧑', color: '#3d9eff' },
+  { id: 'demon', label: 'Démons', icon: '😈', color: 'var(--c-red)' },
+  { id: 'citadin', label: 'Citadins', icon: '🧑', color: 'var(--c-accent)' },
   { id: 'etranger', label: 'Étrangers', icon: '🧍', color: '#4dd4c0' },
 ];
 

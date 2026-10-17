@@ -60,7 +60,7 @@
 }
 
 .infoBox {
-  background: rgba(61,158,255,.05); border: 1px solid rgba(61,158,255,.12);
+  background: rgba(var(--rgb-accent),.05); border: 1px solid rgba(var(--rgb-accent),.12);
   border-radius: var(--r-md); padding: 15px 18px;
   font-size: .85rem; color: var(--c-muted); line-height: 1.68; margin-bottom: 22px;
 }
@@ -70,13 +70,13 @@
   display: inline-flex; align-items: center; gap: 7px;
   font-family: var(--f-display); font-weight: 700; font-size: .88rem;
   padding: 10px 20px; border-radius: var(--r-sm); text-decoration: none;
-  background: var(--c-accent); color: #070d1a;
+  background: var(--c-accent); color: var(--c-bg);
   box-shadow: 0 0 22px var(--c-accent-glow);
   transition: filter .18s, transform .2s var(--ease-spring), box-shadow .18s;
 }
 .btnPrimary:hover {
   filter: brightness(1.1); transform: translateY(-2px);
-  box-shadow: 0 6px 30px var(--c-accent-glow); color: #070d1a;
+  box-shadow: 0 6px 30px var(--c-accent-glow); color: var(--c-bg);
 }
 .btnGhost {
   display: inline-flex; align-items: center; gap: 7px;

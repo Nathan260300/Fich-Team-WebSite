@@ -20,15 +20,15 @@
   pointer-events: none;
 }
 
-.orbGold { background: radial-gradient(circle, rgba(240,192,64,.12) 0%, transparent 70%); }
-.orbRed  { background: radial-gradient(circle, rgba(255,77,109,.12) 0%, transparent 70%); }
+.orbGold { background: radial-gradient(circle, rgba(var(--rgb-gold),.12) 0%, transparent 70%); }
+.orbRed  { background: radial-gradient(circle, rgba(var(--rgb-red),.12) 0%, transparent 70%); }
 
 .orb2 {
   position: absolute;
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(61,158,255,.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--rgb-accent),.07) 0%, transparent 70%);
   bottom: -100px;
   left: -80px;
   pointer-events: none;
@@ -60,8 +60,8 @@
   margin-bottom: 20px;
 }
 
-.iconGold { color: #f0c040; background: rgba(240,192,64,.09); border: 1px solid rgba(240,192,64,.22); }
-.iconRed  { color: #ff6b84; background: rgba(255,77,109,.09); border: 1px solid rgba(255,77,109,.22); }
+.iconGold { color: var(--c-gold); background: rgba(var(--rgb-gold),.09); border: 1px solid rgba(var(--rgb-gold),.22); }
+.iconRed  { color: var(--c-red-soft); background: rgba(var(--rgb-red),.09); border: 1px solid rgba(var(--rgb-red),.22); }
 
 .title {
   font-family: var(--f-display);
@@ -87,9 +87,9 @@
   line-height: 1.6;
   color: var(--c-text);
   white-space: pre-line;
-  background: rgba(240,192,64,.06);
-  border: 1px solid rgba(240,192,64,.22);
-  border-left: 3px solid #f0c040;
+  background: rgba(var(--rgb-gold),.06);
+  border: 1px solid rgba(var(--rgb-gold),.22);
+  border-left: 3px solid var(--c-gold);
   border-radius: var(--r-sm);
 }
 
@@ -99,16 +99,16 @@
   font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
   font-size: .72rem;
   letter-spacing: .03em;
-  color: #ff6b84;
-  background: rgba(255,77,109,.07);
-  border: 1px solid rgba(255,77,109,.16);
+  color: var(--c-red-soft);
+  background: rgba(var(--rgb-red),.07);
+  border: 1px solid rgba(var(--rgb-red),.16);
   border-radius: var(--r-sm);
 }
 
 .retryNote {
   margin-top: 12px;
   font-size: .78rem;
-  color: #ff6b84;
+  color: var(--c-red-soft);
 }
 
 .actions {
@@ -121,7 +121,7 @@
 
 .primary {
   background: var(--c-accent);
-  color: #060c18;
+  color: var(--c-bg);
   font-family: var(--f-display);
   font-weight: 700;
   font-size: .88rem;
@@ -149,5 +149,5 @@
 .ghost:hover {
   border-color: var(--c-accent);
   color: var(--c-accent);
-  background: rgba(61,158,255,.06);
+  background: rgba(var(--rgb-accent),.06);
 }

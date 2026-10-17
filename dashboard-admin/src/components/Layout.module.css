@@ -8,7 +8,7 @@
   position: fixed;
   inset: 0;
   z-index: 1050;
-  background: rgba(3,7,16,.6);
+  background: rgba(var(--rgb-bg),.6);
 }
 
 .body {
@@ -28,7 +28,7 @@
   align-items: center;
   gap: 14px;
   padding: 0 28px;
-  background: rgba(7,13,26,.85);
+  background: rgba(var(--rgb-bg),.85);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--c-border);
@@ -55,7 +55,7 @@
 .logoutBtn:hover {
   border-color: var(--c-accent);
   color: var(--c-accent);
-  background: rgba(61,158,255,.06);
+  background: rgba(var(--rgb-accent),.06);
 }
 
 .burger {
@@ -129,7 +129,7 @@
 
 .unauthBtn {
   background: var(--c-accent);
-  color: #060c18;
+  color: var(--c-bg);
   font-family: var(--f-display);
   font-weight: 700;
   font-size: 0.9rem;
@@ -139,4 +139,4 @@
   transition: filter .18s, transform .15s;
 }
 
-.unauthBtn:hover { filter: brightness(1.1); transform: translateY(-1px); color: #060c18; }
+.unauthBtn:hover { filter: brightness(1.1); transform: translateY(-1px); color: var(--c-bg); }

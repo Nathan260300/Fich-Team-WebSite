@@ -9,8 +9,8 @@
 }
 
 .cardActive {
-  border-color: rgba(240,192,64,.4);
-  box-shadow: 0 0 0 1px rgba(240,192,64,.08), 0 10px 40px rgba(240,192,64,.05);
+  border-color: rgba(var(--rgb-gold),.4);
+  box-shadow: 0 0 0 1px rgba(var(--rgb-gold),.08), 0 10px 40px rgba(var(--rgb-gold),.05);
 }
 
 .cardHead {
@@ -104,8 +104,8 @@
   flex-wrap: wrap;
   padding: 20px 24px;
   margin-bottom: 18px;
-  background: linear-gradient(135deg, rgba(61,158,255,.08), rgba(61,158,255,.02));
-  border: 1px solid rgba(61,158,255,.18);
+  background: linear-gradient(135deg, rgba(var(--rgb-accent),.08), rgba(var(--rgb-accent),.02));
+  border: 1px solid rgba(var(--rgb-accent),.18);
   border-radius: var(--r-lg);
 }
 
@@ -167,7 +167,7 @@
 }
 
 .shortcut:hover {
-  border-color: rgba(61,158,255,.4);
+  border-color: rgba(var(--rgb-accent),.4);
   background: var(--c-surface-2);
   transform: translateY(-2px);
 }
@@ -249,8 +249,8 @@
   font-weight: 700;
   font-size: .8rem;
   color: var(--c-accent);
-  background: rgba(61,158,255,.1);
-  border: 1px solid rgba(61,158,255,.2);
+  background: rgba(var(--rgb-accent),.1);
+  border: 1px solid rgba(var(--rgb-accent),.2);
 }
 
 .userName { display: flex; align-items: center; gap: 8px; font-weight: 600; }

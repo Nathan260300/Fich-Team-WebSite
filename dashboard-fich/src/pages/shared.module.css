@@ -93,15 +93,15 @@
 .error {
   font-size: 0.82rem;
   color: var(--c-red);
-  background: rgba(255,77,109,.07);
-  border: 1px solid rgba(255,77,109,.2);
+  background: rgba(var(--rgb-red),.07);
+  border: 1px solid rgba(var(--rgb-red),.2);
   border-radius: var(--r-sm);
   padding: 9px 13px;
 }
 
 .btnPrimary {
   background: var(--c-accent);
-  color: #060c18;
+  color: var(--c-bg);
   border: none;
   border-radius: var(--r-sm);
   padding: 9px 20px;
@@ -133,7 +133,7 @@
 
 .btnDanger {
   background: transparent;
-  border: 1px solid rgba(255,77,109,.25);
+  border: 1px solid rgba(var(--rgb-red),.25);
   color: var(--c-red);
   border-radius: var(--r-sm);
   padding: 9px 20px;
@@ -144,7 +144,7 @@
   transition: background .18s, border-color .18s;
 }
 
-.btnDanger:hover { background: rgba(255,77,109,.1); border-color: rgba(255,77,109,.4); }
+.btnDanger:hover { background: rgba(var(--rgb-red),.1); border-color: rgba(var(--rgb-red),.4); }
 
 .list {
   display: flex;
@@ -209,9 +209,9 @@
   transition: border-color .15s, color .15s, background .15s;
 }
 
-.iconBtn:hover { border-color: var(--c-accent); color: var(--c-accent); background: rgba(61,158,255,.07); }
+.iconBtn:hover { border-color: var(--c-accent); color: var(--c-accent); background: rgba(var(--rgb-accent),.07); }
 .iconBtn:disabled { opacity: .3; cursor: not-allowed; }
-.iconBtnDanger:hover { border-color: var(--c-red); color: var(--c-red); background: rgba(255,77,109,.07); }
+.iconBtnDanger:hover { border-color: var(--c-red); color: var(--c-red); background: rgba(var(--rgb-red),.07); }
 
 .loading { color: var(--c-muted); font-size: 0.875rem; padding: 24px 0; }
 .empty { color: var(--c-muted); font-size: 0.875rem; padding: 12px 0; }
@@ -227,8 +227,8 @@
   white-space: nowrap;
 }
 
-.badgeUncertain { background: rgba(240,192,64,.1); color: var(--c-gold); border: 1px solid rgba(240,192,64,.2); }
-.badgeSure { background: rgba(61,202,126,.1); color: var(--c-green); border: 1px solid rgba(61,202,126,.2); }
+.badgeUncertain { background: rgba(var(--rgb-gold),.1); color: var(--c-gold); border: 1px solid rgba(var(--rgb-gold),.2); }
+.badgeSure { background: rgba(var(--rgb-green),.1); color: var(--c-green); border: 1px solid rgba(var(--rgb-green),.2); }
 
 .infoList { display: flex; flex-direction: column; gap: 7px; }
 .infoItem {
@@ -240,7 +240,7 @@
   border-radius: var(--r-sm);
   padding: 11px 14px;
 }
-.infoHighlight { border-color: rgba(61,158,255,.25); background: rgba(61,158,255,.04); }
+.infoHighlight { border-color: rgba(var(--rgb-accent),.25); background: rgba(var(--rgb-accent),.04); }
 .infoIcon { font-size: 1.1rem; flex-shrink: 0; }
 .infoText { flex: 1; min-width: 0; }
 .infoLabel { font-size: 0.72rem; color: var(--c-muted); display: block; margin-bottom: 1px; }
@@ -251,8 +251,8 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(61,158,255,.07);
-  border: 1px dashed rgba(61,158,255,.28);
+  background: rgba(var(--rgb-accent),.07);
+  border: 1px dashed rgba(var(--rgb-accent),.28);
   color: var(--c-accent);
   border-radius: var(--r-sm);
   padding: 8px 14px;
@@ -264,8 +264,8 @@
 }
 
 .uploadBtn:hover {
-  background: rgba(61,158,255,.14);
-  border-color: rgba(61,158,255,.48);
+  background: rgba(var(--rgb-accent),.14);
+  border-color: rgba(var(--rgb-accent),.48);
 }
 
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }

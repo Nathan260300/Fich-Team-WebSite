@@ -10,7 +10,7 @@
   top: 0; left: 0; right: 0;
   height: 72px;
   z-index: 1000;
-  background: rgba(7,13,26,.85);
+  background: rgba(var(--rgb-bg),.85);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--c-border);
@@ -130,7 +130,7 @@
 .logoutBtn:hover {
   border-color: var(--c-accent);
   color: var(--c-accent);
-  background: rgba(61,158,255,.06);
+  background: rgba(var(--rgb-accent),.06);
 }
 
 .burger {
@@ -161,7 +161,7 @@
 .barOpen3 { transform: translateY(-7px) rotate(-45deg); }
 
 .mobileMenu {
-  background: rgba(7,13,26,.97);
+  background: rgba(var(--rgb-bg),.97);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--c-border);
   padding: 16px;
@@ -212,7 +212,7 @@
 
 .mobileLogout:hover {
   color: var(--c-accent);
-  background: rgba(61,158,255,.07);
+  background: rgba(var(--rgb-accent),.07);
 }
 
 .main {
@@ -285,7 +285,7 @@
 }
 
 .card:hover {
-  border-color: rgba(61,158,255,.4);
+  border-color: rgba(var(--rgb-accent),.4);
   transform: translateY(-3px);
   box-shadow: 0 8px 32px rgba(0,0,0,.3);
 }
@@ -306,8 +306,8 @@
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background: rgba(61,158,255,.08);
-  border: 1px solid rgba(61,158,255,.14);
+  background: rgba(var(--rgb-accent),.08);
+  border: 1px solid rgba(var(--rgb-accent),.14);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&family=Mountains+of+Christmas:wght@400;700&family=Bangers&family=Comic+Neue:wght@400;700&display=swap');
+
+html[data-theme="halloween"] {
+  --rgb-surface: 23, 11, 34;
+  --c-accent-hover: #ff9040;
+  --num-1: #6a2e0c;
+  --num-2: #301408;
+  --num-3: #140a0a;
+  --c-bg: #0d0612;
+  --c-surface: #170b22;
+  --c-surface-2: #21112f;
+  --c-surface-3: #2b1740;
+  --c-border: rgba(255, 146, 64, .14);
+  --c-border-hi: rgba(255, 146, 64, .32);
+  --c-accent: #ff7a1a;
+  --c-accent-dim: #c2540a;
+  --c-accent-soft: #ffa24d;
+  --c-accent-glow: rgba(255, 122, 26, .3);
+  --c-red: #ff4757;
+  --c-red-soft: #ff7a85;
+  --c-gold: #b98cff;
+  --c-green: #86f24a;
+  --c-text: #f6ecff;
+  --c-muted: #bba2d6;
+  --c-dim: #80679b;
+  --rgb-accent: 255, 122, 26;
+  --rgb-red: 255, 71, 87;
+  --rgb-gold: 185, 140, 255;
+  --rgb-green: 134, 242, 74;
+  --rgb-bg: 13, 6, 18;
+  --orb-1: #4a1a6b;
+  --orb-2: #5a2406;
+  --orb-1-err: #5a0f1a;
+  --orb-2-err: #2a0508;
+  --f-display: 'Creepster', cursive;
+  --f-mono: 'Special Elite', monospace;
+  --theme-cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%3E%3Ctext%20y='26'%20font-size='26'%3E%F0%9F%8E%83%3C/text%3E%3C/svg%3E") 6 6, auto;
+}
+
+html[data-theme="noel"] {
+  --rgb-surface: 15, 33, 26;
+  --c-accent-hover: #f5d878;
+  --num-1: #1f6a44;
+  --num-2: #0f3524;
+  --num-3: #07140f;
+  --c-bg: #08130f;
+  --c-surface: #0f211a;
+  --c-surface-2: #162d23;
+  --c-surface-3: #1d3a2d;
+  --c-border: rgba(232, 197, 90, .15);
+  --c-border-hi: rgba(232, 197, 90, .34);
+  --c-accent: #e8c55a;
+  --c-accent-dim: #b8942c;
+  --c-accent-soft: #ffe08a;
+  --c-accent-glow: rgba(232, 197, 90, .28);
+  --c-red: #ff5a5f;
+  --c-red-soft: #ff8a8e;
+  --c-gold: #ffd86b;
+  --c-green: #5fd38d;
+  --c-text: #f5f8f2;
+  --c-muted: #a9c8b6;
+  --c-dim: #6c9380;
+  --rgb-accent: 232, 197, 90;
+  --rgb-red: 255, 90, 95;
+  --rgb-gold: 255, 216, 107;
+  --rgb-green: 95, 211, 141;
+  --rgb-bg: 8, 19, 15;
+  --orb-1: #0f5a36;
+  --orb-2: #5a1018;
+  --orb-1-err: #5a1018;
+  --orb-2-err: #2a0508;
+  --f-display: 'Mountains of Christmas', cursive;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --theme-cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%3E%3Ctext%20y='26'%20font-size='26'%3E%E2%AD%90%3C/text%3E%3C/svg%3E") 6 6, auto;
+}
+
+html[data-theme="avril"] {
+  --rgb-surface: 10, 58, 84;
+  --c-accent-hover: #ff95c8;
+  --num-1: #1f7a9c;
+  --num-2: #0e4660;
+  --num-3: #082a3c;
+  --c-bg: #06283a;
+  --c-surface: #0a3a54;
+  --c-surface-2: #0e4a6a;
+  --c-surface-3: #125a80;
+  --c-border: rgba(150, 230, 255, .18);
+  --c-border-hi: rgba(150, 230, 255, .38);
+  --c-accent: #ff7ab8;
+  --c-accent-dim: #d94f94;
+  --c-accent-soft: #ffa6d2;
+  --c-accent-glow: rgba(255, 122, 184, .32);
+  --c-red: #ff6b6b;
+  --c-red-soft: #ff9a9a;
+  --c-gold: #ffd23f;
+  --c-green: #4be3a6;
+  --c-text: #effcff;
+  --c-muted: #a3d8e6;
+  --c-dim: #62a0b5;
+  --rgb-accent: 255, 122, 184;
+  --rgb-red: 255, 107, 107;
+  --rgb-gold: 255, 210, 63;
+  --rgb-green: 75, 227, 166;
+  --rgb-bg: 6, 40, 58;
+  --orb-1: #0e6a8a;
+  --orb-2: #8a1f5e;
+  --orb-1-err: #7a1f2f;
+  --orb-2-err: #3a0a14;
+  --f-display: 'Bangers', cursive;
+  --f-mono: 'Comic Neue', cursive;
+  --r-xs: 10px;
+  --r-sm: 14px;
+  --r-md: 22px;
+  --r-lg: 30px;
+  --r-xl: 40px;
+  --theme-cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%3E%3Ctext%20y='26'%20font-size='26'%3E%F0%9F%90%9F%3C/text%3E%3C/svg%3E") 6 6, auto;
+}
+
+html[data-theme] {
+  font-synthesis: none;
+  scrollbar-color: var(--c-accent-dim) var(--c-bg);
+}
+
+[data-theme] ::selection {
+  background: rgba(var(--rgb-accent), .5);
+  color: #fff;
+}
+
+[data-theme] ::-webkit-scrollbar { width: 12px; height: 12px; }
+[data-theme] ::-webkit-scrollbar-track { background: var(--c-bg); }
+[data-theme] ::-webkit-scrollbar-thumb {
+  background: var(--c-accent-dim);
+  border: 3px solid var(--c-bg);
+  border-radius: 99px;
+}
+[data-theme] ::-webkit-scrollbar-thumb:hover { background: var(--c-accent); }
+
+[data-theme] body { cursor: var(--theme-cursor, auto); }
+
+[data-theme="halloween"] :where(h1, h2, h3, h4, th, label, button, nav a) { letter-spacing: .05em; }
+[data-theme="halloween"] h1 { text-shadow: 0 0 30px rgba(255, 122, 26, .5), 0 3px 0 rgba(0, 0, 0, .4); }
+[data-theme="halloween"] h2 { text-shadow: 0 0 20px rgba(185, 140, 255, .35); }
+
+html[data-theme="noel"] body { padding-bottom: 12px; }
+
+[data-theme="noel"] h1 { text-shadow: 0 0 28px rgba(232, 197, 90, .45), 0 2px 0 rgba(0, 0, 0, .35); }
+[data-theme="noel"] h2 { text-shadow: 0 0 18px rgba(95, 211, 141, .3); }
+
+[data-theme="avril"] :where(h1, h2, h3, h4, th, button, nav a) { letter-spacing: .04em; }
+[data-theme="avril"] h1 {
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, .3);
+  animation: themeWobble 4s ease-in-out infinite;
+}
+[data-theme="avril"] img[src$="logo.png"] { animation: themeSpin 12s linear infinite; }
+
+:is([data-theme="halloween"], [data-theme="noel"], [data-theme="avril"]) :is([class*="loaderDot"], [class*="loadingDot"]) {
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  background: none !important;
+  font-size: 20px;
+  line-height: 1;
+}
+
+[data-theme="halloween"] :is([class*="loaderDot"], [class*="loadingDot"])::before { content: '🎃'; }
+[data-theme="halloween"] :is([class*="loaderDot"], [class*="loadingDot"]):nth-child(2)::before { content: '👻'; }
+[data-theme="halloween"] :is([class*="loaderDot"], [class*="loadingDot"]):nth-child(3)::before { content: '🦇'; }
+
+[data-theme="noel"] :is([class*="loaderDot"], [class*="loadingDot"])::before { content: '❄️'; }
+[data-theme="noel"] :is([class*="loaderDot"], [class*="loadingDot"]):nth-child(2)::before { content: '🎄'; }
+[data-theme="noel"] :is([class*="loaderDot"], [class*="loadingDot"]):nth-child(3)::before { content: '⭐'; }
+
+[data-theme="avril"] :is([class*="loaderDot"], [class*="loadingDot"])::before { content: '🐟'; }
+[data-theme="avril"] :is([class*="loaderDot"], [class*="loadingDot"]):nth-child(2)::before { content: '🐠'; }
+[data-theme="avril"] :is([class*="loaderDot"], [class*="loadingDot"]):nth-child(3)::before { content: '🐡'; }
+
+@keyframes themeWobble {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes themeSpin {
+  to { transform: rotate(360deg); }
+}

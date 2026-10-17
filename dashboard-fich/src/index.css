@@ -16,6 +16,13 @@
   --c-text:        #e8f0ff;
   --c-muted:       #7a96b8;
   --c-dim:         #415870;
+  --rgb-accent: 61, 158, 255;
+  --rgb-red: 255, 77, 109;
+  --rgb-gold: 240, 192, 64;
+  --rgb-green: 61, 202, 126;
+  --rgb-bg: 6, 12, 24;
+  --c-accent-soft: #7ec8ff;
+  --c-red-soft: #ff6b84;
   --f-display:     'Syne', sans-serif;
   --f-mono:        'Space Mono', monospace;
   --f-body:        'Inter', sans-serif;

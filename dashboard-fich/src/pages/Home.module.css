@@ -61,7 +61,7 @@
 }
 
 .card:hover {
-  border-color: rgba(61,158,255,.35);
+  border-color: rgba(var(--rgb-accent),.35);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0,0,0,.3);
   background: var(--c-surface-2);
@@ -84,8 +84,8 @@
   width: 42px;
   height: 42px;
   border-radius: var(--r-sm);
-  background: rgba(61,158,255,.07);
-  border: 1px solid rgba(61,158,255,.12);
+  background: rgba(var(--rgb-accent),.07);
+  border: 1px solid rgba(var(--rgb-accent),.12);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -84,7 +84,7 @@
 
 .link.active {
   color: var(--c-accent);
-  background: rgba(61,158,255,.09);
+  background: rgba(var(--rgb-accent),.09);
 }
 
 .linkIcon {

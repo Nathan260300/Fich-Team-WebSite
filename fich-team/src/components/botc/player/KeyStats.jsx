@@ -37,7 +37,7 @@ export default function KeyStats({ entry }) {
         </motion.div>
 
         <motion.div className={`${styles.bigCard} ${styles.bigRing}`} {...rise(2)}>
-          <Ring value={entry.rate} color="#5ee08a" size={92} stroke={9}>
+          <Ring value={entry.rate} color="var(--c-green)" size={92} stroke={9}>
             <span className={styles.ringValue}>{entry.rate}%</span>
           </Ring>
           <div className={styles.bigRingText}>

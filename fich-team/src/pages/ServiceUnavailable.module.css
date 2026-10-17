@@ -1,6 +1,6 @@
 .http {
   padding-left: 8px;
-  border-left: 1px solid rgba(255,77,109,.3);
+  border-left: 1px solid rgba(var(--rgb-red),.3);
   color: var(--c-muted);
 }
 
@@ -14,7 +14,7 @@
   border: none;
   border-radius: var(--r-sm);
   background: var(--c-accent);
-  color: #060c18;
+  color: var(--c-bg);
   font-family: var(--f-display);
   font-weight: 700;
   font-size: .92rem;
@@ -36,8 +36,8 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid rgba(6,12,24,.25);
-  border-top-color: #060c18;
+  border: 2px solid rgba(var(--rgb-bg),.25);
+  border-top-color: var(--c-bg);
   animation: spin .7s linear infinite;
 }
 
@@ -49,5 +49,5 @@
   min-height: 1.4em;
   margin-top: 14px;
   font-size: .8rem;
-  color: #ff6b84;
+  color: var(--c-red-soft);
 }

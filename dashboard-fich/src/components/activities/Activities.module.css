@@ -83,8 +83,8 @@
 .outside { opacity: .4; }
 
 .today {
-  border-color: rgba(61,158,255,.5);
-  background: rgba(61,158,255,.06);
+  border-color: rgba(var(--rgb-accent),.5);
+  background: rgba(var(--rgb-accent),.06);
 }
 
 .cellHead {

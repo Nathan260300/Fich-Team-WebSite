@@ -2,7 +2,7 @@
   position: relative;
   margin-top: auto;
   border-top: 1px solid var(--c-border);
-  background: rgba(7,13,26,.62);
+  background: rgba(var(--rgb-bg),.62);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -24,7 +24,7 @@
 .brand { display: inline-flex; align-items: center; gap: 12px; width: fit-content; }
 .logoImg {
   width: 38px; height: 38px; border-radius: 10px; object-fit: cover;
-  box-shadow: 0 0 0 1px rgba(61,158,255,.15), 0 0 18px rgba(61,158,255,.12);
+  box-shadow: 0 0 0 1px rgba(var(--rgb-accent),.15), 0 0 18px rgba(var(--rgb-accent),.12);
 }
 .brandText { display: flex; flex-direction: column; line-height: 1.2; }
 .brandName {
@@ -48,8 +48,8 @@
   transition: color .18s, border-color .18s, background .18s, transform .2s var(--ease-spring);
 }
 .social:hover {
-  color: var(--c-accent); border-color: rgba(61,158,255,.4);
-  background: rgba(61,158,255,.09); transform: translateY(-3px);
+  color: var(--c-accent); border-color: rgba(var(--rgb-accent),.4);
+  background: rgba(var(--rgb-accent),.09); transform: translateY(-3px);
 }
 
 .col ul { display: flex; flex-direction: column; gap: 9px; }

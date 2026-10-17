@@ -1,6 +1,6 @@
 .btnPrimary {
   background: var(--c-accent);
-  color: #060c18;
+  color: var(--c-bg);
   border: none;
   border-radius: var(--r-sm);
   padding: 9px 18px;
@@ -65,7 +65,7 @@
 }
 .iconBtn:hover { background: var(--c-surface-3); color: var(--c-text); border-color: var(--c-border-hi); }
 .iconBtn:disabled { opacity: .3; cursor: not-allowed; }
-.iconBtnDanger:hover { background: rgba(255,77,109,.1); color: var(--c-red); border-color: rgba(255,77,109,.3); }
+.iconBtnDanger:hover { background: rgba(var(--rgb-red),.1); color: var(--c-red); border-color: rgba(var(--rgb-red),.3); }
 
 .overlay {
   position: fixed;
@@ -128,7 +128,7 @@
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .checkRow { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--c-muted); cursor: pointer; }
 .checkRow input { width: auto; }
-.error { font-size: 0.82rem; color: var(--c-red); background: rgba(255,77,109,.07); border: 1px solid rgba(255,77,109,.2); border-radius: var(--r-xs); padding: 8px 12px; }
+.error { font-size: 0.82rem; color: var(--c-red); background: rgba(var(--rgb-red),.07); border: 1px solid rgba(var(--rgb-red),.2); border-radius: var(--r-xs); padding: 8px 12px; }
 
 .projectBlock {
   display: flex;
@@ -161,8 +161,8 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(61,158,255,.07);
-  border: 1px dashed rgba(61,158,255,.28);
+  background: rgba(var(--rgb-accent),.07);
+  border: 1px dashed rgba(var(--rgb-accent),.28);
   color: var(--c-accent);
   border-radius: var(--r-sm);
   padding: 8px 14px;
@@ -171,7 +171,7 @@
   cursor: pointer;
   transition: background .18s, border-color .18s;
 }
-.uploadBtn:hover { background: rgba(61,158,255,.14); border-color: rgba(61,158,255,.48); }
+.uploadBtn:hover { background: rgba(var(--rgb-accent),.14); border-color: rgba(var(--rgb-accent),.48); }
 
 .photoGrid {
   display: grid;

@@ -49,9 +49,9 @@
 }
 
 .badgeNeg {
-  background: rgba(255,77,109,.1);
+  background: rgba(var(--rgb-red),.1);
   color: var(--c-red);
-  border: 1px solid rgba(255,77,109,.2);
+  border: 1px solid rgba(var(--rgb-red),.2);
 }
 
 .teamColumns {
@@ -126,15 +126,15 @@
 }
 
 .winDemons {
-  background: rgba(255,77,109,.1);
+  background: rgba(var(--rgb-red),.1);
   color: var(--c-red);
-  border: 1px solid rgba(255,77,109,.25);
+  border: 1px solid rgba(var(--rgb-red),.25);
 }
 
 .winCitadins {
-  background: rgba(61,158,255,.1);
+  background: rgba(var(--rgb-accent),.1);
   color: var(--c-accent);
-  border: 1px solid rgba(61,158,255,.25);
+  border: 1px solid rgba(var(--rgb-accent),.25);
 }
 
 .gameTop {
@@ -173,9 +173,9 @@
   justify-content: center;
   height: 36px;
   border-radius: var(--r-sm);
-  background: rgba(94, 224, 138, .12);
-  border: 1px solid rgba(94, 224, 138, .35);
-  color: #5ee08a;
+  background: rgba(var(--rgb-green),.12);
+  border: 1px solid rgba(var(--rgb-green),.35);
+  color: var(--c-green);
   font-family: var(--f-mono);
   font-weight: 700;
   font-size: .85rem;
@@ -184,7 +184,7 @@
 .totalNegative {
   background: rgba(255, 107, 132, .12);
   border-color: rgba(255, 107, 132, .35);
-  color: #ff6b84;
+  color: var(--c-red-soft);
 }
 
 .pointsGrid {

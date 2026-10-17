@@ -38,8 +38,8 @@ export default function Storyteller({ entry, ranked }) {
         {recorded > 0 && (
           <div className={styles.mjSplit}>
             <div className={styles.mjSplitTop}>
-              <span style={{ color: '#ff4d6d' }}>😈 Démons {demonRate}%</span>
-              <span style={{ color: '#3d9eff' }}>Citadins {citadinRate}% 🧑</span>
+              <span style={{ color: 'var(--c-red)' }}>😈 Démons {demonRate}%</span>
+              <span style={{ color: 'var(--c-accent)' }}>Citadins {citadinRate}% 🧑</span>
             </div>
             <div className={styles.mjBar}>
               <motion.span

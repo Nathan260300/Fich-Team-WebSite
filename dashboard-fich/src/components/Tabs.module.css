@@ -43,7 +43,7 @@
   font-weight: 700;
 }
 
-.active .count { background: rgba(61,158,255,.14); color: var(--c-accent); }
+.active .count { background: rgba(var(--rgb-accent),.14); color: var(--c-accent); }
 
 .indicator {
   position: absolute;

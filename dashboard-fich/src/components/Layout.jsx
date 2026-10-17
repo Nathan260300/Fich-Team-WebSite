@@ -5,6 +5,8 @@ import { supabaseCentral } from '../lib/supabaseCentral';
 import { fetchMyAccess } from '../lib/access';
 import Sidebar from './Sidebar';
 import StatusScreen from './StatusScreen';
+import SeasonSplash from '../theme/SeasonSplash';
+import { season } from '../theme/season';
 import styles from './Layout.module.css';
 
 export default function Layout({ children }) {
@@ -209,7 +211,9 @@ export default function Layout({ children }) {
   ) {
     return (
       <div className={styles.loader}>
-        {[0, 1, 2].map((i) => (
+        {season ? <SeasonSplash /> : (
+          <>
+          {[0, 1, 2].map((i) => (
           <span
             key={i}
             className={styles.loaderDot}
@@ -218,6 +222,8 @@ export default function Layout({ children }) {
             }}
           />
         ))}
+          </>
+        )}
       </div>
     );
   }
@@ -267,7 +273,9 @@ export default function Layout({ children }) {
 
     return (
       <div className={styles.loader}>
-        {[0, 1, 2].map((i) => (
+        {season ? <SeasonSplash /> : (
+          <>
+          {[0, 1, 2].map((i) => (
           <span
             key={i}
             className={styles.loaderDot}
@@ -276,6 +284,8 @@ export default function Layout({ children }) {
             }}
           />
         ))}
+          </>
+        )}
       </div>
     );
   }

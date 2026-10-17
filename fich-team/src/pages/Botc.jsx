@@ -126,7 +126,7 @@ export default function Botc() {
         desc="Parties, règles, classement et statistiques de chaque joueur de la FICH Family."
       />
 
-      {status === 'loading' && <div className={styles.loading}><span /><span /><span /></div>}
+      {status === 'loading' && <div className={styles.loading}><span className={styles.loadingDot} /><span className={styles.loadingDot} /><span className={styles.loadingDot} /></div>}
       {status === 'error' && <p className={styles.error}>Impossible de charger les données du BOTC.</p>}
 
       {status === 'ok' && data && (

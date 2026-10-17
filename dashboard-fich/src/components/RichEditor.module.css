@@ -4,7 +4,7 @@
   background: var(--c-surface-2);
   overflow: clip;
 }
-.wrap:focus-within { border-color: rgba(61,158,255,.45); box-shadow: 0 0 0 3px rgba(61,158,255,.08); }
+.wrap:focus-within { border-color: rgba(var(--rgb-accent),.45); box-shadow: 0 0 0 3px rgba(var(--rgb-accent),.08); }
 .loading { color: var(--c-muted); font-size: .875rem; padding: 24px; }
 
 .toolbarWrap {
@@ -31,8 +31,8 @@
 .btn:hover:not(:disabled) { background: rgba(255,255,255,.07); color: var(--c-text); }
 .btn:disabled { opacity: .3; cursor: not-allowed; }
 .btnActive, .btnActive:hover:not(:disabled) {
-  background: rgba(61,158,255,.15); color: var(--c-accent);
-  border-color: rgba(61,158,255,.3);
+  background: rgba(var(--rgb-accent),.15); color: var(--c-accent);
+  border-color: rgba(var(--rgb-accent),.3);
 }
 
 .subbar {
@@ -50,12 +50,12 @@
   font-weight: 600; border: 1px solid transparent; white-space: nowrap;
   transition: background .15s, border-color .15s, color .15s, filter .15s;
 }
-.miniPrimary { background: var(--c-accent); color: #060c18; }
+.miniPrimary { background: var(--c-accent); color: var(--c-bg); }
 .miniPrimary:hover { filter: brightness(1.12); }
 .miniGhost { background: transparent; border-color: var(--c-border-hi); color: var(--c-muted); }
 .miniGhost:hover { color: var(--c-text); border-color: var(--c-text); }
-.miniDanger { background: transparent; border-color: rgba(255,77,109,.25); color: var(--c-red); }
-.miniDanger:hover { background: rgba(255,77,109,.1); }
+.miniDanger { background: transparent; border-color: rgba(var(--rgb-red),.25); color: var(--c-red); }
+.miniDanger:hover { background: rgba(var(--rgb-red),.1); }
 
 .hidden { display: none; }
 .area { padding: 26px 30px 34px; min-height: 440px; cursor: text; }
@@ -83,7 +83,7 @@
   color: var(--c-text); margin: 22px 0 8px;
 }
 .content :global(.ProseMirror strong) { color: var(--c-text); font-weight: 600; }
-.content :global(.ProseMirror a) { color: var(--c-accent); border-bottom: 1px solid rgba(61,158,255,.35); cursor: pointer; }
+.content :global(.ProseMirror a) { color: var(--c-accent); border-bottom: 1px solid rgba(var(--rgb-accent),.35); cursor: pointer; }
 .content :global(.ProseMirror ul), .content :global(.ProseMirror ol) { margin: 0 0 16px; padding-left: 24px; }
 .content :global(.ProseMirror ul) { list-style: disc; }
 .content :global(.ProseMirror ol) { list-style: decimal; }
@@ -95,7 +95,7 @@
 .content :global(.ProseMirror blockquote) {
   margin: 0 0 16px; padding: 10px 16px;
   border-left: 3px solid var(--c-accent-dim);
-  background: rgba(61,158,255,.06); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: rgba(var(--rgb-accent),.06); border-radius: 0 var(--r-sm) var(--r-sm) 0;
 }
 .content :global(.ProseMirror blockquote p:last-child) { margin-bottom: 0; }
 .content :global(.ProseMirror code) {
@@ -129,7 +129,7 @@
 .content :global(.ProseMirror td p), .content :global(.ProseMirror th p) { margin: 0; }
 .content :global(.ProseMirror .selectedCell::after) {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: rgba(61,158,255,.18);
+  background: rgba(var(--rgb-accent),.18);
 }
 
 @media (max-width: 640px) {

@@ -43,9 +43,9 @@
 .cell:hover { border-color: var(--c-border-hi); }
 .outside { opacity: .38; }
 .today {
-  border-color: rgba(61,158,255,.6);
-  background: rgba(61,158,255,.09);
-  box-shadow: inset 0 0 0 1px rgba(61,158,255,.25);
+  border-color: rgba(var(--rgb-accent),.6);
+  background: rgba(var(--rgb-accent),.09);
+  box-shadow: inset 0 0 0 1px rgba(var(--rgb-accent),.25);
 }
 .dayNum { font-family: var(--f-mono); font-size: .72rem; color: var(--c-muted); font-weight: 700; }
 .today .dayNum { color: var(--c-accent); }
@@ -68,7 +68,7 @@
 }
 .more:hover { color: var(--c-accent); }
 .empty, .error { margin-top: 16px; font-size: .85rem; color: var(--c-muted); text-align: center; }
-.error { color: #ff6b84; }
+.error { color: var(--c-red-soft); }
 
 .details { padding: 34px 32px 30px; }
 .detailTag {

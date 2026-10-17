@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import OAuthConsent from './pages/OAuthConsent';
 import StatusScreen from './components/StatusScreen';
+import SeasonSplash from './theme/SeasonSplash';
+import { season } from './theme/season';
 import styles from './App.module.css';
 
 const normalizedPath = () => window.location.pathname.replace(/\/+$/, '');
@@ -13,9 +15,13 @@ const isOAuthConsentRoute = () => normalizedPath().endsWith('/app/oauth/consent'
 function Loader() {
   return (
     <div className={styles.loader}>
-      <span className={styles.loaderDot} style={{ animationDelay: '0s' }} />
-      <span className={styles.loaderDot} style={{ animationDelay: '0.15s' }} />
-      <span className={styles.loaderDot} style={{ animationDelay: '0.3s' }} />
+      {season ? <SeasonSplash /> : (
+        <>
+          <span className={styles.loaderDot} style={{ animationDelay: '0s' }} />
+          <span className={styles.loaderDot} style={{ animationDelay: '0.15s' }} />
+          <span className={styles.loaderDot} style={{ animationDelay: '0.3s' }} />
+        </>
+      )}
     </div>
   );
 }

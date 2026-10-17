@@ -24,16 +24,16 @@
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%);
   background:
     linear-gradient(90deg,
-      rgba(10,14,26,.98) 0%,
-      rgba(10,14,26,.92) 30%,
-      rgba(10,14,26,.60) 55%,
-      rgba(10,14,26,.15) 75%,
-      rgba(10,14,26,.00) 100%
+      rgba(var(--rgb-bg),.98) 0%,
+      rgba(var(--rgb-bg),.92) 30%,
+      rgba(var(--rgb-bg),.60) 55%,
+      rgba(var(--rgb-bg),.15) 75%,
+      rgba(var(--rgb-bg),.00) 100%
     ),
     linear-gradient(180deg,
-      rgba(10,14,26,.30) 0%,
+      rgba(var(--rgb-bg),.30) 0%,
       transparent 35%,
-      rgba(10,14,26,.50) 100%
+      rgba(var(--rgb-bg),.50) 100%
     );
 }
 
@@ -74,7 +74,7 @@
 .cardClickable { cursor: pointer; }
 .cardClickable:hover {
   border-color: var(--c-border-hi);
-  box-shadow: 0 12px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(61,158,255,.07);
+  box-shadow: 0 12px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(var(--rgb-accent),.07);
 }
 .cardWide { grid-column: 1 / -1; }
 .cardAccentBar {
@@ -104,7 +104,7 @@
   transition: border-color .2s, background .2s, color .2s; display: block;
 }
 .fichLetters span strong { color: var(--c-accent); font-size: .95rem; margin-right: 6px; }
-.fichLetters span:hover { background: rgba(61,158,255,.07); border-left-color: var(--c-accent); color: var(--c-text); }
+.fichLetters span:hover { background: rgba(var(--rgb-accent),.07); border-left-color: var(--c-accent); color: var(--c-text); }
 
 .modalBody { padding: 28px; }
 .modalHeader {
@@ -123,7 +123,7 @@
 @media (max-width: 760px) {
   .hero { padding: 60px var(--page-px, 20px) 100px; }
   .heroBgOverlay {
-    background: linear-gradient(180deg, rgba(10,14,26,.85) 0%, rgba(10,14,26,.65) 60%, rgba(10,14,26,.75) 100%);
+    background: linear-gradient(180deg, rgba(var(--rgb-bg),.85) 0%, rgba(var(--rgb-bg),.65) 60%, rgba(var(--rgb-bg),.75) 100%);
   }
   .actions { flex-direction: column; align-items: flex-start; }
   .grid { grid-template-columns: 1fr; }

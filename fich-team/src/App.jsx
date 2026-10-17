@@ -20,6 +20,8 @@ import { LEGAL_PAGES } from './data/legalPages';
 import { usePageTitle } from './hooks/usePageTitle';
 import ServiceStatusBoundary from './components/ServiceStatusBoundary';
 import SiteGate from './components/SiteGate';
+import SeasonSplash from './theme/SeasonSplash';
+import { season } from './theme/season';
 import styles from './App.module.css';
 
 export const AppReadyCtx = createContext(false);
@@ -29,8 +31,8 @@ function PageLoader({ onStart, onDone }) {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => onStart(), 400);
-    const t2 = setTimeout(() => setExiting(true), 600);
+    const t1 = setTimeout(() => onStart(), season ? 1000 : 400);
+    const t2 = setTimeout(() => setExiting(true), season ? 1400 : 600);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
@@ -42,6 +44,7 @@ function PageLoader({ onStart, onDone }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } }}
         >
+          {season ? <SeasonSplash /> : (
           <div className={styles.loaderContent}>
             <motion.img
               src="/logo.png"
@@ -73,6 +76,7 @@ function PageLoader({ onStart, onDone }) {
               />
             </motion.div>
           </div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>,

@@ -7,6 +7,8 @@ import StatusScreen from './StatusScreen';
 import Sidebar from './Sidebar';
 import { ToastProvider } from './UI';
 import { CurrentUserContext } from '../hooks/useCurrentUser';
+import SeasonSplash from '../theme/SeasonSplash';
+import { season } from '../theme/season';
 import styles from './Layout.module.css';
 
 const LOGOUT_FLAG = 'fich_dashboard_logout';
@@ -15,9 +17,13 @@ const POLL_INTERVAL_MS = 60000;
 function Loader() {
   return (
     <div className={styles.loader}>
-      {[0, 1, 2].map((i) => (
+      {season ? <SeasonSplash /> : (
+        <>
+        {[0, 1, 2].map((i) => (
         <span key={i} className={styles.loaderDot} style={{ animationDelay: `${i * 0.15}s` }} />
       ))}
+        </>
+      )}
     </div>
   );
 }

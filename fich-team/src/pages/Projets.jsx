@@ -167,7 +167,7 @@ function NextProjectSection({ onOpenForm }) {
         <motion.button
           className={styles.nextFormBtn}
           onClick={onOpenForm}
-          whileHover={{ y: -3, boxShadow: '0 10px 30px rgba(61,158,255,.38)' }}
+          whileHover={{ y: -3, boxShadow: '0 10px 30px rgba(var(--rgb-accent),.38)' }}
           whileTap={{ scale: 0.97 }}
           transition={{ type: 'spring', stiffness: 380, damping: 22 }}
         >
@@ -345,7 +345,7 @@ function VideosPanel({ openModal }) {
                 transition={{ type: 'spring', stiffness: 360, damping: 20 }}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M4 2.5l10 5.5-10 5.5V2.5z" fill="#070d1a" />
+                  <path d="M4 2.5l10 5.5-10 5.5V2.5z" fill="var(--c-bg)" />
                 </svg>
               </motion.div>
             </div>

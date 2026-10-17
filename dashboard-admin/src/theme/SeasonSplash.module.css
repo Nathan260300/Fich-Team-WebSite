@@ -1,0 +1,229 @@
+.splash {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+.fullscreen {
+  min-height: 100vh;
+  justify-content: center;
+  background: var(--c-bg);
+}
+
+.glow {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  width: 360px;
+  height: 360px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--rgb-accent), .3) 0%, transparent 68%);
+  filter: blur(26px);
+  animation: glowPulse 2.4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.stage {
+  position: relative;
+  width: 190px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pumpkin {
+  width: 128px;
+  filter: drop-shadow(0 0 22px rgba(255, 122, 26, .6));
+  animation: pumpkinHop 1.8s ease-in-out infinite;
+}
+
+.pumpkin svg { display: block; width: 100%; height: auto; }
+
+.pumpkin :global(.pumpkinFace) {
+  fill: #ffe27a;
+  filter: drop-shadow(0 0 6px #ffb347);
+  animation: flicker 1.5s steps(1, end) infinite;
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  color: #9a5cff;
+  filter: drop-shadow(0 0 6px rgba(255, 122, 26, .6));
+  animation: orbit 3.6s linear infinite;
+}
+
+.orbit svg { display: block; width: 100%; height: auto; }
+.orbitB { animation-delay: -1.2s; width: 24px; animation-duration: 4.4s; }
+.orbitC { animation-delay: -2.4s; width: 20px; animation-duration: 5.2s; }
+
+.tree {
+  width: 112px;
+  filter: drop-shadow(0 0 18px rgba(47, 174, 108, .45));
+  animation: treeSway 3s ease-in-out infinite alternate;
+  transform-origin: 50% 100%;
+}
+
+.tree svg { display: block; width: 100%; height: auto; }
+
+.tree :global(.treeStar) {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: starPulse 1.2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 6px #ffd86b);
+}
+
+.tree :global(.treeBulb) {
+  animation: bulbBlink 1.1s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+.flake {
+  position: absolute;
+  top: -6px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  animation: flakeFall linear infinite;
+}
+
+.pond {
+  width: 230px;
+  overflow: hidden;
+}
+
+.fishSwim {
+  width: 96px;
+  animation: pondSwim 6.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px rgba(255, 122, 184, .5));
+}
+
+.fishSwim svg { display: block; width: 100%; height: auto; }
+
+.bubble {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, .55);
+  opacity: 0;
+  animation: bubbleUp linear infinite;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: .02em;
+  color: var(--c-text);
+  text-shadow: 0 0 24px rgba(var(--rgb-accent), .55);
+}
+
+.name span {
+  margin-left: 5px;
+  color: var(--c-accent);
+}
+
+.message {
+  margin: 0;
+  min-height: 1.3em;
+  font-family: var(--f-mono, var(--f-body));
+  font-size: .78rem;
+  letter-spacing: .04em;
+  color: var(--c-muted);
+  animation: messageIn .5s ease both;
+}
+
+.bar {
+  width: 140px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .08);
+}
+
+.bar span {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--c-accent-dim), var(--c-accent), var(--c-accent-soft));
+  box-shadow: 0 0 12px rgba(var(--rgb-accent), .8);
+  animation: barSlide 1.3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  from { opacity: .55; transform: translate(-50%, -50%) scale(.92); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+@keyframes pumpkinHop {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  18% { opacity: .72; }
+  36% { opacity: 1; }
+  58% { opacity: .82; }
+  80% { opacity: .95; }
+}
+
+@keyframes orbit {
+  from { transform: translate(-50%, -50%) rotate(0deg) translateX(88px) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg) translateX(88px) rotate(-360deg); }
+}
+
+@keyframes treeSway {
+  from { transform: rotate(-1.5deg); }
+  to { transform: rotate(1.5deg); }
+}
+
+@keyframes starPulse {
+  from { transform: scale(.9); }
+  to { transform: scale(1.18); }
+}
+
+@keyframes bulbBlink {
+  from { opacity: .35; }
+  to { opacity: 1; }
+}
+
+@keyframes flakeFall {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  15% { opacity: .9; }
+  100% { transform: translate3d(14px, 176px, 0); opacity: 0; }
+}
+
+@keyframes pondSwim {
+  0% { transform: translateX(-52px) scaleX(-1); }
+  48% { transform: translateX(52px) scaleX(-1); }
+  50% { transform: translateX(52px) scaleX(1); }
+  98% { transform: translateX(-52px) scaleX(1); }
+  100% { transform: translateX(-52px) scaleX(-1); }
+}
+
+@keyframes bubbleUp {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: .8; }
+  100% { transform: translateY(-150px); opacity: 0; }
+}
+
+@keyframes messageIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes barSlide {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(350%); }
+}

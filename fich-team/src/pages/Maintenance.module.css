@@ -16,7 +16,7 @@
   align-items: center;
   text-align: center;
   padding: 44px 36px 32px;
-  background: rgba(12,21,37,.78);
+  background: rgba(var(--rgb-surface),.78);
   border: 1px solid var(--c-border-hi);
   border-radius: var(--r-xl);
   backdrop-filter: blur(14px);
@@ -30,7 +30,7 @@
   border-radius: 18px;
   overflow: hidden;
   margin-bottom: 22px;
-  box-shadow: 0 0 0 1px rgba(61,158,255,.18), 0 0 40px rgba(61,158,255,.16);
+  box-shadow: 0 0 0 1px rgba(var(--rgb-accent),.18), 0 0 40px rgba(var(--rgb-accent),.16);
 }
 
 .logoWrap img {
@@ -68,8 +68,8 @@
   line-height: 1.6;
   color: var(--c-text);
   white-space: pre-line;
-  background: rgba(240,192,64,.06);
-  border: 1px solid rgba(240,192,64,.22);
+  background: rgba(var(--rgb-gold),.06);
+  border: 1px solid rgba(var(--rgb-gold),.22);
   border-left: 3px solid var(--c-gold);
   border-radius: var(--r-sm);
 }
@@ -96,7 +96,7 @@
   width: 40%;
   height: 100%;
   border-radius: 99px;
-  background: linear-gradient(90deg, #1a6fcc, #3d9eff, #7ec8ff);
+  background: linear-gradient(90deg, var(--c-accent-dim), var(--c-accent), var(--c-accent-soft));
   animation: slide 1.6s ease-in-out infinite;
 }
 

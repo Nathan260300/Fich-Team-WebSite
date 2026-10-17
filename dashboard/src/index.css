@@ -12,6 +12,16 @@
   --c-text:        #e6eeff;
   --c-muted:       #8fa8c8;
   --c-dim:         #516b8a;
+  --rgb-accent: 61, 158, 255;
+  --rgb-red: 255, 77, 109;
+  --rgb-gold: 240, 192, 64;
+  --rgb-green: 94, 224, 138;
+  --rgb-bg: 7, 13, 26;
+  --c-accent-soft: #7ec8ff;
+  --c-red: #ff4d6d;
+  --c-red-soft: #ff6b84;
+  --c-gold: #f0c040;
+  --c-green: #5ee08a;
   --f-display:     'Syne', sans-serif;
   --f-body:        'Inter', sans-serif;
   --r-sm:  10px;

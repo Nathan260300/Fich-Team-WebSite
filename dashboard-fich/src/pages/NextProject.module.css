@@ -3,7 +3,7 @@
 
 .btnPrimary {
   background: var(--c-accent);
-  color: #060c18;
+  color: var(--c-bg);
   border: none;
   border-radius: var(--r-sm);
   padding: 9px 18px;
@@ -71,7 +71,7 @@
   border-radius: var(--r-sm);
   padding: 11px 14px;
 }
-.infoHighlight { border-color: rgba(61,158,255,.25); background: rgba(61,158,255,.04); }
+.infoHighlight { border-color: rgba(var(--rgb-accent),.25); background: rgba(var(--rgb-accent),.04); }
 .infoIcon { font-size: 1.1rem; flex-shrink: 0; }
 .infoText { flex: 1; min-width: 0; }
 .infoLabel { font-size: 0.72rem; color: var(--c-muted); display: block; margin-bottom: 2px; }
@@ -92,7 +92,7 @@
   transition: background .15s, color .15s, border-color .15s;
 }
 .iconBtn:hover { background: var(--c-surface-3); color: var(--c-text); border-color: var(--c-border-hi); }
-.iconBtnDanger:hover { background: rgba(255,77,109,.1); color: var(--c-red); border-color: rgba(255,77,109,.3); }
+.iconBtnDanger:hover { background: rgba(var(--rgb-red),.1); color: var(--c-red); border-color: rgba(var(--rgb-red),.3); }
 
 .overlay {
   position: fixed;

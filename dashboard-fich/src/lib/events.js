@@ -1,4 +1,4 @@
-const PALETTE = ['#3d9eff', '#ff4d6d', '#f0c040', '#4dd4c0', '#b18cff', '#ff9a4d', '#7ddc6b', '#ff7ac6'];
+const PALETTE = ['var(--c-accent)', 'var(--c-red)', 'var(--c-gold)', '#4dd4c0', '#b18cff', '#ff9a4d', '#7ddc6b', '#ff7ac6'];
 
 export function tagColor(tag) {
   const value = (tag || '').toLowerCase();

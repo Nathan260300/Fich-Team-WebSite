@@ -129,15 +129,15 @@
   font-weight: 600;
   font-size: .78rem;
   color: var(--c-accent);
-  background: rgba(61,158,255,.09);
-  border: 1px solid rgba(61,158,255,.18);
+  background: rgba(var(--rgb-accent),.09);
+  border: 1px solid rgba(var(--rgb-accent),.18);
   padding: 8px 14px;
   border-radius: var(--r-sm);
   text-decoration: none;
   white-space: nowrap;
   transition: background .18s, transform .2s var(--ease-spring), color .18s;
 }
-.joinBtn:hover { background: rgba(61,158,255,.18); color: #fff; transform: scale(1.04); }
+.joinBtn:hover { background: rgba(var(--rgb-accent),.18); color: #fff; transform: scale(1.04); }
 
 .grid {
   display: grid;

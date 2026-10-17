@@ -10,7 +10,7 @@ import styles from './Player.module.css';
 
 function dominantTone(teams) {
   const best = [...teams].sort((a, b) => b.wins - a.wins)[0];
-  return best && best.wins > 0 ? best.team.color : '#3d9eff';
+  return best && best.wins > 0 ? best.team.color : 'var(--c-accent)';
 }
 
 export default function PlayerPage({ entry, data }) {

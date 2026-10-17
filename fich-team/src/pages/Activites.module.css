@@ -9,10 +9,10 @@
   border-radius: var(--r-lg); overflow: hidden; color: var(--c-text);
   transition: border-color .2s, box-shadow .2s;
 }
-.cardLink { cursor: pointer; border-color: rgba(255,77,109,.28); }
+.cardLink { cursor: pointer; border-color: rgba(var(--rgb-red),.28); }
 .cardLink:hover {
-  border-color: rgba(255,77,109,.6); color: var(--c-text);
-  box-shadow: 0 16px 48px rgba(255,77,109,.14);
+  border-color: rgba(var(--rgb-red),.6); color: var(--c-text);
+  box-shadow: 0 16px 48px rgba(var(--rgb-red),.14);
 }
 .cover {
   position: relative; aspect-ratio: 16 / 9; overflow: hidden;
@@ -25,7 +25,7 @@
 .soon {
   position: absolute; top: 10px; right: 10px;
   font-family: var(--f-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--c-muted); background: rgba(7,13,26,.8); border: 1px solid var(--c-border-hi);
+  color: var(--c-muted); background: rgba(var(--rgb-bg),.8); border: 1px solid var(--c-border-hi);
   border-radius: 99px; padding: 3px 10px; backdrop-filter: blur(6px);
 }
 .body { display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 20px; flex: 1; }
@@ -33,10 +33,10 @@
 .desc { font-size: .86rem; color: var(--c-muted); line-height: 1.6; }
 .more {
   margin-top: auto; padding-top: 6px; font-family: var(--f-display);
-  font-size: .82rem; font-weight: 700; color: #ff6b84;
+  font-size: .82rem; font-weight: 700; color: var(--c-red-soft);
 }
 .skeleton {
   height: 250px; border-radius: var(--r-lg); background: var(--c-surface);
   border: 1px solid var(--c-border); animation: badgePulse 1.6s ease-in-out infinite;
 }
-.error { color: #ff6b84; font-size: .9rem; }
+.error { color: var(--c-red-soft); font-size: .9rem; }

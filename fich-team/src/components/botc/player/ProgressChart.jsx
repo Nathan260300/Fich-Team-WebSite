@@ -91,8 +91,8 @@ export default function ProgressChart({ entry }) {
           >
             <defs>
               <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3d9eff" stopOpacity="0.32" />
-                <stop offset="100%" stopColor="#3d9eff" stopOpacity="0" />
+                <stop offset="0%" stopColor="var(--c-accent)" stopOpacity="0.32" />
+                <stop offset="100%" stopColor="var(--c-accent)" stopOpacity="0" />
               </linearGradient>
             </defs>
 
@@ -114,7 +114,7 @@ export default function ProgressChart({ entry }) {
             <motion.path
               d={line}
               fill="none"
-              stroke="#3d9eff"
+              stroke="var(--c-accent)"
               strokeWidth="2.5"
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -130,8 +130,8 @@ export default function ProgressChart({ entry }) {
                 cx={x(i)}
                 cy={y(p.total)}
                 r={hover === i ? 6 : events.length > 40 ? 0 : 3.5}
-                fill={p.kind === 'mj' ? '#f0c040' : p.kind === 'loss' ? '#ff6b84' : p.kind === 'win' ? '#5ee08a' : '#8fa8c8'}
-                stroke="#0c1525"
+                fill={p.kind === 'mj' ? 'var(--c-gold)' : p.kind === 'loss' ? 'var(--c-red-soft)' : p.kind === 'win' ? 'var(--c-green)' : 'var(--c-muted)'}
+                stroke="var(--c-surface)"
                 strokeWidth="2"
               />
             ))}
@@ -171,9 +171,9 @@ export default function ProgressChart({ entry }) {
         </div>
 
         <div className={styles.legend}>
-          <span><i style={{ background: '#5ee08a' }} />Victoire</span>
-          <span><i style={{ background: '#ff6b84' }} />Défaite</span>
-          <span><i style={{ background: '#f0c040' }} />MJ</span>
+          <span><i style={{ background: 'var(--c-green)' }} />Victoire</span>
+          <span><i style={{ background: 'var(--c-red-soft)' }} />Défaite</span>
+          <span><i style={{ background: 'var(--c-gold)' }} />MJ</span>
         </div>
       </div>
     </section>

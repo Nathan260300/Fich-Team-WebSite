@@ -1,19 +1,19 @@
 .nextBox {
   position: relative;
   background: var(--c-surface);
-  border: 1px solid rgba(61,158,255,.28);
+  border: 1px solid rgba(var(--rgb-accent),.28);
   border-radius: var(--r-xl);
   padding: 40px 44px;
   margin-bottom: 48px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(61,158,255,.06), 0 32px 80px rgba(0,0,0,.45);
+  box-shadow: 0 0 0 1px rgba(var(--rgb-accent),.06), 0 32px 80px rgba(0,0,0,.45);
 }
 .nextGlow {
   position: absolute;
   top: -80px; left: 50%;
   transform: translateX(-50%);
   width: 600px; height: 260px;
-  background: radial-gradient(ellipse at center, rgba(61,158,255,.13) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(var(--rgb-accent),.13) 0%, transparent 70%);
   pointer-events: none;
 }
 .nextHeader {
@@ -24,7 +24,7 @@
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--f-mono); font-size: .7rem; font-weight: 700;
   color: var(--c-accent); letter-spacing: .1em;
-  background: rgba(61,158,255,.1); border: 1px solid rgba(61,158,255,.25);
+  background: rgba(var(--rgb-accent),.1); border: 1px solid rgba(var(--rgb-accent),.25);
   border-radius: 99px; padding: 5px 14px;
 }
 .nextBadgeDot {
@@ -67,15 +67,15 @@
 
 /* highlight: true dans le JSON */
 .nextInfoItemHighlight {
-  background: rgba(61,158,255,.08);
-  border-color: rgba(61,158,255,.4);
+  background: rgba(var(--rgb-accent),.08);
+  border-color: rgba(var(--rgb-accent),.4);
 }
 .nextInfoItemHighlight:hover {
-  border-color: rgba(61,158,255,.65);
-  box-shadow: 0 4px 20px rgba(61,158,255,.15);
+  border-color: rgba(var(--rgb-accent),.65);
+  box-shadow: 0 4px 20px rgba(var(--rgb-accent),.15);
 }
 .nextInfoItemHighlight .nextInfoIcon { font-size: 1.4rem; }
-.nextInfoItemHighlight .nextInfoLabel { color: #3d9eff; font-weight: 700; letter-spacing: .1em; }
+.nextInfoItemHighlight .nextInfoLabel { color: var(--c-accent); font-weight: 700; letter-spacing: .1em; }
 .nextInfoItemHighlight .nextInfoValue { font-size: .95rem; }
 .nextFooter {
   display: flex; align-items: center; justify-content: space-between;
@@ -107,16 +107,16 @@
 .nextFormBtn {
   display: inline-flex; align-items: center; gap: 9px;
   font-family: var(--f-display); font-size: .88rem; font-weight: 700;
-  color: #070d1a; background: var(--c-accent);
+  color: var(--c-bg); background: var(--c-accent);
   border: none; border-radius: var(--r-md); padding: 13px 26px;
   cursor: pointer; letter-spacing: -.01em;
   transition: background .2s, transform .2s var(--ease-spring), box-shadow .2s;
-  box-shadow: 0 0 0 0 rgba(61,158,255,0);
+  box-shadow: 0 0 0 0 rgba(var(--rgb-accent),0);
 }
 .nextFormBtn:hover {
   background: #5babff;
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(61,158,255,.35);
+  box-shadow: 0 8px 28px rgba(var(--rgb-accent),.35);
 }
 .nextFormBtn:active { transform: translateY(0); }
 
@@ -195,7 +195,7 @@
   top: 6px;
   bottom: 48px;
   width: 2px;
-  background: linear-gradient(180deg, rgba(61,158,255,.6) 0%, rgba(61,158,255,.08) 100%);
+  background: linear-gradient(180deg, rgba(var(--rgb-accent),.6) 0%, rgba(var(--rgb-accent),.08) 100%);
   transform-origin: top center;
   border-radius: 2px;
 }
@@ -225,7 +225,7 @@
 }
 .dotSure {
   background: var(--c-accent);
-  box-shadow: 0 0 0 4px rgba(61,158,255,.22);
+  box-shadow: 0 0 0 4px rgba(var(--rgb-accent),.22);
 }
 .dotUncertain {
   background: var(--c-dim);
@@ -246,7 +246,7 @@
   min-width: 0;
 }
 .card:hover {
-  border-color: rgba(61,158,255,.35);
+  border-color: rgba(var(--rgb-accent),.35);
   box-shadow: 0 8px 28px rgba(0,0,0,.32);
 }
 
@@ -299,8 +299,8 @@
   flex-shrink: 0;
 }
 .dateTagSure {
-  background: rgba(61,158,255,.12);
-  border: 1px solid rgba(61,158,255,.28);
+  background: rgba(var(--rgb-accent),.12);
+  border: 1px solid rgba(var(--rgb-accent),.28);
   color: var(--c-accent);
 }
 .dateTagUncertain {
@@ -319,7 +319,7 @@
   gap: 8px;
   padding-top: 20px;
   padding-left: 0;
-  color: rgba(61,158,255,.45);
+  color: rgba(var(--rgb-accent),.45);
 }
 .arrowLabel {
   font-family: var(--f-mono);
@@ -390,7 +390,7 @@
   transition: color .18s; min-height: 38px; isolation: isolate;
 }
 .tab:hover { color: var(--c-text); }
-.tabActive { color: #070d1a; font-weight: 700; }
+.tabActive { color: var(--c-bg); font-weight: 700; }
 .tabIndicator {
   position: absolute; inset: 0; border-radius: var(--r-xs);
   background: var(--c-accent); z-index: -1;
@@ -408,7 +408,7 @@
 .folderCard:hover .folderCover img { transform: scale(1.06); }
 .folderOverlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top,rgba(7,13,26,.65) 0%,transparent 60%);
+  background: linear-gradient(to top,rgba(var(--rgb-bg),.65) 0%,transparent 60%);
   display: flex; align-items: flex-end; padding: 10px 12px;
 }
 .folderCount { font-family: var(--f-mono); font-size: .68rem; color: rgba(255,255,255,.85); letter-spacing: .06em; }
@@ -455,14 +455,14 @@
 .videoCard:hover .videoThumb img { transform: scale(1.04); }
 .videoPlay {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  background: rgba(7,13,26,.3); transition: background .22s;
+  background: rgba(var(--rgb-bg),.3); transition: background .22s;
 }
-.videoCard:hover .videoPlay { background: rgba(7,13,26,.18); }
+.videoCard:hover .videoPlay { background: rgba(var(--rgb-bg),.18); }
 .playBtn {
   width: 46px; height: 46px; border-radius: 50%;
-  background: rgba(61,158,255,.9); display: flex; align-items: center; justify-content: center;
+  background: rgba(var(--rgb-accent),.9); display: flex; align-items: center; justify-content: center;
   transition: transform .22s var(--ease-spring), background .2s;
-  box-shadow: 0 0 0 8px rgba(61,158,255,.14);
+  box-shadow: 0 0 0 8px rgba(var(--rgb-accent),.14);
 }
 .videoCard:hover .playBtn { transform: scale(1.12); background: var(--c-accent); }
 .playBtn svg { margin-left: 3px; }
@@ -513,8 +513,8 @@
   transition: border-color .18s, box-shadow .18s;
 }
 .nextInfoItemLink:hover {
-  border-color: rgba(61,158,255,.4);
-  box-shadow: 0 4px 16px rgba(61,158,255,.1);
+  border-color: rgba(var(--rgb-accent),.4);
+  box-shadow: 0 4px 16px rgba(var(--rgb-accent),.1);
 }
 .nextInfoArrow {
   margin-left: auto;

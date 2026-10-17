@@ -24,7 +24,7 @@ export default function BotcPlayer() {
     <PageWrapper>
       <Link to={BOTC_STATS_PATH} className={styles.back}>← Statistiques</Link>
 
-      {status === 'loading' && <div className={styles.loading}><span /><span /><span /></div>}
+      {status === 'loading' && <div className={styles.loading}><span className={styles.loadingDot} /><span className={styles.loadingDot} /><span className={styles.loadingDot} /></div>}
       {status === 'error' && <p className={styles.error}>Impossible de charger les données du BOTC.</p>}
 
       {status === 'ok' && entry && <PlayerPage key={entry.player.id} entry={entry} data={data} />}
